@@ -1,0 +1,231 @@
+/*
+    theme:  Fresh
+    type:   Plugin-Options
+    since:  27/06/2014
+*/
+.ilenplugin-options{}
+.ilenplugin-options .has-right-sidebar #post-body-content{
+    width: 750px;
+    box-shadow: 0px 2px 3px rgb(187, 187, 187);
+    margin-left: 5px;
+}
+.ilenplugin-options .row .a {
+    width: 48%;
+    float: left;
+    text-align: right;
+}
+.ilenplugin-options .row .b {
+    width: 50%;
+    float: right;
+}
+.ilenplugin-options .postbox{
+    background: #F9F9F9;
+    padding: 0;
+    margin-bottom: 0;
+    border-bottom: 0;
+    width: 100%;
+}
+
+.ilenplugin-options input[type=text] {
+    width: 90%;
+}
+
+.ilenplugin-options input[type=text], .cwp_top_wrapper .cwp_top_container form .option select {
+    height: 35px;
+    border-radius: 3px;
+    border: 1px solid #d7d7d7;
+    box-shadow: none;
+    font-family: "Roboto", sans-serif;
+}
+
+.ilenplugin-options input[type=email], 
+.ilenplugin-options input[type=number], 
+.ilenplugin-options input[type=password], 
+.ilenplugin-options input[type=search], 
+.ilenplugin-options input[type=tel], 
+.ilenplugin-options input[type=text], 
+.ilenplugin-options input[type=url], 
+.ilenplugin-options select, 
+.ilenplugin-options textarea {
+    border: 1px solid #ddd;
+    -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+    background-color: #fff;
+    color: #333;
+    -webkit-transition: .05s border-color ease-in-out;
+    transition: .05s border-color ease-in-out;
+}
+
+.ilenplugin-options{
+    font-family: "Roboto", HelveticaNeue, sans-serif;
+    color: #525252;
+}
+.ilenplugin-options b,
+.ilenplugin-options strong{
+    font-weight: 300;
+}
+.ilenplugin-options .postbox .inside{
+    font-size: 14px!important;
+}
+.ilenplugin-options .postbox .help {
+    color: #666;
+    font-size: 12px;
+    font-style: italic;
+    line-height: 14px;
+}
+.ilenplugin-options .row.radio_image .b img {
+    width: 145px;
+    height: 105px;
+}
+.ilenplugin-options .wp-picker-input-wrap input[type="text"]{
+    width: 65%;
+}
+.ilenplugin-options #message{
+    margin: 0;
+    padding: 10px;
+    font-size: 18px;
+    /* font-weight: bold; */
+}
+.ilenplugin-options header{
+    background: #fff;
+    border-top: 5px solid #52aae2;
+    border-bottom: 1px solid #d4d4d4;
+    margin-top: 10px!important;
+    padding: 20px 10px!important;
+}
+.ilenplugin-options #poststuff h2{
+    font-size: 1.1em;
+    display: inline-block;
+    position: relative;
+}
+.ilenplugin-options header .header__logo i{
+    padding: 13px 20px;
+    border-radius: 50%;
+    background: #52AAE2;
+    margin: 5px;
+    color: #fff;
+}
+
+.ilenplugin-options header .header__logo i.text-long{
+    position: relative;
+    top: 0;
+    vertical-align: top;
+    float: left;
+}
+.ilenplugin-options #poststuff h2.text-long{
+    width: 33%;
+    display: inline-block;
+    margin: 0;
+}
+
+.ilenplugin-options header a{
+    margin-top: 14px;    
+}
+
+.ilenplugin-options .ibtn{
+    background: #52c4ef;
+    text-decoration: none;
+    border-radius: 3px;
+    display: block;
+    height: 30px;
+    border-radius: 3px;
+    font-family: "Open Sans", sans-serif;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-shadow: 0px 1px 0px #33a4ce;
+    line-height: 2.3;
+    padding: 3px 12px;
+    display: inline-block;
+    margin-right: 5px;
+    font-size: 14px;
+    padding-top: 0;
+    padding-left: 0;
+}
+.ilenplugin-options .ibtn span{
+    width: 30px;
+    height: 33px;
+    display: block;
+    float: left;
+    border-radius: 3px 0px 0px 3px;
+    margin-right: 10px;
+    background: #32BDEF;
+}
+.ilenplugin-options .btnturke {background: #52c4ef;text-shadow: 0px 1px 0px #33a4ce;}
+.ilenplugin-options .btnturke span {background: #32BDEF;text-shadow: 0px 1px 0px #33a4ce;}
+.ilenplugin-options .btnred {background: #F9866B;text-shadow: 0px 1px 0px #F9866B;}
+.ilenplugin-options .btnred span {background: #F97051;text-shadow: 0px 1px 0px #F9866B;}
+.ilenplugin-options .btnblack {background: #707070;text-shadow: 0px 1px 0px #595959;}
+.ilenplugin-options .btnblack span {background: #464646;text-shadow: 0px 1px 0px #595959;}
+
+
+.ilenplugin-options header a,
+.ilenplugin-options footer a{
+    opacity: .8;
+    -moz-transition: all 200ms ease;
+    -o-transition: all 200ms ease;
+    -webkit-transition: all 200ms ease;
+    transition: all 200ms ease;   
+}
+.ilenplugin-options a span i,
+.ilenplugin-options a span i{
+    margin-left: 9px;
+    margin-top: 10px;    
+}
+
+
+.ilenplugin-options header a:hover,
+.ilenplugin-options footer a:hover,
+.ilenplugin-options header a:hover span,
+.ilenplugin-options footer a:hover span{
+    opacity: 1
+}
+ 
+
+.ilenplugin-options .ilen-version{
+    font-size: 12px;
+    color: gray;
+    position: absolute;
+    right: 0;
+    top: 23px;
+}
+.ilenplugin-options .ilen-version.text-long{
+    top: 50px;
+    left: 0;
+    
+}
+
+.ilenplugin-options .row {
+    overflow: hidden;
+    clear: both;
+    padding: 15px 0;
+    border-bottom: 1px dashed #e7eaec;
+    margin-bottom: 0;
+}
+
+.ilenplugin-options footer{
+    background: #fff;
+    padding: 15px;
+    display: block;
+    overflow: hidden;
+    border-bottom: 5px solid #52aae2;
+}
+.ilenplugin-options footer a:hover span i{
+    -webkit-animation: spin 2s infinite linear;
+    -moz-animation: spin 2s infinite linear;
+    -o-animation: spin 2s infinite linear;
+    animation: spin 2s infinite linear;
+} 
+
+
+.ilenplugin-options .hndle,
+.ilenplugin-options .js .widget .widget-top{
+    cursor:default!important;
+}
+input[type="range"] {
+    background-color: #DDDDDD;
+    border: 1px solid #D1D1D1;  
+}
+input[type="range"]::-webkit-slider-thumb {
+    background-color: #7F8C9A;
+}
