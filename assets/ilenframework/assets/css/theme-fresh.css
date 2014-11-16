@@ -35,6 +35,13 @@ a:hover{text-decoration: none!important;}
   margin: 0;
   margin-bottom: 5px;
 }
+.ilenplugin-options .notification-p > main{
+  padding: 4px 10px;
+  font-size: 13px;
+}
+.ilenplugin-options .notification-p > main b{
+  font-weight: bold;
+}
 .ilenplugin-options .row .a {
   width: 48%!important;
   float: left;
@@ -281,8 +288,10 @@ a.wp-color-result{
 .ilenplugin-options footer a:hover,
 .ilenplugin-options header a:hover span,
 .ilenplugin-options footer a:hover span{
-    opacity: 1
+    opacity: 1;
+
 }
+
  
 
 .ilenplugin-options .ilen-version{
@@ -307,19 +316,14 @@ a.wp-color-result{
 
 .ilenplugin-options footer{
   background: #fff;
-  padding: 42px 21px 15px;
+  padding: 20px 21px 20px 30px;
   display: block;
   overflow: hidden;
   border-bottom: 1px solid #E4E4E4;
   clear: both;
   display: block;
 }
-.ilenplugin-options footer a:hover span i{
-  -webkit-animation: spin 2s infinite linear;
-  -moz-animation: spin 2s infinite linear;
-  -o-animation: spin 2s infinite linear;
-  animation: spin 2s infinite linear;
-}
+
 
 
 .ilenplugin-options .hndle,
@@ -1390,18 +1394,26 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 
-
-
-
-
-
+.ilenplugin-options footer a.ibtn:hover span i{
+  -webkit-animation: rotate_icons 2s infinite linear;
+  -moz-animation: rotate_icons 2s infinite linear;
+  -o-animation: rotate_icons 2s infinite linear;
+  animation: rotate_icons 2s infinite linear;
+}
 
 /* ANIMATION */
 .spinInfinite{
-  -webkit-animation: spin 2s infinite linear;
-  -moz-animation: spin 2s infinite linear;
-  -o-animation: spin 2s infinite linear;
-  animation: spin 2s infinite linear;
+  -webkit-animation: rotate_icons 2s infinite linear;
+  -moz-animation: rotate_icons 2s infinite linear;
+  -o-animation: rotate_icons 2s infinite linear;
+  animation: rotate_icons 2s infinite linear;
 }
 
-
+@-webkit-keyframes rotate_icons {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to { 
+    -webkit-transform: rotate(360deg);
+  }
+}

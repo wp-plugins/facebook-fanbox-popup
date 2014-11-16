@@ -34,7 +34,7 @@ class facebook_fanbox_popup_make{
                      'name_option'    =>'facebook_fanbox_popup',
                      'name_plugin_url'=>'facebook-fanbox-popup',
                      'descripcion'    =>'Promote your Fanpage in a cool natural way',
-                     'version'        =>'1.9.3',
+                     'version'        =>'1.9.4',
                      'url'            =>'',
                      'logo'           =>'<i class="fa fa-check-square text-long" style="padding:15px 18px;"></i>',
                       // or image .jpg,png | use class 'text-long' in case of name long

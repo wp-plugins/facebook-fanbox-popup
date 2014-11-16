@@ -1,13 +1,13 @@
 <?php 
 /**
- * iLenFramework 1.6.5
+ * iLenFramework 1.6.6
  * @package ilentheme
  */
 
 // REQUIRED FILES TO RUN
-if ( !class_exists('ilen_framework_1_6_5') ) {
+if ( !class_exists('ilen_framework_1_6_6') ) {
 
-class ilen_framework_1_6_5 {
+class ilen_framework_1_6_6 {
 
 		var $options		   	= array();
 		var $parameter 			= array();
@@ -349,7 +349,7 @@ class ilen_framework_1_6_5 {
 						    </aside>
 						    <main>
 						      <b><?php _e('Nice',$this->parameter['name_option'])."."; ?></b>
-						      <br /><br />
+						      <br />
 						      <?php _e('Update successfully',$this->parameter['name_option']) ?>
 						    </main>
 						  </div>
@@ -2242,5 +2242,5 @@ if( isset($IF_CONFIG->components) && ! is_array($IF_CONFIG->components) ){
 
 global $IF;
 $IF = null;
-$IF = new ilen_framework_1_6_5;
+$IF = new ilen_framework_1_6_6;
 ?>

@@ -3,7 +3,7 @@
 Plugin Name: Facebook FanBox Popup
 Plugin URI: https://wordpress.org/plugins/facebook-fanbox-popup/
 Description: Promote your Fanpage in a cool natural way
-Version: 1.9.3
+Version: 1.9.4
 Author: iLen
 Author URI:
 */
