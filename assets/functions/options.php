@@ -34,9 +34,9 @@ class facebook_fanbox_popup_make{
                      'name_option'    =>'facebook_fanbox_popup',
                      'name_plugin_url'=>'facebook-fanbox-popup',
                      'descripcion'    =>'Promote your Fanpage in a cool natural way',
-                     'version'        =>'1.9.4',
+                     'version'        =>'2.0',
                      'url'            =>'',
-                     'logo'           =>'<i class="fa fa-check-square text-long" style="padding:15px 18px;"></i>',
+                     'logo'           =>'<i class="fa fa-facebook text-long" style="padding:12px 18px;"></i>',
                       // or image .jpg,png | use class 'text-long' in case of name long
                      'logo_text'      =>'', // alt of image
                      'slogan'         =>'', // powered by <a href="">iLenTheme</a>
@@ -78,12 +78,23 @@ class facebook_fanbox_popup_make{
                                                                             'class' =>'', //class
                                                                             'row'   =>array('a','b')),
 
+
                                                                     array(  'title' =>__('Enter the URL of your facebook fanpage:',$this->parameter['name_option']), //title section
                                                                             'help'  =>'Example: https://facebook.com/FarandulaEcuatoriana',
                                                                             'type'  =>'text',  
                                                                             'value' =>'', 
                                                                             'id'    =>$this->parameter['name_option'].'_'.'fb_id', 
                                                                             'name'  =>$this->parameter['name_option'].'_'.'fb_id',  
+                                                                            'class' =>'', //class
+                                                                            'row'   =>array('a','b')),
+
+                                                                    array(  'title' =>__('Show Post?:',$this->parameter['name_option']), //title section
+                                                                            'help'  =>'Displays the last post your facebook page',
+                                                                            'type'  =>'checkbox', //type input configuration
+                                                                            'value' =>'0', //value default
+                                                                            'value_check'=>1,
+                                                                            'id'    =>$this->parameter['name_option'].'_'.'show_post', 
+                                                                            'name'  =>$this->parameter['name_option'].'_'.'show_post',  
                                                                             'class' =>'', //class
                                                                             'row'   =>array('a','b')),
 

@@ -17,7 +17,7 @@ function facebook_fanbox_popup(options) {
 		var popupWidth = jQuery("#ffbp").width();
 		jQuery("#ffbp").css({
 			"position": "fixed",
-			"top": (windowHeight / 2 - popupHeight / 2) - 100,
+			"top": window.options.stream == 1 ? (windowHeight / 2 - popupHeight / 2) + 20  : (windowHeight / 2 - popupHeight / 2) - 50,
 			"left": windowWidth / 2 - popupWidth / 2
 		});
 		jQuery("#ffbp-bg").css({

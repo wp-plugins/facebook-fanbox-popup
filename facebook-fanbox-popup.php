@@ -3,7 +3,7 @@
 Plugin Name: Facebook FanBox Popup
 Plugin URI: https://wordpress.org/plugins/facebook-fanbox-popup/
 Description: Promote your Fanpage in a cool natural way
-Version: 1.9.4
+Version: 2.0
 Author: iLen
 Author URI:
 */
@@ -131,7 +131,8 @@ class facebook_fanbox_popup extends facebook_fanbox_popup_make{
 					// Configure display of popup
 					s_to_close: "<?php echo isset($opt_fanbox_popup->seconds_close)?$opt_fanbox_popup->seconds_close:0; ?>",
 					days_no_click: "<?php echo isset($opt_fanbox_popup->until_popup)?$opt_fanbox_popup->until_popup:0; ?>",
-					disabled_scroll: <?php echo (isset($opt_fanbox_popup->disabled_scroll) && $opt_fanbox_popup->disabled_scroll )?$opt_fanbox_popup->disabled_scroll:0; ?>
+					disabled_scroll: <?php echo (isset($opt_fanbox_popup->disabled_scroll) && $opt_fanbox_popup->disabled_scroll )?$opt_fanbox_popup->disabled_scroll:0; ?>,
+					stream: <?php echo isset($opt_fanbox_popup->show_post) && $opt_fanbox_popup->show_post?1:0; ?>
 				})
 			}
 				,<?php echo (int)$opt_fanbox_popup->seconds_appear * 1000 ;?>
@@ -159,15 +160,17 @@ class facebook_fanbox_popup extends facebook_fanbox_popup_make{
 		
 
 
- 		$fb_id = $opt_fanbox_popup->fb_id?$opt_fanbox_popup->fb_id:"https://www.facebook.com/FarandulaEcuatoriana";
-		echo '<div id="ffbp-bg"></div>
+ 		$fb_id = isset($opt_fanbox_popup->fb_id) && $opt_fanbox_popup->fb_id?$opt_fanbox_popup->fb_id:"https://www.facebook.com/FarandulaEcuatoriana";
+ 		$show_post = isset($opt_fanbox_popup->show_post) && $opt_fanbox_popup->show_post?"true":"false";
+ 		$height = $show_post == 'true'?"data-height='500'":"";
+		echo ' <!-- Plugin: Facebook FanBox Popup (https://wordpress.org/plugins/facebook-fanbox-popup/) --><br />
+				<div id="ffbp-bg" data-version="'.$this->parameter["version"].'"></div>
 				<div id="ffbp">
 				<a href="#" onClick="fbfanboxp('. $opt_fanbox_popup->until_popup .');" id="ffbp-close">✕</a>';
 				echo '<div id="ffbp-body">';
 				echo '<div id="ffbp-msg-cont">
-						    <div class="fb-like-box" data-href="'.$fb_id.'" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div>
+						    <div class="fb-like-box" data-href="'.$fb_id.'" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="'.$show_post.'" data-show-border="false" '.$height.'></div>
 					  </div>';
-		//echo ( $credit ) ? '<div id="spu-bottom"><span style="font-size:10px;float: right;margin-top: -6px;">Social PopUP by <a href="http://www.timersys.com">Timersys</a></span></div>':'';
 				echo "</div>";
 		echo '</div>';
 		//echo "<input type='hidden' name='hd_msg_thanks' id='hd_msg_thanks' value='".$opt_fanbox_popup->thanks_message."' />";
