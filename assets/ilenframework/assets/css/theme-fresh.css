@@ -1,11 +1,11 @@
 /*
-    theme      :  Fresh
-    type       :   Theme-Options for plugin and theme
-    since      :  27/06/2014
-    last update: 28/10/2014
+    theme      : Fresh
+    type       : Theme-Options for plugin and theme
+    since      : 27/06/2014
+    last update: 21/11/2014
 */
 body{
-  background: inherit;
+  /*background: inherit;*/
 }
 a{}
 a:hover{text-decoration: none!important;}
@@ -24,7 +24,7 @@ a:hover{text-decoration: none!important;}
 }
 
 .ilenplugin-options .has-right-sidebar #post-body-content .post-body-content__wrap{
-  box-shadow: 0px 0px 3px rgb(187, 187, 187)!important;
+  box-shadow: 0px 0px 3px rgb(187, 187, 187f)!important;
 }
 
 
@@ -58,6 +58,7 @@ a:hover{text-decoration: none!important;}
   margin: 20px 30px;
   border-radius: 3px;
   border: 1px solid #F1F1F1;
+  box-shadow: 0 1px 1px rgba(0,0,0,.1);
 }
 .ilenplugin-options .postbox:last-child{
   margin-bottom: 0;
@@ -151,8 +152,8 @@ a:hover{text-decoration: none!important;}
 }
 .ilenplugin-options .row.radio_image img{
   border-radius: 0;
-  height: 65px!important;
-  width: 100px!important;
+  height: 150px!important;
+  width: 140px!important;
   margin-right: 10px;
   padding: 4px;
   background: #fff;
@@ -165,7 +166,20 @@ a:hover{text-decoration: none!important;}
 .ilenplugin-options .row.radio_image img.active{
   border-color: #555656!important;
   box-shadow: 0px 0px 5px rgb(36, 27, 27);
+  border-width:1px;
+  border-radius: 1px;
 }
+.ilenplugin-options .row.radio_image .a_line{
+  text-align: left;
+  margin-bottom: 13px;
+}
+.ilenplugin-options .row.radio_image .a_line .help{
+  width: 100%;
+}
+.ilenplugin-options .row.radio_image .c img{
+  margin-right: 18px;
+}
+
 .ilenplugin-options .wp-picker-input-wrap input[type="text"]{
     width: 65%;
 }
@@ -502,6 +516,104 @@ input[type="range"]::-webkit-slider-thumb {
 .ilenplugin-options #tabs > ul li.ui-tabs-active a{
   color: #444;
 }
+.ilenplugin-options .row.radio_image {
+  padding-left: 20px;
+}
+.ilenplugin-options footer a.ibtn:hover span i{
+  -webkit-animation: rotate_icons 2s infinite linear;
+  -moz-animation: rotate_icons 2s infinite linear;
+  -o-animation: rotate_icons 2s infinite linear;
+  animation: rotate_icons 2s infinite linear;
+}
+.ilenplugin-options .upload input[type="text"] {
+  width: 61%!important;
+}
+.ilenplugin-options .color_hover_two_element .wp-picker-container .wp-picker-holder{
+  margin-left:-78px;
+}
+.ilenplugin-options .color_hover_two_element,
+.ilenplugin-options .color_hover_first_element{
+  float: left;
+  width: 49%;
+}
+.ilenplugin-options .color_hover_two_element{
+  line-height: 32px;
+  color: #4C4C4C;  
+}
+.ilenplugin-options .row.color_hover .b{
+  line-height: 32px;  
+}
+.ilenplugin-options .color_hover_two_element input[type="text"],
+.ilenplugin-options .color_hover_first_element input[type="text"]{
+  display: inline-block;
+  margin: 0 0px 6px;
+  height: 24px;
+  width: 105px!important;
+}
+.ilenplugin-options .background_complete .noUi-background ,.ilenplugin-options .background_complete .noUi-origin{
+  background: #FAFAFA;
+  box-shadow: inset 0 1px 1px #f0f0f0;
+}
+.ilenplugin-options .background_complete  .noUi-connect {
+  background: #7F8C9A;
+  box-shadow: inset 0 0 3px rgba(51,51,51,.45);
+  -webkit-transition: background 450ms;
+  transition: background 450ms;
+}
+.ilenplugin-options .noUi-background, 
+.ilenplugin-options .noUi-origin {
+  background: #FAFAFA;
+  box-shadow: inset 0 1px 1px #f0f0f0;
+}
+.ilenplugin-options .noUi-connect {
+  background: #7F8C9A;
+  background: #3D8AE0;
+  box-shadow: inset 0 0 3px rgba(51,51,51,.45);
+  -webkit-transition: background 450ms;
+  transition: background 450ms;
+}
+
+
+.ilenplugin-options .input_4 .input_4--square{
+  width:24%;
+  float:left;
+}
+.ilenplugin-options .input_4 .input_4--square span{
+  display: inline-block;
+  height: 27px;
+  line-height: 27px;
+  width: 21px;
+  text-align: center;
+  color: #fff;
+  opacity: 0.3;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.ilenplugin-options .input_4 .input_4--square:nth-child(1) span{
+  background: #B5B5B5 url(../images/input_4_up.png) 3px 6px no-repeat;
+}
+.ilenplugin-options .input_4 .input_4--square:nth-child(2) span{
+  background: #B5B5B5 url(../images/input_4_right.png) 3px 6px no-repeat;
+}
+.ilenplugin-options .input_4 .input_4--square:nth-child(3) span{
+  background: #B5B5B5 url(../images/input_4_down.png) 3px 6px no-repeat;
+}
+.ilenplugin-options .input_4 .input_4--square:nth-child(4) span{
+  background: #B5B5B5 url(../images/input_4_left.png) 3px 6px no-repeat;
+}
+
+.ilenplugin-options .input_4 .input_4--square input{
+  width: 54px;
+  margin-left:0;
+}
+
+
+
+
+
+
+
+
 
 
 
@@ -1394,12 +1506,18 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 
-.ilenplugin-options footer a.ibtn:hover span i{
+.ilentheme-options footer a.ibtn:hover span i,
+.ilentheme-options header a.ibtn:hover span i{
   -webkit-animation: rotate_icons 2s infinite linear;
   -moz-animation: rotate_icons 2s infinite linear;
   -o-animation: rotate_icons 2s infinite linear;
   animation: rotate_icons 2s infinite linear;
+} 
+.ilentheme-options .select2-search-choice-close{
+  top: 3px;
 }
+
+
 
 /* ANIMATION */
 .spinInfinite{
@@ -1416,4 +1534,109 @@ input[type="range"]::-webkit-slider-thumb {
   to { 
     -webkit-transform: rotate(360deg);
   }
+}
+
+
+
+/* Shine image
+ link: http://jsfiddle.net/AntonTrollback/nqQc7/;
+*/
+.ilen_shine {
+  display: block;
+  /*width: 332px;
+  height: 332px;*/
+  position: relative;
+  overflow: hidden;
+}
+
+/* "shine" element */
+/* Could be a pseudo element but they lack support for CSS transitions in some browsers */
+.ilen_shine .shine-effect {
+  position: absolute;
+  top: -110%;
+  left: -210%;
+  width: 200%;
+  height: 200%;
+
+  opacity: 0;
+  
+  background: rgba(255, 255, 255, 0.2);
+  background: -moz-linear-gradient(
+    left,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.1) 75%,
+    rgba(255, 255, 255, 0.5) 90%,
+    rgba(255, 255, 255, 0.0) 100%
+  );
+  background: -webkit-linear-gradient(
+    top,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.1) 75%,
+    rgba(255, 255, 255, 0.5) 90%,
+    rgba(255, 255, 255, 0.0) 100%
+  );
+  background: -webkit-gradient(
+    linear, left top, right top,
+    color-stop(0%  ,rgba(255, 255, 255, 0.2)),
+    color-stop(75% ,rgba(255, 255, 255, 0.2)),
+    color-stop(90% ,rgba(255, 255, 255, 0.8)),
+    color-stop(100%,rgba(255, 255, 255, 0.0))
+  );
+  background: -o-linear-gradient(
+    top,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.1) 75%,
+    rgba(255, 255, 255, 0.5) 90%,
+    rgba(255, 255, 255, 0.0) 100%
+  );
+  background: -ms-linear-gradient(
+    top,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.1) 75%,
+    rgba(255, 255, 255, 0.5) 90%,6
+    rgba(255, 255, 255, 0.0) 100%
+  );
+  background: linear-gradient(
+    top,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.1) 75%,
+    rgba(255, 255, 255, 0.5) 90%,
+    rgba(255, 255, 255, 0.0) 100%
+  );
+
+  -webkit-transform: rotate(30deg);
+     -moz-transform: rotate(30deg);
+      -ms-transform: rotate(30deg);
+       -o-transform: rotate(30deg);
+          transform: rotate(30deg);
+    
+  -webkit-transition-property: left, top, opacity;
+     -moz-transition-property: left, top, opacity;
+      -ms-transition-property: left, top, opacity;
+       -o-transition-property: left, top, opacity;
+          transition-property: left, top, opacity;
+  -webkit-transition-duration: 0.5s, 0.5s, 0.1s;
+     -moz-transition-duration: 0.5s, 0.5s, 0.1s;
+      -ms-transition-duration: 0.5s, 0.5s, 0.1s;
+       -o-transition-duration: 0.5s, 0.5s, 0.1s;
+          transition-duration: 0.5s, 0.5s, 0.1s;
+  -webkit-transition-timing-function: ease;
+     -moz-transition-timing-function: ease;
+      -ms-transition-timing-function: ease;
+       -o-transition-timing-function: ease;
+          transition-timing-function: ease;
+}
+
+/* Hover state - trigger effect */
+
+.ilen_shine:hover .shine-effect {
+  opacity: 1;
+  top: -30%;
+  left: -30%;
+}
+
+/* Active state */
+
+.ilen_shine:active .shine-effect {
+  opacity: 0;
 }

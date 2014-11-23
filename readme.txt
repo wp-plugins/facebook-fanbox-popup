@@ -9,7 +9,7 @@ Author: iLen
 Requires at least: 3.0
 Tested up to: 4.0
 Stable tag: 1.9
-Version: 2.0
+Version: 2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,6 +32,8 @@ Turn visitors into fans! New visitors are usually costly to acquire, so it is vi
 
 
 == Changelog ==
+= 2.1 =
+* Update core <code>iLenFramework 1.7</code>
 = 2.0 =
 * Add option: Show Post (stream facebook in popup)
 = 1.9.4 =

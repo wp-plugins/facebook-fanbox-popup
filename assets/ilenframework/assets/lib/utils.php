@@ -356,6 +356,22 @@ function IF_dateDifference( $date_1 , $date_2 , $differenceFormat = '%a' ){
 
 
 
+if ( ! function_exists( 'IF_removeShortCode' ) ) {
+    /**
+    * Return without shortcode text
+    * @return $new_text
+    *
+    */
+function IF_removeShortCode( $text ){
+    
+    $new_text = preg_replace( '|\[(.+?)\](.+?\[/\\1\])?|s', '',  $text );
+
+    return $new_text;
+}
+}
+
+
+
 
 }
 

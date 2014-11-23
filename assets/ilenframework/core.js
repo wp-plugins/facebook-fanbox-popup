@@ -1,4 +1,4 @@
-jQuery(document).ready( function() {
+jQuery(document).ready( function($) {
  
 	jQuery('.ilentheme-options #tabs,.ilenplugin-options #tabs')
         .tabs({  show: function(event, ui) {
@@ -335,8 +335,9 @@ jQuery(document).ready( function() {
         }
 
     }
-         
 
+
+ 
 });
 
 
