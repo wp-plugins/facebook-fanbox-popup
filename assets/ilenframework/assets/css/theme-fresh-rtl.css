@@ -118,3 +118,6 @@
   left: 0;
   right: inherit;
 }
+.ilenplugin-options .color_hover_two_element .wp-picker-container .wp-picker-holder{
+  margin-right: -90px;
+}
