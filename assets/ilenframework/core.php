@@ -1,13 +1,13 @@
 <?php 
 /**
- * iLenFramework 1.6.7
+ * iLenFramework 1.7.2
  * @package ilentheme
  */
 
 // REQUIRED FILES TO RUN
-if ( !class_exists('ilen_framework_1_7') ) {
+if ( !class_exists('ilen_framework_1_7_2') ) {
 
-class ilen_framework_1_7 {
+class ilen_framework_1_7_2 {
 
 		var $options		   	= array();
 		var $parameter 			= array();
@@ -360,21 +360,22 @@ class ilen_framework_1_7 {
 						    </aside>
 						    <main>
 						      <b><?php _e('Oh bollocks',$this->parameter['name_option'])."."; ?>.</b>
-						      <br /><br />
+						      <br />
 						      <?php _e('Failed to update',$this->parameter['name_option']) ?>
 						    </main>
 						  </div>
 					<?php endif; ?>
 
 					<div class="my-wrap-plugin">
-					<header>
+					<header class="<?php if( strlen($this->parameter['name_long'])>20 ){ echo 'text-long'; } ?>">
 						<span class="header__logo waves-effect"><?php echo $this->parameter['logo']; ?></span>
-						<h2 class="<?php if( strlen($this->parameter['name_long'])>20 ){ echo 'text-long'; } ?>">
+						<h2>
 							<?php echo $this->parameter['name_long']; ?>
-							<span class='ilen-version <?php if( strlen($this->parameter['name_long'])>20 ){ echo 'text-long'; } ?>'><?php echo $this->parameter['version'] ?></span>
+							<span class='ilen-version'><?php echo $this->parameter['version'] ?></span>
 						</h2>
-						<?php if( $this->parameter['wp_review'] ): ?><a href="<?php echo $this->parameter['wp_review'] ?>" class="leave-a-review ibtn btnred right" target="_blank"><span><i class="fa fa-star"></i></span>Leave a review</a><?php endif; ?>
-						<?php if( $this->parameter['twitter'] ): ?><a href="<?php echo $this->parameter['twitter'] ?>" class="tweet-about-it ibtn btnturke right" target="_blank"><span><i class="fa fa-twitter"></i></span>Write your experience</a><?php endif; ?>
+						<?php if( isset($this->parameter['wp_review']) && $this->parameter['wp_review'] ): ?><a href="<?php echo $this->parameter['wp_review'] ?>" class="leave-a-review ibtn btnred right" target="_blank"><span><i class="fa fa-star"></i></span>Leave a review</a><?php endif; ?>
+						<?php if( isset($this->parameter['twitter'] ) && $this->parameter['wp_review'] ): ?><a href="<?php echo $this->parameter['twitter'] ?>" class="tweet-about-it ibtn btnturke right" target="_blank"><span><i class="fa fa-twitter"></i></span>Write your experience</a><?php endif; ?>
+						<?php if( isset($this->parameter['wp_support']) && $this->parameter['wp_review'] ): ?><a href="<?php echo $this->parameter['wp_support'] ?>" class="ibtn btngray2 right" target="_blank"><span><i class="fa fa-wrench"></i></span>Support</a><?php endif; ?>
 					</header>
 
 					<?php $Myoptions = self::theme_definitions(); ?>
@@ -518,7 +519,7 @@ function ilentheme_options_wrap_for_plugin_tabs(){  ?>
 				    </aside>
 				    <main>
 				      <b><?php _e('Nice',$this->parameter['name_option'])."."; ?></b>
-				      <br /><br />
+				      <br />
 				      <?php _e('Update successfully',$this->parameter['name_option']) ?>
 				    </main>
 				  </div>
@@ -529,21 +530,26 @@ function ilentheme_options_wrap_for_plugin_tabs(){  ?>
 				    </aside>
 				    <main>
 				      <b><?php _e('Oh bollocks',$this->parameter['name_option'])."."; ?>.</b>
-				      <br /><br />
+				      <br />
 				      <?php _e('Failed to update',$this->parameter['name_option']) ?>
 				    </main>
 				  </div>
 			<?php endif; ?>
 
 			<div class="post-body-content__wrap">
-			<header>
+			<header class="<?php if( strlen($this->parameter['name_long'])>20 ){ echo 'text-long'; } ?>">
 				<span class="header__logo"><?php echo $this->parameter['logo']; ?></span>
-				<h2 class="<?php if( strlen($this->parameter['name_long'])>20 ){ echo 'text-long'; } ?>">
+				<h2>
 					<?php echo $this->parameter['name_long']; ?>
-					<span class='ilen-version <?php if( strlen($this->parameter['name_long'])>20 ){ echo 'text-long'; } ?>'><?php if( isset($this->parameter['method']) && $this->parameter['method'] == 'free' ){ echo __('Free',$this->parameter['name_option']); }else{ echo __('PRO',$this->parameter['name_option']); } echo " ".$this->parameter['version']; ?></span>
+					<?php if( !is_rtl() ): ?>
+					<span class='ilen-version'><?php if( isset($this->parameter['method']) && $this->parameter['method'] == 'free' ){ echo __('Free',$this->parameter['name_option']); }else{ echo __('PRO',$this->parameter['name_option']); } echo " ".$this->parameter['version']; ?></span>
+				<?php elseif( is_rtl() ) : ?>
+					<span class='ilen-version'><?php if( isset($this->parameter['method']) && $this->parameter['method'] == 'free' ){ echo  $this->parameter['version']. " " .__('Free',$this->parameter['name_option']); }else{ echo $this->parameter['version']. " " . __('PRO',$this->parameter['name_option']); }  ?></span>
+				<?php endif; ?> 
 				</h2>
 				<?php if( $this->parameter['wp_review'] ): ?><a href="<?php echo $this->parameter['wp_review'] ?>" class="leave-a-review ibtn btnred right" target="_blank"><span><i class="fa fa-star"></i></span>Leave a review</a><?php endif; ?>
 				<?php if( $this->parameter['twitter'] ): ?><a href="<?php echo $this->parameter['twitter'] ?>" class="tweet-about-it ibtn btnturke right" target="_blank"><span><i class="fa fa-twitter"></i></span>Write your experience</a><?php endif; ?>
+				<?php if( $this->parameter['wp_support'] ): ?><a href="<?php echo $this->parameter['wp_support'] ?>" class="ibtn btngray2 right" target="_blank"><span><i class="fa fa-wrench"></i></span>Support</a><?php endif; ?>
 			</header>
 			<div class="ilentabs_wrap">
 			<?php $Myoptions = self::theme_definitions(); ?>
@@ -1735,8 +1741,8 @@ function ilentheme_options_wrap_for_plugin_tabs(){  ?>
 								<div class="a"><?php if(isset( $value['title'] )){ echo $value['title']; } ?><div class="help"><?php if( isset($value['help']) ){ echo $value['help']; } ?></div></div>
 								<div class="<?php echo $side_two; ?>">
 									<div>
-										<output id="rangevalue"><?php if(isset( $options_theme[ $value['name'] ] ) && $options_theme[ $value['name'] ]){ echo $options_theme[ $value['name'] ]; } ?></output>
-										<input  id="<?php if( isset( $value['id'] ) ){ echo $value['id']; } ?>"  name="<?php if( isset( $value['name'] ) ){ echo $value['name']; } ?>" class="bar" type="range" value="<?php if(isset( $options_theme[ $value['name'] ] )){ echo $options_theme[ $value['name'] ]; } ?>" onchange="jQuery(this).prev().html(this.value)" min ="<?php if(isset( $value['min'] )){ echo $value['min']; } ?>" max="<?php if(isset( $value['max'])){  echo $value['max']; } ?>" step="<?php if(isset( $value['step'])){ echo $value['step']; } ?>" />
+										<output id="rangevalue"><?php if(isset( $options_theme[ $value['name'] ] ) && $options_theme[ $value['name'] ] ){ echo (int)$options_theme[ $value['name'] ]; }else{ echo 0; } ?></output>
+										<input  id="<?php if( isset( $value['id'] ) ){ echo $value['id']; } ?>"  name="<?php if( isset( $value['name'] ) ){ echo $value['name']; } ?>" class="bar" type="range" value="<?php if(isset( $options_theme[ $value['name'] ] )){ echo (int)$options_theme[ $value['name'] ]; }else{ echo 0; } ?>" onchange="jQuery(this).prev().html(this.value)" min ="<?php if(isset( $value['min'] )){ echo $value['min']; } ?>" max="<?php if(isset( $value['max'])){  echo $value['max']; } ?>" step="<?php if(isset( $value['step'])){ echo $value['step']; } ?>" />
 									</div>
 								</div>
 							</div>
@@ -1747,6 +1753,8 @@ function ilentheme_options_wrap_for_plugin_tabs(){  ?>
 
 
 						case "range2": ?>
+
+						<?php if( !is_rtl() ): ?>
 							<?php if(isset( $value['before'] )){ echo $value['before'];} ?>
 							<div class="row <?php if(isset( $value['class'] )){ echo $value['class'];} ?> ilentheme_row_range2" <?php if(isset( $value['style'] )){ echo $value['style'];} ?> >
 								<div class="a"><?php if(isset( $value['title'] )){ echo $value['title']; } ?><div class="help"><?php echo $value['help']; ?></div></div>
@@ -1778,6 +1786,19 @@ function ilentheme_options_wrap_for_plugin_tabs(){  ?>
 								</div>
 							</div>
 							<?php if(isset( $value['after'] )){ echo $value['after'];} ?>
+						<?php else: ?>
+							<?php if(isset( $value['before'] )){ echo $value['before'];} ?>
+							<div class="row <?php if(isset( $value['class'] )){ echo $value['class'];} ?> ilentheme_row_range" <?php if(isset( $value['style'] )){ echo $value['style'];} ?> >
+								<div class="a"><?php if(isset( $value['title'] )){ echo $value['title']; } ?><div class="help"><?php if( isset($value['help']) ){ echo $value['help']; } ?></div></div>
+								<div class="<?php echo $side_two; ?>">
+									<div>
+										<output id="rangevalue"><?php if(isset( $options_theme[ $value['name'] ] ) && $options_theme[ $value['name'] ] ){ echo (int)$options_theme[ $value['name'] ]; }else{ echo 0; } ?></output>
+										<input  id="<?php if( isset( $value['id'] ) ){ echo $value['id']; } ?>"  name="<?php if( isset( $value['name'] ) ){ echo $value['name']; } ?>" class="bar" type="range" value="<?php if(isset( $options_theme[ $value['name'] ] )){ echo (int)$options_theme[ $value['name'] ]; }else{ echo 0; } ?>" onchange="jQuery(this).prev().html(this.value)" min ="<?php if(isset( $value['min'] )){ echo $value['min']; } ?>" max="<?php if(isset( $value['max'])){  echo $value['max']; } ?>" step="<?php if(isset( $value['step'])){ echo $value['step']; } ?>" />
+									</div>
+								</div>
+							</div>
+							<?php if(isset( $value['after'] )){ echo $value['after'];} ?>
+						<?php endif; ?>
 
 						<?php break;
 
@@ -2173,15 +2194,15 @@ function fields_update($data,$is_tab = 1){
 			if(  isset($_GET["page"]) && $_GET["page"] == $this->parameter['id_menu'] ){ // only load if page option or theme
 
     		    // Enqueue Script Select2
-            	wp_enqueue_script('ilentheme-script-select2-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/select2.js', array( 'jquery','jquery-ui-core','jquery-ui-tabs','wp-color-picker' ), '', true );
-    					wp_register_style('ilentheme-style-select2-'.$this->parameter['id'],  $this->parameter['url_framework'] . '/assets/css/select2.css' );
-    		    	wp_enqueue_style( 'ilentheme-style-select2-'.$this->parameter['id'] );
+            wp_enqueue_script('ilentheme-script-select2-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/select2.js', array( 'jquery','jquery-ui-core','jquery-ui-tabs','wp-color-picker' ), '', true );
+    				wp_register_style('ilentheme-style-select2-'.$this->parameter['id'],  $this->parameter['url_framework'] . '/assets/css/select2.css' );
+    		    wp_enqueue_style( 'ilentheme-style-select2-'.$this->parameter['id'] );
 
     		    // rippler Effects
-            	//wp_enqueue_script('ilentheme-script-ripple-effects-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/jquery.rippler.js', array( 'jquery' ), '', true );
+            //wp_enqueue_script('ilentheme-script-ripple-effects-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/jquery.rippler.js', array( 'jquery' ), '', true );
 
-            	// nouislider: slider range
-            	wp_enqueue_script('ilentheme-script-nouislider-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/jquery.nouislider.all.min.js', array( 'jquery' ), '', true );
+            // nouislider: slider range
+            wp_enqueue_script('ilentheme-script-nouislider-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/jquery.nouislider.all.min.js', array( 'jquery' ), '', true );
     
     		    // google fonts
     		    wp_register_style( 'fonts-google-if', 'http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300italic,300,400,600,700|Roboto' );
@@ -2191,6 +2212,14 @@ function fields_update($data,$is_tab = 1){
     			if( $this->parameter['themeadmin'] ){
     				wp_register_style( 'ilentheme-styles-admin-theme-'.$this->parameter['id'], $this->parameter['url_framework'] ."/assets/css/theme-{$this->parameter['themeadmin']}.css" );
     				wp_enqueue_style( 'ilentheme-styles-admin-theme-'.$this->parameter['id'] );
+
+    				// RTL
+    				if( is_rtl() ){
+    					//echo "<select><option value='123'>hola que tal</option></select>";
+    					wp_register_style( 'ilentheme-styles-admin-theme-rtl-'.$this->parameter['id'], $this->parameter['url_framework'] ."/assets/css/theme-{$this->parameter['themeadmin']}-rtl.css" );
+    					wp_enqueue_style( 'ilentheme-styles-admin-theme-rtl-'.$this->parameter['id'] );
+
+    				}
     			}
 
 			}
@@ -2329,5 +2358,5 @@ if( isset($IF_CONFIG->components) && ! is_array($IF_CONFIG->components) ){
 
 global $IF;
 $IF = null;
-$IF = new ilen_framework_1_7;
+$IF = new ilen_framework_1_7_2;
 ?>

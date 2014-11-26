@@ -213,16 +213,19 @@ a:hover{text-decoration: none!important;}
   /*opacity: .5;*/
 }
 
-.ilenplugin-options header .header__logo i.text-long{
-  position: relative;
-  top: 0;
-  vertical-align: top;
+
+.ilenplugin-options header.text-long .header__logo{
   float: left;
+  margin-top: 5px;
 }
-.ilenplugin-options #poststuff h2.text-long{
+.ilenplugin-options header h2{
   width: 33%;
   display: inline-block;
   margin: 0;
+  
+}
+.ilenplugin-options header.text-long h2{
+  width: 40%;
 }
 
 .ilenplugin-options header a{
@@ -281,7 +284,8 @@ a.wp-color-result{
 .ilenplugin-options .btnred span {background: #F97051;text-shadow: 0px 1px 0px #F9866B;}
 .ilenplugin-options .btnblack {background: #707070;text-shadow: 0px 1px 0px #595959;}
 .ilenplugin-options .btnblack span {background: #464646;text-shadow: 0px 1px 0px #595959;}
-
+.ilenplugin-options .btngray2 {background: #EFEFEF;text-shadow: 0px 1px 0px #DFDFDF;color: #A3A3A3;}
+.ilenplugin-options .btngray2 span {background: #E5E5E5;text-shadow: 0px 1px 0px #969696;}
 
 .ilenplugin-options header a,
 .ilenplugin-options footer a{
@@ -486,7 +490,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .ilenplugin-options .ilentabs_wrap #nav h2{
-  background: #F3F3F3;
+  background: #F1F1F1;
   margin-bottom: 0;
   margin-top: 0;
   padding-top: 13px;
@@ -606,8 +610,16 @@ input[type="range"]::-webkit-slider-thumb {
   width: 54px;
   margin-left:0;
 }
-
-
+.ilenplugin-options .upload .admin_delete_image_upload{
+  height: 20px;
+  width: 20px;
+}
+.ilenplugin-options .row.radio_image img.active{
+  -webkit-transition: .5s ease;
+  -moz-transition: .5s ease;
+  -ms-transition: .5s ease;
+  -o-transition: .5s ease
+}
 
 
 
@@ -1194,7 +1206,7 @@ input[type="range"]::-webkit-slider-thumb {
 .ilentheme-options .btnred span {background: #F97051;text-shadow: 0px 1px 0px #F9866B;}
 .ilentheme-options .btnblack {background: #707070;text-shadow: 0px 1px 0px #595959;}
 .ilentheme-options .btnblack span {background: #464646;text-shadow: 0px 1px 0px #595959;}
-
+ 
 
 .ilentheme-options header a,
 .ilentheme-options footer a{

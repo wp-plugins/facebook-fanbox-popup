@@ -8,8 +8,8 @@ Author URI:
 Author: iLen
 Requires at least: 3.0
 Tested up to: 4.0
-Stable tag: 1.9
-Version: 2.1
+Stable tag: 2.1
+Version: 2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,7 +19,8 @@ Promote your Fanpage in a cool natural way
 
 == Description ==
 Turn visitors into fans! New visitors are usually costly to acquire, so it is vital that you get the most engagement out of every single visitor.
- 
+<br />
+<strong>RTL ready!</strong>
  
 == Installation ==
 
@@ -32,6 +33,8 @@ Turn visitors into fans! New visitors are usually costly to acquire, so it is vi
 
 
 == Changelog ==
+= 2.2 =
+* Update core <code>iLenFramework 1.7.2</code>
 = 2.1 =
 * Update core <code>iLenFramework 1.7</code>
 = 2.0 =

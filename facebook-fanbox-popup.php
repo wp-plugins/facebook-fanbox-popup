@@ -3,7 +3,7 @@
 Plugin Name: Facebook FanBox Popup
 Plugin URI: https://wordpress.org/plugins/facebook-fanbox-popup/
 Description: Promote your Fanpage in a cool natural way
-Version: 2.1
+Version: 2.2
 Author: iLen
 Author URI:
 */
@@ -110,6 +110,10 @@ class facebook_fanbox_popup extends facebook_fanbox_popup_make{
 			wp_enqueue_script('wsp-fb', 'http://connect.facebook.net/en_US/all.js#xfbml=1', array('jquery'),$this->parameter['version'],FALSE);
 			wp_enqueue_script('wsp-fanbox', plugins_url( 'assets/js/spu.js' , __FILE__ ),array('jquery'),$this->parameter['version']);
 			wp_enqueue_style('wsp-css-fanbox', plugins_url( 'assets/css/spu.css' , __FILE__ ),'all',$this->parameter['version']);
+
+			if( is_rtl() ){
+				wp_enqueue_style('wsp-css-fanbox-rtl', plugins_url( 'assets/css/spu-rtl.css' , __FILE__ ),'all',$this->parameter['version']);
+			}
 	}
 
 	/**

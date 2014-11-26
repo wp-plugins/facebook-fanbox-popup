@@ -283,7 +283,7 @@ if ( ! function_exists( 'IF_getyoutubeThumbnail' ) ) {
 function IF_getyoutubeThumbnail( $id_youtube ){
     
 
-    return "http://img.youtube.com/vi/$id_youtube/hqdefault.jpg";
+    return "https://img.youtube.com/vi/$id_youtube/hqdefault.jpg";
     
 }
 }
