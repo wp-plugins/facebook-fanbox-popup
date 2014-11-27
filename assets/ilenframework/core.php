@@ -542,9 +542,9 @@ function ilentheme_options_wrap_for_plugin_tabs(){  ?>
 				<h2>
 					<?php echo $this->parameter['name_long']; ?>
 					<?php if( !is_rtl() ): ?>
-					<span class='ilen-version'><?php if( isset($this->parameter['method']) && $this->parameter['method'] == 'free' ){ echo __('Free',$this->parameter['name_option']); }else{ echo __('PRO',$this->parameter['name_option']); } echo " ".$this->parameter['version']; ?></span>
+					<span class='ilen-version'><?php if( isset($this->parameter['method']) && $this->parameter['method'] == 'free' ){ echo __('',$this->parameter['name_option']); }else{ echo __('',$this->parameter['name_option']); } echo " ".$this->parameter['version']; ?></span>
 				<?php elseif( is_rtl() ) : ?>
-					<span class='ilen-version'><?php if( isset($this->parameter['method']) && $this->parameter['method'] == 'free' ){ echo  $this->parameter['version']. " " .__('Free',$this->parameter['name_option']); }else{ echo $this->parameter['version']. " " . __('PRO',$this->parameter['name_option']); }  ?></span>
+					<span class='ilen-version'><?php if( isset($this->parameter['method']) && $this->parameter['method'] == 'free' ){ echo  $this->parameter['version']. " " .__('',$this->parameter['name_option']); }else{ echo $this->parameter['version']. " " . __('',$this->parameter['name_option']); }  ?></span>
 				<?php endif; ?> 
 				</h2>
 				<?php if( $this->parameter['wp_review'] ): ?><a href="<?php echo $this->parameter['wp_review'] ?>" class="leave-a-review ibtn btnred right" target="_blank"><span><i class="fa fa-star"></i></span>Leave a review</a><?php endif; ?>
