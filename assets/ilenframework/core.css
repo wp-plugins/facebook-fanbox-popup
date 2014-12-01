@@ -1259,12 +1259,12 @@ Author URI: http://ilentheme.com
 
 /* COLUMNS */
 @media screen and (min-width: 48em) {
-  .main {
+  .ilenplugin-options .main {
     width: 70.666666%;
     padding-right: 1em;
     float: left;
   }
-  .sb {
+  .ilenplugin-options .sb {
     float: right;
     width: 28.333333%;
   }

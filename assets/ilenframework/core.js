@@ -57,6 +57,11 @@ jQuery(document).ready( function($) {
             document.frmreset.submit();
         }
     });
+    // plugin donate
+    jQuery(".ilenplugin-options .btn_donate").on("click",function(event){
+        event.preventDefault();
+        document.frm_donate.submit();
+    });
     // end -> ONLY THEME 'plugin-fresh.css'
 
 
