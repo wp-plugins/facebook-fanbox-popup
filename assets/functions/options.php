@@ -34,7 +34,7 @@ class facebook_fanbox_popup_make{
                      'name_option'    =>'facebook_fanbox_popup',
                      'name_plugin_url'=>'facebook-fanbox-popup',
                      'descripcion'    =>'Promote your Fanpage in a cool natural way',
-                     'version'        =>'2.3.1',
+                     'version'        =>'2.4',
                      'url'            =>'',
                      'logo'           =>'<i class="fa fa-facebook text-long" style="padding:12px 18px;"></i>',
                       // or image .jpg,png | use class 'text-long' in case of name long
@@ -44,6 +44,7 @@ class facebook_fanbox_popup_make{
                      'theme_imagen'   =>plugins_url()."/facebook-fanbox-popup/assets/images",
                      'wp_support'     =>'https://wordpress.org/support/plugin/facebook-fanbox-popup',
                      'wp_review'      =>'http://wordpress.org/support/view/plugin-reviews/facebook-fanbox-popup?rate=5#postform',
+                     'link_donate'    =>'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DF2HDEBGSE5KY',
                      'type'           =>'plugin',
                      'method'         =>'free',
                      'themeadmin'     =>'fresh');

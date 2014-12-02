@@ -36,7 +36,8 @@ a:hover{text-decoration: none!important;}
   margin-bottom: 5px;
 }
 .ilenplugin-options .notification-p > main{
-  padding: 4px 10px;
+  color: #0E3513;
+  padding: 0px 10px;
   font-size: 13px;
 }
 .ilenplugin-options .notification-p > main b{

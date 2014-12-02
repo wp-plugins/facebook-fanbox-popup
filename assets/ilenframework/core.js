@@ -58,10 +58,10 @@ jQuery(document).ready( function($) {
         }
     });
     // plugin donate
-    jQuery(".ilenplugin-options .btn_donate").on("click",function(event){
+    /*jQuery(".ilenplugin-options .btn_donate").on("click",function(event){
         event.preventDefault();
         document.frm_donate.submit();
-    });
+    });*/
     // end -> ONLY THEME 'plugin-fresh.css'
 
 

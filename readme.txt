@@ -9,10 +9,10 @@ Author: iLen
 Requires at least: 3.0
 Tested up to: 4.0
 Stable tag: 2.3
-Version: 2.3.1
+Version: 2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5ZHACVPGAD6DA
 
 Promote your Fanpage in a cool natural way
 
@@ -33,6 +33,8 @@ Turn visitors into fans! New visitors are usually costly to acquire, so it is vi
 
 
 == Changelog ==
+= 2.4 =
+Add button 'DONATE'
 = 2.3.1 =
 * Update core <code>iLenFramework 1.7.3</code>
 = 2.3 =
