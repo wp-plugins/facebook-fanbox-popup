@@ -10,6 +10,8 @@ Author URI: http://ilentheme.com
 
 @import url('assets/css/jquery.nouislider.min.css'); 
 @import url('assets/css/jquery.nouislider.pips.min.css'); 
+
+@import url('assets/css/datepicker.css'); 
 /*@import url('assets/css/rippler.css');*/
 
 
@@ -527,7 +529,8 @@ Author URI: http://ilentheme.com
 }
 
 .ilentheme-options .row.radio_image  input[type="radio"],
-.ilenplugin-options .row.radio_image  input[type="radio"]{
+.ilenplugin-options .row.radio_image  input[type="radio"],
+.ilenwidget-options .row.radio_image  input[type="radio"]{
   display: none;
 }
 
@@ -636,14 +639,12 @@ Author URI: http://ilentheme.com
   background: #FE8D8D !important;  
 }
 .ilentheme-options .btn.btn_reset:active {
-    -webkit-box-shadow: 0 0 0 rgba(0, 0, 0, .2) inset;
-    box-shadow: 0 0 0 rgba(0, 0, 0, .2) inset;
-
-    outline: 0;
-
-    position: relative;
-    top: 1px;
-    box-shadow: 0 2px 0 #5F2525;
+  -webkit-box-shadow: 0 0 0 rgba(0, 0, 0, .2) inset;
+  box-shadow: 0 0 0 rgba(0, 0, 0, .2) inset;
+  outline: 0;
+  position: relaitve;
+  top: 1px;
+  box-shadow: 0 2px 0 #5F2525;
 }
 
 
@@ -1186,6 +1187,7 @@ Author URI: http://ilentheme.com
   text-decoration: none;
   padding: 8px;
   font-size: 13px;
+  border-top: 2px solid #F1F1F1;
 }
 .ilenplugin-options #tabs > ul li a:focus{
   outline: 0;
@@ -1385,10 +1387,6 @@ Author URI: http://ilentheme.com
 }
 
 
-
-
-
-
 /* PLUGIN TABS */
 .ilenplugin-options .ilentabs{
   box-shadow: inherit!important;
@@ -1403,6 +1401,107 @@ Author URI: http://ilentheme.com
   padding: 0;
   border:0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =WIDGET */
+.ilenwidget-options{}
+.ilenwidget-options .row,
+.ilenwidget-options .row .a,
+.ilenwidget-options .row .b{
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.ilenwidget-options header{
+  margin: 10px 0;
+}
+.ilenwidget-options .row{
+  display: block;
+  clear: both;
+  float: left;
+  padding: 0;
+  margin: 0;
+}
+.ilenwidget-options .row .a{
+  width: 45%;
+  float: left;
+  padding: 0;
+  margin: 0;
+  text-align: right;
+}
+.ilenwidget-options .row .b{
+  width: 50%;
+  float: right;
+  padding: 0;
+  margin: 0;
+}
+
+.ilenwidget-options .ilenwidget-accordion{
+  padding: 0;
+  background: #FBFBFB;
+  margin: 10px 0!important;
+}
+
+
+/* New Accordion only CSS */
+.ilenwidget-options  .ilenwidget-accordion #iaccordion-container {
+  width: 100%;
+  position: relative;
+}
+
+.ilenwidget-options  .ilenwidget-accordion .iaccordion-header {
+  background: #EEEEEE;
+  border: 0;
+  padding: 12px 10px;
+  font-size: 1.1em;
+  color: rgb(116, 116, 116);
+  font-family: arial;
+  /*border-bottom: 1px solid rgb(226, 226, 226);*/
+  border-left: 2px solid rgb(225, 225, 225);
+  cursor: pointer;
+  clear: both;
+}
+
+.ilenwidget-options  .ilenwidget-accordion .iaccordion-header.active{
+  background: #86A4C0;
+  border-left: 0;
+  /*border-bottom: 3px solid #BDC7D0;*/
+  /*box-shadow: 0px 1px 0px  rgba(134,164,192,.5);*/
+  font-weight: bold;
+  /* border-top: 1px solid rgb(238, 238, 238); */
+  color: #fff;
+}
+.ilenwidget-options .ilenwidget-accordion .iaccordion-content {
+  display: none;
+  padding: 20px;
+  background: #ffffff;
+  /*border: 1px solid #cccccc;*/
+  border-top: 0;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+  float: left;
+}
+
+
 
 
 
@@ -1614,7 +1713,7 @@ Author URI: http://ilentheme.com
 
 
 /* Slider Range */
-#slider {
+/*#slider {
   width: 400px;
   height: 17px;
   position: relative;
@@ -1664,7 +1763,7 @@ Author URI: http://ilentheme.com
   border-radius: 40px;
   
   background: rgba(255, 255, 255, 0.25);
-}
+}*/
 
 input[type="range"] {
   -webkit-appearance: none !important;
@@ -1885,4 +1984,15 @@ html .ilenplugin-options input[type="button"],
   display: inline-block;
   width: 16px;
   height: 11px;
+}
+
+
+
+
+/* Other class */
+.stuffbox .handlediv{
+  height: 8px;
+}
+.stuffbox .hndle{
+  padding-top: 0!important;
 }

@@ -34,8 +34,11 @@ jQuery(document).ready( function($) {
             $(this).data("lastOpenedPanel", $(ui.panel));
 
         } } )
-        .addClass('ui-tabs-vertical ui-helper-clearfix');
+        .addClass('ilencontentwrapelements ui-helper-clearfix');
 
+    jQuery('.ilenmetabox-options #tabs')
+        .tabs()
+        .addClass('ilencontentwrapelements ui-helper-clearfix');
 
 
 
@@ -156,7 +159,6 @@ jQuery(document).ready( function($) {
 		var class_ref;
 		var img_obj;
 
-
 		class_ref = jQuery(this).attr("data-id");
 		img_obj = jQuery(this);
 
@@ -199,6 +201,7 @@ jQuery(document).ready( function($) {
 	// set input an colorpicker
 	jQuery('.ilentheme-options .theme_color_picker, .ilenplugin-options .theme_color_picker').wpColorPicker();
 
+   
 
 	// if exists div class 'mesaggebox' delete element whth effect
 	if ( jQuery('.ilentheme-options div.messagebox').length ) {
@@ -263,55 +266,8 @@ jQuery(document).ready( function($) {
     
 
 
-
-    // Fix color picker double
-    /*jQuery(".ilentheme-options .color_hover .wp-color-result, .ilenplugin-options .color_hover .wp-color-result").on("click",function(){
-        var objCol = jQuery(this).parent().parent();
-
-        if( jQuery(this).hasClass('wp-picker-open') ){
-            alert(1);
-            if( jQuery(this).parent().parent().hasClass("color_hover_color") ){
-                alert(2);
-                jQuery(objCol).parent().parent().find(".color_hover_text").css("display","none");
-                jQuery(objCol).parent().parent().find(".color_hover_hover").css("display","none");
-            }else if( jQuery(this).parent().parent().hasClass("color_hover_hover") ){
-                alert(3);
-                jQuery(objCol).parent().parent().find(".color_hover_text").css("display","none");
-                jQuery(objCol).parent().parent().find(".color_hover_color").css("display","none");
-            }  
-        }else{
-            alert(4);
-            jQuery(objCol).parent().parent().find(".color_hover_text").css("display","table-cell");
-            jQuery(objCol).parent().parent().find(".color_hover_color").css("display","table-cell");
-            jQuery(objCol).parent().parent().find(".color_hover_hover").css("display","table-cell");
-        }
-
-        jQuery(".wp-picker-holder").css({
-            'overflow':'inherit',
-            'margin-bottom': '20px'
-        })
-    });*/
-
-    //from the href="#" div[class^='apple-']
-    /*jQuery('.ilentheme-options a[class^="ui-tabs-"],.ilenplugin-options a[class^="ui-tabs-"],footer a').on('click',function(event){
-        //do something
-        //prevent the click as is passed to the function as an event
-        event.preventDefault(event);
-        event.stopPropagation();
-        //event.preventDefault(event);
-        //return false;
-        //var id=event.target;
-        //alert(id);
-        return false;
-    });*/
-
-
-
     function ilenvalidatorsubmit(){
         var $ = jQuery;
-
-
-
         // validate Select2 Multiple
         var myselect2_before = $("._select2_mulpliple");
         var myselect2 = myselect2_before.next();
@@ -342,9 +298,55 @@ jQuery(document).ready( function($) {
     }
 
 
+    // Animation Panel Once (remove animation)
+    var MyRemoveAnimationPostBox = function( object_click ){
+            var id_container = String(jQuery( object_click ).attr("id"));
+            id_container = id_container.substr(id_container.length - 1);
+            id_container = padLeft(id_container,2);
+            jQuery("#tab"+id_container+" .postbox").removeClass('animation_postbox_once');
+            jQuery("#tab01 .postbox").removeClass('animation_postbox_once');
+    }
+    jQuery(".ilenplugin-options .animation_once").on("click",function(){
+        setTimeout( MyRemoveAnimationPostBox, 3000,  jQuery(this) );
+    });
+
+    
+
+    
+    // link: http://wordpress.stackexchange.com/questions/120272/color-picker-showing-twice-when-widget-added-to-sidebar
+    // other reference: https://make.wordpress.org/core/2014/04/17/live-widget-previews-widget-management-in-the-customizer-in-wordpress-3-9/
+    /*( function( $ ){
+        function initColorPicker( widget ) {
+            widget.find( '.color-picker' ).wpColorPicker( {
+                    change: _.throttle( function() { // For Customizer
+                            $(this).trigger( 'change' );
+                    }, 3000 )
+            });
+        }
+        function onFormUpdate( event, widget ) {
+            initColorPicker( widget );
+        }
+        $( document ).on( 'widget-added widget-updated', onFormUpdate );
+
+        $( document ).ready( function() {
+            $( '#widgets-right .widget:has(.color-picker)' ).each( function () {
+                    initColorPicker( $( this ) );                                                   
+            } );
+        } );
+    }( jQuery ) );*/
+
+
+
+    // OTHER
+    /*jQuery( document ).on( 'widget-added', function(event, widget){
+        console.log( jQuery(widget[0]).find(".widget-id").val() );
+        jQuery( "#widget-"+jQuery(widget[0]).find(".widget-id").val()+"-savewidget" ).click();
+    });
+    */
+ 
  
 });
-
+ 
 
 // link: http://jsfiddle.net/67XDq/7/
 function IF_textCounter(field, cnt, maxlimit) {         
@@ -354,4 +356,33 @@ function IF_textCounter(field, cnt, maxlimit) {
         // otherwise, update 'characters left' counter
         else
         cntfield.value = maxlimit - field.value.length;
+}
+
+// link: 
+function padLeft(nr, n, str){
+    return Array(n-String(nr).length+1).join(str||'0')+nr;
+}
+
+
+// link: http://stackoverflow.com/questions/542938/how-do-i-get-the-number-of-days-between-two-dates-in-javascript#comment12872595_544429
+function IF_mydiff(date1,date2,interval) {
+    var second=1000, minute=second*60, hour=minute*60, day=hour*24, week=day*7;
+    date1 = new Date(date1);
+    date2 = new Date(date2);
+    var timediff = date2 - date1;
+    if (isNaN(timediff)) return NaN;
+    switch (interval) {
+        case "years": return date2.getFullYear() - date1.getFullYear();
+        case "months": return (
+            ( date2.getFullYear() * 12 + date2.getMonth() )
+            -
+            ( date1.getFullYear() * 12 + date1.getMonth() )
+        );
+        case "weeks"  : return Math.floor(timediff / week);
+        case "days"   : return Math.floor(timediff / day); 
+        case "hours"  : return Math.floor(timediff / hour); 
+        case "minutes": return Math.floor(timediff / minute);
+        case "seconds": return Math.floor(timediff / second);
+        default: return undefined;
+    }
 }

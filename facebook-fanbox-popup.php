@@ -3,18 +3,20 @@
 Plugin Name: Facebook FanBox Popup
 Plugin URI: https://wordpress.org/plugins/facebook-fanbox-popup/
 Description: Promote your Fanpage in a cool natural way
-Version: 2.4
+Version: 2.6
 Author: iLen
 Author URI:
 */
 if ( !class_exists('facebook_fanbox_popup') ) {
-require_once 'assets/functions/options.php';
+
+require_once 'assets/ilenframework/assets/lib/utils.php'; // get utils
+require_once 'assets/functions/options.php'; // get options plugins
+
 class facebook_fanbox_popup extends facebook_fanbox_popup_make{
  
 	function __construct(){
-
+		global $if_utils;
 		parent::__construct(); // configuration general
-
 
 
  		if( is_admin() ){
@@ -26,7 +28,7 @@ class facebook_fanbox_popup extends facebook_fanbox_popup_make{
         	// get utils: IF_get_option
       		require_once plugin_dir_path( __FILE__ )."assets/ilenframework/assets/lib/utils.php";
           global $opt_fanbox_popup;
-          $opt_fanbox_popup = IF_get_option( $this->parameter['name_option'] );
+          $opt_fanbox_popup = $if_utils->IF_get_option( $this->parameter['name_option'] );
 
 
           if( isset($opt_fanbox_popup->enabled) && $opt_fanbox_popup->enabled ){

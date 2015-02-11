@@ -121,3 +121,9 @@
 .ilenplugin-options .color_hover_two_element .wp-picker-container .wp-picker-holder{
   margin-right: -90px;
 }
+.ilenplugin-options footer a.btn_donate {
+  float: left;
+}
+.ilenplugin-options footer a.btn_donate i{
+  margin-right: 13px;  
+}

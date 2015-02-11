@@ -6,10 +6,10 @@ Plugin URI: https://wordpress.org/plugins/facebook-fanbox-popup/
 Tags: get follow,get like,get traffic,traffic,popup facebook,fanbox,facebook,social network, increase social networks,increase facebook, increase follow, increase +1,facebook,google,twitter,popup,popup increase,facebook popup, seo, page
 Author URI: 
 Author: iLen
-Requires at least: 3.0
-Tested up to: 4.0
-Stable tag: 2.3
-Version: 2.4
+Requires at least: 3.5
+Tested up to: 4.1
+Stable tag: 2.6
+Version: 2.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DF2HDEBGSE5KY
@@ -33,6 +33,8 @@ Turn visitors into fans! New visitors are usually costly to acquire, so it is vi
 
 
 == Changelog ==
+= 2.6 =
+* Update core <code>iLenFramework 2.0</code>
 = 2.4 =
 Add button 'DONATE'
 = 2.3.1 =

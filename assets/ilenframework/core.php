@@ -1,25 +1,28 @@
 <?php 
 /**
- * iLenFramework 1.7.2
+ * iLenFramework 2.0
  * @package ilentheme
+ * 
+ * live as if it were the last day of your life
  */
 
 // REQUIRED FILES TO RUN
-if ( !class_exists('ilen_framework_1_7_3') ) {
+if ( !class_exists('ilen_framework_2_0') ) {
 
-class ilen_framework_1_7_3 {
+class ilen_framework_2_0 {
 
-		var $options		   	= array();
-		var $parameter 			= array();
-		var $save_status		= null;
-		var $IF_CONFIG			= null;
-    var $components     = null;
+		var $options          = array();
+		var $parameter        = array();
+		var $save_status      = null;
+		var $IF_CONFIG        = null;
+		var $components       = null;
 
 	function __construct(){
 
 
 		if( ! is_admin() ){ // only front-end
 
+			self::set_main_variable();
 			return;
 
 		}elseif( is_admin()  ){ // only admin
@@ -40,7 +43,11 @@ class ilen_framework_1_7_3 {
 			add_action('admin_enqueue_scripts', array( &$this,'ilenframework_add_scripts_admin') );
 
 
-			
+
+			// Ajax for plugin elements
+			self::AjaxElements();
+
+
 
 		}	
 
@@ -95,12 +102,7 @@ class ilen_framework_1_7_3 {
 
 
 
-
-
-
-
-	// =INIT theme
-	function _ini_(){
+	function set_main_variable(){
 
 		global $IF_CONFIG;
 
@@ -110,6 +112,15 @@ class ilen_framework_1_7_3 {
 		$this->options    = isset($IF_CONFIG->options)?(array)$IF_CONFIG->options:null;
 		$this->components = isset($IF_CONFIG->components)?$IF_CONFIG->components:null;
 
+	}
+
+
+
+
+	// =INIT theme
+	function _ini_(){
+
+		self::set_main_variable();
 
 		self::setComponents();
 
@@ -329,7 +340,7 @@ class ilen_framework_1_7_3 {
 	// =Interface Create for plugin---------------------------------------------
 	function ilentheme_options_wrap_for_plugin(){ ?>
 		
-		<div class='ilenplugin-options ilenplugin-<?php echo $this->parameter["name_option"] ?>'>
+		<div class='ilenplugin-options ilenplugin-<?php echo $this->parameter["name_option"] ?> <?php if( isset($_POST) && !$_POST ): ?>ilen_animation_reveal<?php endif; ?>'>
 
 
 			<form action="" method="POST" name="frmsave" id="frmsave">
@@ -398,8 +409,8 @@ class ilen_framework_1_7_3 {
 
 									if( isset($value_tab["id"]) && $value_tab["id"] ) : ?>
 
-									 	<li style="<?php if( isset($value_tab["width"]) && isset( $value_tab["fix"]) ){ echo "border-right:0;";  } ?>" ><a href="#<?php echo $value_tab["id"]; ?>" style="width:<?php if( isset($value_tab["width"]) && isset( $value_tab["fix"]) ){ echo (($value_tab["width"])+1)."px;"; } elseif( isset($value_tab["width"]) ){ echo "{$value_tab["width"]}px;"; } ?>" class="" ><?php if(isset($value_tab["icon"])){ echo $value_tab["icon"]; } ?> <?php echo $value_tab["name"]; ?></a></li>
 
+									 	<li style="<?php if( isset($value_tab["width"]) && isset( $value_tab["fix"]) ){ echo "border-right:0;";  } ?>" ><a href="#<?php echo $value_tab["id"]; ?>" style="width:<?php if( isset($value_tab["width"]) && isset( $value_tab["fix"]) ){ echo (($value_tab["width"])+1)."px;"; } elseif( isset($value_tab["width"]) ){ echo "{$value_tab["width"]}px;"; } ?>" class="animation_once" ><?php if(isset($value_tab["icon"])){ echo $value_tab["icon"]; } ?> <?php echo $value_tab["name"]; ?></a></li>
 							<?php   endif;
 							endforeach;
 							} ?>
@@ -430,7 +441,7 @@ class ilen_framework_1_7_3 {
 										 ?>
 											<?php if($key != 'last_update'){  ?>
 
-										            <div id="box_<?php echo $key; ?>" class="postbox <?php if( isset($value["tab"]) ){ echo $value["tab"]; } ?>">
+										            <div id="box_<?php echo $key; ?>" class="postbox animation_postbox_once <?php if( isset($value["tab"]) ){ echo $value["tab"]; } ?>">
 														<h3 class="hndle">
 															<span>
 															<?php 
@@ -462,7 +473,7 @@ class ilen_framework_1_7_3 {
 							<a class="btn_save ibtn btnblack left"><span><i class="fa fa-refresh"></i></span><?php _e('Save Changes',$this->parameter['name_option']) ?></a>
 							<a class="ibtn btnred left btn_reset" data-me="<?php _e('Want to update all the default values​​ &#63;',$this->parameter['name_option']) ?>"><span><i class="fa fa-repeat"></i></span><?php _e('Reset',$this->parameter['name_option']) ?></a>
 							<?php if( isset($this->parameter['link_donate']) && $this->parameter['link_donate'] ): ?>
-							<a class="ibtn btngreen right btn_donate grow-btn" href="<?php echo $this->parameter['link_donate']; ?>" target="_blank" ><span style="width: 55px;"><i  class="fa fa-cc-paypal" style="font-size: 23px;margin-top: 6px;margin-left: 13px;" ></i></span><?php _e('Donate',$this->parameter['name_option']) ?></a>
+							<a class="right btn_donate " href="<?php echo $this->parameter['link_donate']; ?>" target="_blank" ><?php _e('Donate',$this->parameter['name_option']) ?></a>
 							<?php endif; ?>
 						</footer>
 						<script>
@@ -510,7 +521,7 @@ class ilen_framework_1_7_3 {
 
 // =Interface Create for plugin for TABS---------------------------------------------
 function ilentheme_options_wrap_for_plugin_tabs(){  ?>
-	<div class='ilenplugin-options ilenplugin-<?php echo $this->parameter["name_option"] ?>'>
+	<div class='ilenplugin-options ilenplugin-<?php echo $this->parameter["name_option"] ?> '>
 
 
 		<div id="poststuff" class="metabox-holder has-right-sidebar">
@@ -676,7 +687,7 @@ function ilentheme_options_wrap_for_plugin_tabs(){  ?>
 				<a href="#" class="ibtn btnblack left btn_save"><span><i class="fa fa-refresh"></i></span><?php _e('Save Changes',$this->parameter['name_option']) ?></a>
 				<a href="#" class="ibtn btnred left btn_reset" data-me="<?php _e('Want to update all the default values​​ &#63;',$this->parameter['name_option']) ?>"><span><i class="fa fa-repeat"></i></span><?php _e('Reset section',$this->parameter['name_option']) ?></a>
 				<?php if( isset($this->parameter['link_donate']) && $this->parameter['link_donate'] ): ?>
-				<a class="ibtn btngreen right btn_donate grow-btn" href="<?php echo $this->parameter['link_donate']; ?>" target="_blank" ><span style="width: 55px;"><i  class="fa fa-cc-paypal" style="font-size: 23px;margin-top: 6px;margin-left: 13px;" ></i></span><?php _e('Donate',$this->parameter['name_option']) ?></a>
+				<a class="right btn_donate" href="<?php echo $this->parameter['link_donate']; ?>" target="_blank" ><?php _e('Donate',$this->parameter['name_option']) ?></a>
 				<?php endif; ?>
 				<?php endif; ?>
 			</footer>
@@ -712,6 +723,348 @@ function ilentheme_options_wrap_for_plugin_tabs(){  ?>
  
 
 <?php  }
+
+
+	// =Interface Create for Widgets ---------------------------------------------
+	function create_ilenWidget( $config , $full_options ){ 
+ 	
+ 	global $if_utils;
+	$widget_unique_id_generate = rand(1,5559); ?>
+	<div class='ilenwidget-options'>
+		<?php echo isset($config['description'])?"<header>".$config['description']."</header>":''; ?>
+		<div class="widget_body <?php echo $config['new']; ?>">
+			<div class="gray ilenwidget-accordion"  id="ilenwidget_id_<?php echo isset($config['id'])?$config['id'].'_'.$widget_unique_id_generate:'_none'; ?>">
+				<div id='iaccordion-container'>
+			<?php 
+
+			if( is_array($full_options) ){
+				$i = 0;
+ 
+				foreach ($full_options as $key => $value) {
+					
+					if( isset( $value['title'] ) ) { echo "<h2 class='iaccordion-header ".(( $i == 0)?"active":"")."'>{$value['title']}</h2>"; } ?>
+					<div class="iaccordion-content" style="display:<?php if( $i != 0): ?>none<?php else: ?>block<?php endif; ?>">
+					<?php self::build_fields_w( $value['options'], $config['ref']  ); ?>
+					</div>
+				<?php $i++; 
+
+				} ?>
+
+				</div>
+			</div>
+		</div>
+
+<?php if( isset($config['width']) && $config['width'] ): ?>
+<style>
+/* Widget */
+.widgets-holder-wrap [id*="_<?php echo $config['id']; ?>-"].open{
+  margin-left: -<?php echo $config['width']; ?>px;
+}
+.widget-holder.inactive [id*="_<?php echo $config['id']; ?>-"].widget.open{
+	margin-left: 0!important;
+}
+.widgets-holder-wrap [id*="_<?php echo $config['id']; ?>-"] .widget-inside{
+	background: #FBFBFB;
+}
+div.widget[id*=_<?php echo $config['id']; ?>-] .widget-title::before {
+	content: "\f0e7";
+	font-family: "fontawesome";
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 25px;
+	height: 100%;
+	background: rgb(134, 164, 192);
+	color: rgb(255, 255, 255);
+	line-height: 43px;
+	text-align: center;
+}
+div.widget[id*=_<?php echo $config['id']; ?>-] .widget-top{
+	position: relative;
+}
+div.widget[id*=_<?php echo $config['id']; ?>-] .widget-title h4{
+	padding-left: 32px;
+}
+<?php if(isset($config['color']) && $config['color']):; ?>
+div.widget[id*=_<?php echo $config['id']; ?>-] .widget-title::before{
+	background: <?php echo $if_utils->IF_hex2rgba($config['color'],0.71); ?>
+}
+div.widget[id*=_<?php echo $config['id']; ?>-]  .widget-title::after {
+	content: 'by iLen';
+	left: 33px;
+	position: absolute;
+	bottom: 0;
+	color: #D5D5D5;
+	font-weight: normal;
+	font-size: 10px;
+}
+div.widget[id*=_<?php echo $config['id']; ?>-] .ilenwidget-accordion .iaccordion-header.active{
+	background: <?php echo $if_utils->IF_hex2rgba($config['color'],0.71); ?>;
+	/*border-bottom:3px solid rgba(<?php echo $if_utils->IF_hex2rgb($config['color']) ?>,.5);*/
+	box-shadow: 0px 1px 0px  rgba(<?php echo $if_utils->IF_hex2rgb($config['color']) ?>,.7);
+}
+div.widget[id*=_<?php echo $config['id']; ?>-] .ilenwidget-accordion .iaccordion-header{
+	border-left:2px solid rgba(<?php echo $if_utils->IF_hex2rgb($config['color']) ?>,.7);
+}
+</style>
+<?php endif; ?>
+<?php endif; ?>
+<script>
+jQuery(".iaccordion-header").on("click",function(){
+	var headder = jQuery(this);
+	var accordion = jQuery(this).parent();
+	jQuery(accordion).find("h2").each(function(){
+		jQuery(this).removeClass("active");
+		jQuery(this).next().css("display","none");
+	});
+	jQuery(headder).next().css("display","block");
+	jQuery(headder).addClass("active");
+});
+
+</script>
+	</div>
+	<?php }
+	}
+
+
+	function ilen_print_script_footer_widget( $data, $class_widget_name, $id_widget ){ ?>
+ 
+		<script>
+		( function( $ ){ 
+		<?php 
+		if(  in_array( 'color', $data )  ){ ?>
+
+			function initColorPicker( widget ) {
+          widget.find( '.theme_color_picker' ).wpColorPicker( {
+            change: _.throttle( function() { // For Customizer
+              $(this).trigger( 'change' );
+            }, 3000 )
+          });
+        }
+
+        function onFormUpdate( event, widget ) {
+          initColorPicker( widget );
+        }
+
+        $( document ).on( 'widget-added widget-updated', onFormUpdate );
+
+        $( document ).ready( function() {
+          $( '#widgets-right .widget:has(.theme_color_picker)' ).each( function () {
+            initColorPicker( $( this ) );
+          } );
+        } );
+
+		<?php } ?>
+
+
+		<?php 
+		if(  in_array( 'range2', $data )  ){ ?>
+
+			function initnoUiSlider( widget ) {
+				try {
+				  var valuesnoUiSlider = widget.find( '.noUiSlider_range' ).parent().next().val().split('|');
+          widget.find( '.noUiSlider_range' ).noUiSlider( {
+            start: [ parseInt(valuesnoUiSlider[1]) ],
+            step: parseInt(valuesnoUiSlider[2]),
+            range: {
+              'min': [ parseInt(valuesnoUiSlider[3]) ],
+              'max': [ parseInt(valuesnoUiSlider[4]) ]
+            }
+          }, true);
+          $('#'+valuesnoUiSlider[0]+'-range').Link().to( $('#'+valuesnoUiSlider[0]+'-value'), null, wNumb({decimals: 0}) );
+          $('#'+valuesnoUiSlider[0]+'-range').Link().to( $('#'+valuesnoUiSlider[0]), null, wNumb({decimals: 0}) );
+				}
+				catch(err) {
+				  console.log( err.message );
+				}
+
+      }
+
+      function onFormUpdate_noUiSlider( event, widget ) {
+        initnoUiSlider( widget );
+      }
+
+      $( document ).on( 'widget-added widget-updated', onFormUpdate_noUiSlider );
+
+      $( document ).ready( function() {
+        $( '#widgets-right .widget:has(.noUiSlider_range)' ).each( function () {
+          initnoUiSlider( $( this ) );
+        } );
+      } );
+
+		<?php } ?>
+
+
+		<?php 
+		if(  in_array( 'input4', $data )  ){ ?>
+
+			function initInput4( widget ) {
+				$( '.input4_single_input' ).on('change keypress keyup oninput input',function(){
+	        var input4_values = [];
+	        var i = 0;
+	        $(this).parent().parent().children('.input_4--square').each(function(){
+	            input4_values[i] = $(this).children('.input4_single_input').val() ? $(this).children('.input4_single_input').val() : 0;
+	            i=i+1;
+	        });
+	        $(this).parent().parent().parent().next('.input_value_total').val( input4_values.join() );
+		    });
+      }
+
+      function onFormUpdate_input4( event, widget ) {
+        initInput4( widget );
+      }
+
+      $( document ).on( 'widget-added widget-updated', onFormUpdate_input4 );
+
+      $( document ).ready( function() {
+        $( '#widgets-right .widget:has(.input_4)' ).each( function () {
+          initInput4( $( this ) );
+        } );
+      } );
+
+		<?php } ?>
+
+		<?php 
+		if(  in_array( 'jtumbler', $data )  ){ ?>
+
+			function initjtumbler( widget ) {
+				// generate news id because no found in first add
+				var id_generate = Math.floor((Math.random() * 9999) + 1);
+				widget.find( '.radio-switch input' ).each(function(){
+					if(this.id){
+				    	this.id = this.id+"_"+id_generate;
+					}
+				});
+				widget.find( '.radio-switch' ).jTumbler();
+				widget.find( '.radio-switch label' ).each(function(index){
+					$( this ).parent().prev().find('label:nth-child('+(index+1)+') strong').html( $( this ).text() );
+				});
+      		}
+
+		    function onFormUpdate_jtumbler( event, widget ) {
+				initjtumbler( widget );
+		    }
+
+      		$( document ).on( 'widget-added widget-updated', onFormUpdate_jtumbler );
+
+			$( document ).ready( function() {
+				$( '#widgets-right .widget:has(.ilen_radio)' ).each( function () {
+				  initjtumbler( $( this ) );
+				} );
+			} );
+
+		<?php } ?>
+ 
+
+
+		}( jQuery ) );</script> <?php 
+
+	}
+
+
+
+
+	// =Interface Create for metabox---------------------------------------------	
+	function create_ilenMetabox( $metabox_id = null, $metabox_header = null, $metabox_body = null, $stored_meta = null ){
+
+ 
+		$_html = '';
+		$_html .= wp_nonce_field( basename( __FILE__ ), "ilenmetabox_nonce" , true, false );
+		$_html .= "<div class='ilenmetabox-options ilenmetabox-".$this->parameter["name_option"]." ilenmetabox-id-$metabox_id' >";
+
+			$_html .= '<div id="poststuff" class="metabox-holder has-right-sidebar">';
+
+				$_html .= '<div id="post-body-content" class="has-sidebar-content">';
+
+					$_html .= '<div class="my-wrap-metabox">';
+					$_html .= "<header></header>";
+ 
+					if(  $metabox_id  ){
+
+						$put_tab = 0;
+						if( isset($metabox_header[$metabox_id]['tabs']) && is_array($metabox_header[$metabox_id]['tabs']) ){
+							foreach ($metabox_header[$metabox_id]['tabs'] as $key => $value_tab){
+								if( $value_tab["id"] && $put_tab == 0 ){
+									$postion = isset($metabox_header[$metabox_id]['position']) && $metabox_header[$metabox_id]['position'] == "vertical" ? "ui-tabs-vertical":"";
+									$_html .='<div id="tabs" class="'.$postion.'"><ul>';
+									$put_tab=1;
+								}
+
+								if( isset($value_tab["id"]) && $value_tab["id"] ){
+									$with = '';$with = isset( $value_tab["width"] )? $value_tab["width"]:'';
+									$icon = '';$icon = isset($value_tab["icon"])? $value_tab["icon"]:'';
+									$text = '';$text = $value_tab["name"];
+									$_html .="<li style=''><a href='#".$value_tab["id"]."' style='{$with}px;' class='animation_once'>$icon $text</a></li>";
+								}
+							}
+							$_html .="</ul>";
+		
+							if( is_array($metabox_header[$metabox_id]['tabs']) && isset($metabox_header[$metabox_id]['tabs']) ){
+								foreach ($metabox_header[$metabox_id]['tabs'] as $key_tab => $value_tab) { 
+									$_html .='<div id="'.$value_tab["id"].'"></div>';
+								}
+							} 
+ 
+						}
+ 
+						$_html .'<div class="">';
+							$_html .='<div class="has-sidebar sm-padded">';
+
+									if( isset( $metabox_body[$metabox_id] ) && is_array( $metabox_body[$metabox_id] ) ){
+
+										foreach ( $metabox_body[$metabox_id] as $key => $value2 ) {
+												$desc = ''; $desc = isset($value2['description']) && $value2['description']?"<div class='ilen_mtb_tab_description'>{$value2['description']}</div>":'';
+												$text = ''; $text = isset($value2['title'])?$value2['title']:'';
+												$tab  = ''; $tab = isset($tab)?$value2['tab']:'';
+
+									            $_html .='<div id="box_'.$key.'" class="animation_postbox_once '.$tab.'">';
+													$_html .=$desc;
+													$_html .="<div class='inside'>";
+															$_html .= self::build_fields_m( $value2['options'], $stored_meta );
+													$_html .="</div>";
+												$_html .="</div>";
+
+										}
+
+									}
+
+								
+
+							$_html .="</div>";
+						$_html .="</div>";
+
+						if( $put_tab == 1 ){
+							$_html .="</div> <!-- div id=tab -->";
+						}
+					}
+				$_html .="<footer></footer>";
+				$_html .="</div> <!-- my-wrap-metabox -->";
+		$_html .="</div><!-- IF METAbox TAB, inner HTML in tab -->";
+		$_html .="<script>";
+		if( is_array($metabox_header[$metabox_id]) && isset($metabox_header[$metabox_id]) ){
+			foreach ( $metabox_header[$metabox_id]['tabs'] as $key => $value_tab ) {
+				$_html .="jQuery('.ilenmetabox-id-$metabox_id .".$value_tab['id']."').each(function(){
+					jQuery( this ).appendTo( jQuery('.ilenmetabox-id-$metabox_id  #".$value_tab['id']."') );
+				});";
+			}
+		}
+		$_html .="
+		jQuery(document).ready(function($){
+			var mb_width_{$metabox_id} = ($('#{$metabox_id} .ilenmetabox-options #tabs > ul').outerHeight( true )) + 30;
+			$('#{$metabox_id} .ilenmetabox-options #tabs [id*=\"tab\"]').css('min-height',mb_width_{$metabox_id});
+		});
+		</script> <!-- END -->
+		<style>
+			#{$metabox_id}{padding:0;}
+			#{$metabox_id} .inside{padding:0;margin:0;}
+		</style>
+		</div>";
+
+
+		return $_html;
+ 
+	}
+
 
 	
 	// =If tabs is 1 or 2 columns
@@ -1394,7 +1747,7 @@ function ilentheme_options_wrap_for_plugin_tabs(){  ?>
 
 						case "text": ?>
 							<?php if(isset( $value['before'] )){ echo $value['before'];} ?>
-							<div class="row <?php if(isset( $value['class'] )){ echo $value['class'];} ?>" <?php if(isset( $value['style'] )){ echo $value['style'];} ?> >
+							<div class="row <?php if(isset( $value['class'] )){ echo $value['class'];} ?>"  style="<?php if(isset( $value['style'] )){ echo $value['style'];} ?>" >
 								<div class="a"><strong><?php echo $value['title']; ?></strong><div class="help"><?php echo $value['help']; ?></div></div>
 								<div class="<?php echo $side_two; ?>">
 									<input type="text"  value="<?php if( isset($options_theme[ $value['name'] ]) ){ echo $options_theme[ $value['name'] ]; } ?>" name="<?php echo $value['name'] ?>" id="<?php echo $value['id'] ?>"  autocomplete="off" <?php if(isset($value['placeholder'])){ echo "placeholder='{$value['placeholder']}'"; } ?>  />
@@ -1758,13 +2111,12 @@ function ilentheme_options_wrap_for_plugin_tabs(){  ?>
 
 						case "range2": ?>
 
-						<?php if( !is_rtl() ): ?>
 							<?php if(isset( $value['before'] )){ echo $value['before'];} ?>
 							<div class="row <?php if(isset( $value['class'] )){ echo $value['class'];} ?> ilentheme_row_range2" <?php if(isset( $value['style'] )){ echo $value['style'];} ?> >
 								<div class="a"><?php if(isset( $value['title'] )){ echo $value['title']; } ?><div class="help"><?php echo $value['help']; ?></div></div>
 								<div class="<?php echo $side_two; ?>">
 									<div>
-										<div style="width:10%;float:left">
+										<div style="width:10%;float:<?php if( !is_rtl() ): ?>left<?php else: ?>right<?php endif; ?>">
 											<span  id="<?php echo $value['id'] ?>-value" style="padding: 5px 10px;background: #FAFAFA;color: #444;border: 1px solid #F1F1F1;"></span>
 										</div>
 										<div style="width: 76%;float: left;padding: 0;border-radius: 5px;margin-left: 13px;" >
@@ -1790,19 +2142,6 @@ function ilentheme_options_wrap_for_plugin_tabs(){  ?>
 								</div>
 							</div>
 							<?php if(isset( $value['after'] )){ echo $value['after'];} ?>
-						<?php else: ?>
-							<?php if(isset( $value['before'] )){ echo $value['before'];} ?>
-							<div class="row <?php if(isset( $value['class'] )){ echo $value['class'];} ?> ilentheme_row_range" <?php if(isset( $value['style'] )){ echo $value['style'];} ?> >
-								<div class="a"><?php if(isset( $value['title'] )){ echo $value['title']; } ?><div class="help"><?php if( isset($value['help']) ){ echo $value['help']; } ?></div></div>
-								<div class="<?php echo $side_two; ?>">
-									<div>
-										<output id="rangevalue"><?php if(isset( $options_theme[ $value['name'] ] ) && $options_theme[ $value['name'] ] ){ echo (int)$options_theme[ $value['name'] ]; }else{ echo 0; } ?></output>
-										<input  id="<?php if( isset( $value['id'] ) ){ echo $value['id']; } ?>"  name="<?php if( isset( $value['name'] ) ){ echo $value['name']; } ?>" class="bar" type="range" value="<?php if(isset( $options_theme[ $value['name'] ] )){ echo (int)$options_theme[ $value['name'] ]; }else{ echo 0; } ?>" onchange="jQuery(this).prev().html(this.value)" min ="<?php if(isset( $value['min'] )){ echo $value['min']; } ?>" max="<?php if(isset( $value['max'])){  echo $value['max']; } ?>" step="<?php if(isset( $value['step'])){ echo $value['step']; } ?>" />
-									</div>
-								</div>
-							</div>
-							<?php if(isset( $value['after'] )){ echo $value['after'];} ?>
-						<?php endif; ?>
 
 						<?php break;
 
@@ -1826,10 +2165,674 @@ function ilentheme_options_wrap_for_plugin_tabs(){  ?>
 						<?php break;
 
 
+						case "date": ?>
+							<?php if(isset( $value['before'] )){ echo $value['before'];} ?>
+							<div class="row <?php if(isset( $value['class'] )){ echo $value['class'];} ?>" style="<?php if(isset( $value['style'] )){ echo $value['style'];} ?>" >
+								<div class="a"><strong><?php echo $value['title']; ?></strong><div class="help"><?php echo $value['help']; ?></div></div>
+								<div class="<?php echo $side_two; ?>">
+									<input class="IF_datepicker" type="text"  value="<?php if( isset($options_theme[ $value['name'] ]) ){ echo $options_theme[ $value['name'] ]; } ?>" name="<?php echo $value['name'] ?>" id="<?php echo $value['id'] ?>"  autocomplete="off" <?php if(isset($value['placeholder'])){ echo "placeholder='{$value['placeholder']}'"; } ?>  />
+								</div>
+								<script>
+									jQuery(document).ready(function($){
+										jQuery('.IF_datepicker').datepicker({ dateFormat : 'yy-mm-dd' <?php if( isset($value['opts']) && $value['opts'] ){ echo $value['opts']; } ?> });
+									});
+								</script>
+							</div>
+							<?php if(isset( $value['after'] )){ echo $value['after'];} ?>
+
+						<?php break;
+
+						case "tag": ?>
+
+							<?php if(isset( $value['before'] )){ echo $value['before'];} ?>
+							<div class="row <?php if(isset( $value['class'] )){ echo $value['class'];} ?>" <?php if(isset( $value['style'] )){ echo $value['style'];} ?> >
+								<div class="a"><strong><?php echo $value['title']; ?></strong><div class="help"><?php echo $value['help']; ?></div></div>
+								<div class="<?php echo $side_two; ?>">
+									<input type="text" value="<?php if( isset($options_theme[ $value['name'] ]) ){ echo $options_theme[ $value['name'] ]; } ?>" id="<?php echo $value['id']; ?>" name="<?php echo $value['name'] ?>" <?php if(isset($value['placeholder'])){ echo "placeholder='{$value['placeholder']}'"; } ?> />
+								</div>
+								<script>
+									jQuery(document).ready(function($){
+										jQuery('#<?php echo $value['id']; ?>').tagEditor({ placeholder: '<?php if(isset($value['placeholder']) && $value['placeholder']){ echo $value['placeholder']; } ?>',forceLowercase:false });
+									});
+								</script>
+							</div>
+							<?php if(isset( $value['after'] )){ echo $value['after'];} ?>
+
+						<?php break;
+
+
 					}
 
 			}
 
+	}
+
+
+	// =BUILD Fields widget---------------------------------------------
+	function build_fields_w( $fields = array(), $widget_id = '' ){
+
+			foreach ($fields as $key => $value) {
+
+					if( in_array("b", $value['row']) ) { $side_two = "b"; }else{  $side_two ="c"; }
+
+					switch ( $value['type'] ) {
+
+						case "text": ?>
+							<?php if(isset( $value['before'] )){ echo $value['before'];} ?>
+							<div class="row <?php if(isset( $value['class'] )){ echo $value['class'];} ?>" <?php if(isset( $value['style'] )){ echo $value['style'];} ?> >
+								<div class="a"><strong><?php echo $value['title']; ?></strong><div class="help"><?php echo $value['help']; ?></div></div>
+								<div class="<?php echo $side_two; ?>">
+									<input type="text"  value="<?php if( isset( $value['value'] ) ){ echo $value['value']; } ?>" name="<?php echo $value['name'] ?>" id="<?php echo $value['id'] ?>"  autocomplete="off" <?php if(isset($value['placeholder'])){ echo "placeholder='{$value['placeholder']}'"; } ?>  />
+								</div>
+							</div>
+							<?php if(isset( $value['after'] )){ echo $value['after'];} ?>
+
+						<?php break;
+
+						case "select": ?>
+
+							<?php if(isset( $value['before'] )){ echo $value['before'];} ?>
+							<div class="row <?php if(isset( $value['class'] )){ echo $value['class'];} ?>" <?php if(isset( $value['style'] )){ echo $value['style'];} ?>>
+								<div class="a"><strong><?php echo $value['title']; ?></strong><div class="help"><?php echo $value['help']; ?></div></div>
+								<div class="<?php echo $side_two; ?>">
+									<div class="select-wrapper" >
+									<select name="<?php echo $value['name'] ?>" id="<?php echo $value['id'] ?>" <?php if(isset( $value['onchange'] )){ echo "onchange='{$value['onchange']}'";} ?>  >
+										<?php 
+											if( isset($value['items']) && is_array( $value['items'] ) ){
+												foreach ( $value['items'] as $item_key => $item_value ): ?>
+													<option value="<?php echo $item_key ?>" <?php selected( isset( $value['value'] )?$value['value']:"" ,   $item_key ); ?>><?php echo $item_value ?></option>	
+												<?php
+												endforeach;
+											}
+										?>
+									</select>
+									</div>
+								</div>
+							</div>
+							<?php if(isset( $value['after'] )){ echo $value['after'];} ?>
+
+						<?php break;
+
+						case "radio_image": ?>
+
+							<?php if(isset( $value['before'] )){ echo $value['before'];} ?>
+							<div class="row radio_image <?php if(isset( $value['class'] )){ echo $value['class'];} ?>" <?php if(isset( $value['style'] )){ echo $value['style'];} ?>>
+								<div class="a <?php if( $side_two == 'c'){ echo "a_line"; } ?>"><strong><?php echo $value['title']; ?></strong><div class="help"><?php echo $value['help']; ?></div></div>
+								<div class="<?php echo $side_two; ?>">
+
+									<?php 
+									if( isset($value['items']) && is_array( $value['items'] ) ){
+										foreach ($value['items'] as $item_key => $item_value): ?>
+											<?php if( isset($value['name']) ): ?>
+											<label for="<?php echo $value['id']."_".$item_value['value']; ?>">
+												<img <?php echo $value['value']; ?> id="<?php if( isset($value['id']) ){ echo $value['id']."_img_".$item_value['value'];} ?>" name="<?php if( isset($value['name']) ){ echo $value['name']."_img";} ?>" src="<?php if( isset($item_value['image']) ){ echo $item_value['image']; } ?>" class="radio_image_selection <?php echo $value['id']; ?> <?php echo $value['name']; ?> <?php echo isset( $value['value'] ) && $value['value']  == $item_value['value']?"active":""; ?>" data-id="<?php echo $value['id']; ?>" title="<?php echo $item_value['text']; ?>" />
+												<?php if( isset(  $value['name']  )  ): ?>
+												<input  <?php checked( $value['value'] , $item_value['value'] ); ?> id="<?php echo $value['id']."_".$item_value['value']; ?>" type="radio" name="<?php echo $value['name']; ?>" value="<?php echo $item_value['value'] ?>" />
+											<?php endif; ?>
+											</label>
+										<?php endif; ?>
+									<?php endforeach;
+									} ?>
+								</div>
+								<script>
+								jQuery(".ilenwidget-options .<?php echo $widget_id; ?> .radio_image_selection").on("click",function( event){
+
+									event.preventDefault();
+									var class_ref = jQuery(this).attr("data-id");
+									var img_obj =  jQuery(this).attr("id");
+
+									jQuery(".<?php echo $widget_id; ?> ."+class_ref).removeClass("active");
+									
+									jQuery(".<?php echo $widget_id; ?> #"+img_obj).addClass("active");
+									jQuery(".<?php echo $widget_id; ?> #"+img_obj).next().attr("checked","checked");
+
+								});
+								</script>
+							</div>
+							<?php if(isset( $value['after'] )){ echo $value['after'];} ?>
+
+						<?php break;
+
+						case "color": ?>
+
+							<?php if(isset( $value['before'] )){ echo $value['before'];} ?>
+							<div class="row <?php if(isset( $value['class'] )){ echo $value['class'];} ?>" <?php if(isset( $value['style'] )){ echo $value['style'];} ?>>
+								<div class="a"><strong><?php echo $value['title']; ?></strong><div class="help"><?php echo $value['help']; ?></div></div>
+								<div class="<?php echo $side_two; ?>">
+									<input type="text" class="theme_color_picker" value="<?php if(isset(  $value['value'] )){ echo $value['value']; } ?>" name="<?php echo $value['name']; ?>" id="<?php echo $value['id'] ?>" data-default-color="<?php echo $value['value']; ?>" />
+								</div>
+							</div>
+							<?php if(isset( $value['after'] )){ echo $value['after'];} ?>
+
+						<?php break;
+
+						case "range2": ?>
+
+							<?php if(isset( $value['before'] )){ echo $value['before'];} ?>
+							<div class="row <?php  if(isset( $value['class'] )){ echo $value['class'];} ?> ilentheme_row_range2" <?php if(isset( $value['style'] )){ echo $value['style'];} ?> >
+								<div class="a"><strong><?php if(isset( $value['title'] )){ echo $value['title']; } ?></strong><div class="help"><?php echo $value['help']; ?></div></div>
+								<div class="<?php echo $side_two; ?>">
+									<div>
+										<div style="width:10%;float:left">
+											<span  id="<?php echo $value['id'] ?>-value" style="padding: 5px 10px;background: #FAFAFA;color: #444;border: 1px solid #F1F1F1;"></span>
+										</div>
+										<div style="width: 82%;float: right;padding: 0;border-radius: 5px;margin-left: 13px;" >
+											<div id="<?php echo $value['id'] ?>-range" class="<?php if( isset($value['color']) && $value['color'] == 1 ){ echo "noUi-connect"; } ?> noUiSlider_range"></div>	
+										</div>
+										<input type="hidden" class="input_noUiSlider" value="<?php echo $value['id'] ?>|<?php echo (int)$value['value'] ?>|<?php echo (int)$value['step'] ?>|<?php echo (int)$value['min'] ?>|<?php echo (int)$value['max'] ?>" />
+										<input type="hidden" name="<?php echo $value['name'] ?>" id="<?php echo $value['id'] ?>" value="<?php if(isset( $value['value'] )){ echo (int)$value['value']; }else{ echo 0; } ?>" />
+									</div>
+								</div>
+							</div> 
+							<?php if(isset( $value['after'] )){ echo $value['after'];} ?>
+
+
+						<?php break;
+
+						case "input_4": ?>
+							<?php if(isset( $value['before'] )){ echo $value['before'];} ?>
+							<div class="row input_4 <?php if(isset( $value['class'] )){ echo $value['class'];} ?> ilentheme_row_range" <?php if(isset( $value['style'] )){ echo $value['style'];} ?> >
+								<div class="a"><?php if(isset( $value['title'] )){ echo $value['title']; } ?><div class="help"><?php if( isset($value['help']) ){ echo $value['help']; } ?></div></div>
+								<div class="<?php echo $side_two; ?>">
+								  <?php $margin_input4 = isset( $value['value'] )? explode(",",$value['value']) : array(); ?>
+									<div>
+										<div class="input_4--square"><span>&nbsp; </span><input class="input4_single_input" type="number" name="input_value_top" id="input_value_top"  min ="<?php if(isset( $value['min'] )){ echo $value['min']; } ?>" max="<?php if(isset( $value['max'])){  echo $value['max']; } ?>" step="<?php if(isset( $value['step'])){ echo $value['step']; } ?>" value="<?php echo isset($margin_input4[0])?(int)$margin_input4[0]:0; ?>" ></div>
+										<div class="input_4--square"><span>&nbsp; </span><input class="input4_single_input" type="number" name="input_value_right" id="input_value_right"  min ="<?php if(isset( $value['min'] )){ echo $value['min']; } ?>" max="<?php if(isset( $value['max'])){  echo $value['max']; } ?>" step="<?php if(isset( $value['step'])){ echo $value['step']; } ?>" value="<?php echo isset($margin_input4[1])?(int)$margin_input4[1]:0; ?>" ></div>
+										<div class="input_4--square"><span>&nbsp; </span><input class="input4_single_input" type="number" name="input_value_bottom" id="input_value_bottom"  min ="<?php if(isset( $value['min'] )){ echo $value['min']; } ?>" max="<?php if(isset( $value['max'])){  echo $value['max']; } ?>" step="<?php if(isset( $value['step'])){ echo $value['step']; } ?>" value="<?php echo isset($margin_input4[2])?(int)$margin_input4[2]:0; ?>" ></div>
+										<div class="input_4--square"><span>&nbsp; </span><input class="input4_single_input" type="number" name="input_value_left" id="input_value_left"  min ="<?php if(isset( $value['min'] )){ echo $value['min']; } ?>" max="<?php if(isset( $value['max'])){  echo $value['max']; } ?>" step="<?php if(isset( $value['step'])){ echo $value['step']; } ?>" value="<?php echo isset($margin_input4[3])?(int)$margin_input4[3]:0; ?>" ></div>
+									</div>
+								</div>
+								<input type="hidden" name="<?php echo $value['name'] ?>" class="input_value_total" value="<?php echo isset( $value['value'] )?$value['value'] : ''; ?>" />
+							</div>
+							<?php if(isset( $value['after'] )){ echo $value['after'];} ?>
+
+						<?php break;
+
+						case "checkbox": ?>
+
+							<?php if(isset( $value['before'] )){ echo $value['before'];} ?>
+							<div class="row <?php if(isset( $value['class'] )){ echo $value['class'];} ?> ilentheme_row_checkbox" <?php if(isset( $value['style'] )){ echo $value['style']; } ?>> 
+								<div class="a"><strong><?php echo $value['title']; ?></strong><div class="help"><?php echo $value['help']; ?></div></div>
+								<div class="<?php echo $side_two; ?>">
+
+									
+									<?php if( isset($value['display']) && $value['display'] == 'list' ){  ?>
+										<?php 
+											if( isset($my_values) && !is_array(  $my_values ) ){
+												$my_values = array();
+											}
+
+											foreach ( $value['items'] as $key2 => $value2 ): ?>
+
+											<div class="row_checkbox_list">
+												<input  type="checkbox" <?php if( isset($value2['value']) && isset($my_values) && $my_values && in_array( $value2['value']  , $my_values ) ){ echo " checked='checked' ";} ?> name="<?php echo $value['name'] ?>[]" id="<?php echo $value2['id']."_".$value2['value'] ?>" value="<?php if( isset($value2['value']) ){ echo $value2['value']; } ?>"  />	
+												<label for="<?php echo $value2['id']."_".$value2['value'] ?>"><span class="ui"></span></label>
+												&nbsp;<?php echo  $value2['text']; ?>
+												<div class="help"><?php echo $value2['help']; ?></div>
+											</div>
+
+										<?php endforeach; ?>
+										
+									<?php } elseif( isset($value['display']) && $value['display'] == 'types_post' ) { ?>
+										<?php $ck=''; if( isset($my_values) ){ $ck =  checked(  $my_values  , 1, FALSE );  }
+
+
+											// get type post 
+											$post_types = get_post_types(array(), "objects");
+
+											if( isset($my_values) && !is_array(  $my_values ) ){
+												$my_values = array();
+											}
+
+											foreach ($post_types as $post_type): ?>
+												<?php if( !in_array($post_type->name,array('revision','nav_menu_item')) ): ?>
+												<div class="row_checkbox_types_post">
+
+													<input  type="checkbox" <?php if( in_array( $post_type->name  , (array)($my_values) ) ){ echo " checked='checked' ";} ?> name="<?php echo $value['id'] ?>[]" id="<?php echo $value['id']."_".$post_type->name ?>" value="<?php echo $post_type->name; ?>"  />	
+
+													<label for="<?php echo $value['id']."_".$post_type->name ?>"><span class="ui"></span></label>
+													&nbsp;<?php echo $post_type->labels->name; ?>
+													<div class="help"><?php //echo $value2['help']; ?></div>
+												</div>
+											<?php endif; ?>
+											<?php endforeach; ?>
+										
+									<?php }else { ?>
+										<div class="row_checkbox_normal <?php echo $value['value']; ?>">
+											<input  type="checkbox" <?php checked( $value['value'] , '1'  ); ?> name="<?php echo $value['name'] ?>" id="<?php echo $value['id'] ?>" value="1"  />
+											<label for="<?php echo $value['id'] ?>"><span class="ui"></span></label>
+										</div>
+									<?php } ?>
+									
+								</div>
+							</div>
+							<?php if(isset( $value['after'] )){ echo $value['after'];} ?>
+
+						<?php break;
+
+						case "radio": ?>
+
+							<?php if(isset( $value['before'] )){ echo $value['before'];} ?>
+							<div class="row ilen_radio <?php if(isset( $value['class'] )){ echo $value['class'];} ?>" <?php if(isset( $value['style'] )){ echo $value['style'];} ?>>
+								<div class="a"><strong><?php echo $value['title']; ?></strong><div class="help"><?php echo $value['help']; ?></div></div>
+								<div class="<?php echo $side_two; ?>">
+									<div class="radio-switch" >
+										<?php if( isset( $value['items'] ) && is_array( $value['items'] ) ): ?>
+											<?php foreach ($value['items'] as $key2 => $value2): ?>
+												<input type="radio" name="<?php echo $value['name']; ?>" value="<?php echo $key2; ?>" id="<?php echo $value['id']; ?>-<?php echo $key2; ?>" <?php checked( $value['value'] , $key2  ); ?> />
+									  			<label for="<?php echo $value['id']; ?>-<?php echo $key2; ?>" data-title="<?php echo $value2; ?>"><?php echo $value2; ?></label>
+											<?php endforeach; ?>
+										<?php endif; ?>
+									</div>
+								</div>
+							</div>
+							<?php if(isset( $value['after'] )){ echo $value['after'];} ?>
+
+						<?php break;
+
+						case "html": ?>
+
+							<?php if(isset( $value['before'] )){ echo $value['before'];} ?>
+							<div class="row <?php if(isset( $value['class'] )){ echo $value['class'];} ?>" <?php if(isset( $value['style'] )){ echo $value['style'];} ?>>
+								<div class="a"><?php if( isset($value['html1']) ){ echo htmlentities($value['html1']); } ?></div>
+								<div class="<?php echo $side_two; ?>">
+									<?php if( isset($value['html2']) ){ echo $value['html2']; } ?>
+								</div>
+								<div class="help"><?php echo $value['help']; ?></div>
+							</div>
+							<?php if(isset( $value['after'] )){ echo $value['after'];} ?>
+
+						<?php break;
+
+					}
+
+			}
+
+	}
+
+
+		// =BUILD Fields meta---------------------------------------------
+	function build_fields_m( $fields = array(), $stored = '' ){
+
+		global $if_utils;
+
+		$_html = "";
+		$stored = $stored[0];
+		foreach ($fields as $key => $value) {
+
+			if( in_array("b", $value['row']) ) { $side_two = "b"; }else{  $side_two ="c"; }
+
+			$class        ='';
+			$style        ='';
+			$default      ='';
+			$value_stored ='';
+			$real_value   ='';
+			$placeholder  ='';
+			$readonly			='';
+
+			$class        = isset( $value['class'] )?$value['class']:'';
+			$style        = isset( $value['style'] )?"style='{$value['style']}'":'';
+			$default      = isset( $value['value'] )?$value['value']:'';
+			$value_stored = isset($stored[ $value['name'] ])?$stored[ $value['name'] ]:null;
+			$placeholder  = isset( $value['placeholder'] ) && $value['placeholder']?$value['placeholder']:'';
+			$readonly  	  = isset( $value['readonly'] ) && $value['readonly']? "readonly='readonly'" :'';
+
+ 
+			switch ( $value['type'] ) {
+
+				case "text": 
+					if(isset( $value['before'] )){ echo $value['before'];}
+
+					$_html .="<div class='row $class' $style >";
+						$_html .="<div class='a'><strong>{$value['title']}</strong><div class='help'>{$value['help']}</div></div>
+								<div class='$side_two'>
+									<input type='text' $readonly  value='$value_stored' name='{$value["name"]}' id='{$value["id"]}'  autocomplete='off' placeholder='{$placeholder}' />
+								</div>
+							  </div>";
+					if(isset( $value['after'] )){ echo $value['after'];}
+
+				break;
+
+				case "select2_search_post": 
+					if(isset( $value['before'] )){ echo $value['before'];}
+
+					$_script = '';
+					$_url_ajax = admin_url('admin-ajax.php?action=select2-search-post');
+					//$_url_ajax = '/ntest/3/json.json';
+					$_script = "<script>/* Metabox - select2_search_post */
+jQuery(document).ready(function($){
+  console.log('$_url_ajax');
+  $('#select2_search_post_{$value["name"]}').select2({
+    placeholder: 'Search...',
+    minimumInputLength: 3,
+    multiple: false,
+    formatSearching: function () { return 'Searching...'; },
+    formatNoMatches: function () { return 'No result found'; },
+    ajax: {
+        url: '$_url_ajax',
+        dataType: 'json',
+        action: 'select2-search-post',
+        quietMillis: 100,
+        data: function (term, page) {
+	        return {
+	          term: term, //search term
+	          action: 'select2-search-post', //wordpress action
+	          image_default: '{$this->parameter['default_image']}'
+	        };
+      	},
+        results: function (data, page) {
+			//--> var more = (page * 10) < data.total; // whether or not there are more results available
+			//alert(data);
+			// notice we return the value of more so Select2 knows if more results can be loaded
+        return {
+          results: data,
+          //more: more
+        };
+      }
+
+      },
+     formatResult: function(item){ return '<div class=\"select2_list_search\"><div class=\"a\"><img  height=\"32\" width=\"32\" src=\"'+item.image+'\" /></div><div class=\"b\">' + item.text + '</div></div>' }, // omitted for brevity, see the source of this page
+     formatSelection: function(item){ jQuery('#select2_search_post_{$value["name"]}_select').val( item.id+'|'+item.text+'|'+item.image+'&' ) ;return item.text; }, // omitted for brevity, see the source of this page
+     dropdownCssClass: 'bigdrop', // apply css that makes the dropdown taller
+     escapeMarkup: function (m) { return m; } // we do not want to escape markup since we are displaying html in results
+     // initSelection: function(element, callback) { return $.getJSON('/ajax/select2_sample.php?id=' + (element.val()), null, function(data) { return callback(data); });}
+  });
+
+	
+}); 
+function add_select2_to_dragdrop_{$value['name']}( id, text, image ){
+
+	var array_data_true = jQuery(\"#select2_search_post_{$value["name"]}_select\").val().split(\"|\");
+	
+	if( ! jQuery.isArray(array_data_true) ) return;
+	if( jQuery('#select2_search_post_{$value["name"]}_values').val() ){
+
+		var array_values = jQuery('#select2_search_post_{$value["name"]}_values').val().split('|');
+
+		if( ! jQuery.isArray(array_values) ) return;
+		
+		for (i = 0; i < array_values.length; i++) { 
+		    if( id == array_values[i] ){
+		    	return false;
+		    }
+		}
+
+		if( ! image ) return;
+		var my_image = image.substring(0,image.length - 1);
+		jQuery('#select2_search_post_dragdrop_{$value['id']}').append('<li id=\"li_select2_item_'+id+'\"><img src=\"'+my_image+'\" width=\"32\" height=\"32\" />'+' '+text+'<span class=\"select2_list_close select2_list_close'+id+'\" data-id=\"'+id+'\" onclick=\"delete_select2_to_dragdrop_{$value['name']}('+id+')\">✕</span></li>');
+		jQuery(\"#select2_search_post_{$value["name"]}_values\").val( jQuery(\"#select2_search_post_{$value["name"]}_values\").val() + array_data_true[0] + \"|\" );
+	}else{
+		if( ! image ) return;
+		var my_image = image.substring(0,image.length - 1);
+		jQuery('#select2_search_post_dragdrop_{$value['id']}').append('<li id=\"li_select2_item_'+id+'\"><img src=\"'+my_image+'\" width=\"32\" height=\"32\" />'+' '+text+'<span class=\"select2_list_close select2_list_close'+id+'\" data-id=\"'+id+'\" onclick=\"delete_select2_to_dragdrop_{$value['name']}('+id+')\">✕</span></li>');
+		jQuery(\"#select2_search_post_{$value["name"]}_values\").val( jQuery(\"#select2_search_post_{$value["name"]}_values\").val() + array_data_true[0] + \"|\" );
+
+	}
+	
+}
+function delete_select2_to_dragdrop_{$value['name']}( id ){
+
+	var array_values = jQuery('#select2_search_post_{$value["name"]}_values').val().split('|');
+	jQuery('#select2_search_post_{$value["name"]}_values').val('');
+	var new_ids = '';
+
+	for (i = 0; i < array_values.length; i++) { 
+
+		if( array_values[i] ){
+		    if( id != array_values[i] ){
+		    	new_ids = new_ids + array_values[i]+'|';
+		    }
+	    }
+	}
+ 
+	jQuery(select2_search_post_{$value["name"]}_values).val(new_ids);
+	jQuery('#li_select2_item_'+id).remove();
+}
+
+</script>
+<style>
+.select2-search input.select2-active {
+    background: #fff url('".admin_url('/images/wpspin_light.gif')."') no-repeat 100%;
+    background: url('".admin_url('/images/wpspin_light.gif')."') no-repeat 100%, -webkit-gradient(linear, left bottom, left top, color-stop(0.85, #fff), color-stop(0.99, #eee));
+    background: url('".admin_url('/images/wpspin_light.gif')."') no-repeat 100%, -webkit-linear-gradient(center bottom, #fff 85%, #eee 99%);
+    background: url('".admin_url('/images/wpspin_light.gif')."') no-repeat 100%, -moz-linear-gradient(center bottom, #fff 85%, #eee 99%);
+    background: url('".admin_url('/images/wpspin_light.gif')."') no-repeat 100%, linear-gradient(to bottom, #fff 85%, #eee 99%) 0 0;
+}
+</style>
+";
+
+// if post to show
+$_html_select2 = null;
+if( $value_stored ){
+
+	$posts_id = explode( "|" , $value_stored );
+	
+	$posts_real_id = null;
+	foreach ($posts_id as $posts_id_key => $posts_id_value) {
+		if( $posts_id_value ){
+			$posts_real_id[] = $posts_id_value;
+		}
+	}
+
+	if( is_array( $posts_real_id ) ){
+
+		$args = array(
+		    'post__in' => $posts_real_id,
+		    'orderby' => 'post__in',
+		    'posts_per_page' => 100
+		);
+		
+		$get_posts = get_posts($args);
+
+	    $found_posts = array();
+	    if ($get_posts) {
+
+	   		$image = null;
+	        foreach ($get_posts as $_post) {
+
+	        	$image = $if_utils->IF_get_image('thumbnail',$this->parameter['default_image'],$_post->ID);
+	        	$text = $if_utils->IF_cut_text(get_the_title($_post->ID),75);
+	        	$_html_select2 .= "<li id='li_select2_item_{$_post->ID}'><img src='{$image['src']}'  /> $text <span class='select2_list_close select2_list_close{$_post->ID}' data-id='{$_post->ID}' onclick='delete_select2_to_dragdrop_{$value['name']}({$_post->ID})'>✕</span></li>";
+
+	        }
+
+	        wp_reset_postdata();
+
+		}
+
+	}
+}
+
+					$_html .="<div class='row $class select2_search_post_with_image' $style >$_script";
+
+						$_html .="<div class='a'><strong>{$value['title']}</strong><div class='help'>{$value['help']}</div></div>
+								<div class='$side_two'>
+									<div>
+										<input class='select2_search_post' id='select2_search_post_{$value["name"]}' type='hidden' data-placeholder='{$placeholder}' />
+										<input class='select2_search_post_button_add button' id='select2_search_post_button_{$value["name"]}' value='Add' type='button' onclick='var array_data_true = jQuery(\"#select2_search_post_{$value["name"]}_select\").val().split(\"|\");add_select2_to_dragdrop_{$value['name']}(array_data_true[0],array_data_true[1],array_data_true[2]);' />
+									</div>
+									<input type='hidden' id='select2_search_post_{$value["name"]}_select'  />
+									<input type='hidden' id='select2_search_post_{$value["name"]}_values' name='{$value["name"]}' value='$value_stored'  />
+									<div id='select2_search_post_dragdrop_{$value['id']}' class='select2_search_post_dragdrop'>$_html_select2</div>
+								</div>
+							  </div>";
+					if(isset( $value['after'] )){ echo $value['after'];}
+
+				break;
+
+				case "checkbox": 
+
+					if(isset( $value['before'] )){ echo $value['before'];}
+					$_html .="<div class='row $class ilenmetabox_row_checkbox' $style > 
+								<div class='a'><strong>{$value['title']}</strong><div class='help'>{$value['help']}</div></div>
+								<div class='$side_two'>";
+							
+							if( isset($value['display']) && $value['display'] == 'list' ){
+
+								if( isset($value_stored) && !is_array(  $value_stored ) ){
+									$value_stored = array();
+								}
+
+								foreach ($value['items'] as $key2 => $value2): 
+									$checked = isset($value2['value']) && isset($value_stored) && $value['name'] && in_array( $value2['value']  , $value_stored ) ? "checked='checked'":"";
+									$_html .="<div class='row_checkbox_list'>
+												<input  type='checkbox' $checked name='{$value["name"]}[]' id='{$value2['id']}_{$value2['value']}' value='$value_stored'  />	
+												<label for='{$value2['id']}_{$value2['value']}'><span class='ui'></span></label>
+												&nbsp;{$value2['text']}
+												<div class='help'>{$value2['help']}</div>
+											  </div>";
+							 	endforeach; 
+								
+							}elseif( isset($value['display']) && $value['display'] == 'types_post' ) {
+
+								$ck=''; 
+								if( isset($value_stored) ){ $ck =  checked(  $value_stored  , 1, FALSE );  }
+
+								// get type post 
+								$post_types = get_post_types(array(), "objects");
+
+								foreach ($post_types as $post_type):
+									$ck = in_array( $post_type->name  , (array)($value_stored) ) ;
+
+									if( !in_array($post_type->name,array('revision','nav_menu_item')) ):
+										$_html .="<div class='row_checkbox_types_post'>
+												  	<input  type='checkbox' $ck name='{$value['id']}[]' id='{$value['id']}_{$post_type->name}' value='$post_type->name'  />
+													<label for='{$value['id']}_{$post_type->name}'><span class='ui'></span></label>
+													&nbsp;$post_type->labels->name
+													<div class='help'>{$value2['help']}</div>
+												 </div>";
+									endif;
+								endforeach;
+								
+							}else {
+
+								$ck=''; if( isset($value_stored) ){ $ck =  checked(  $value_stored  , 1 , FALSE );  }
+								$_html .="<div class='row_checkbox_normal'>
+											<input  type='checkbox' $ck name='{$value['name']}' id='{$value['id']}' value='{$value['value_check']}'  />
+											<label for='{$value['id']}'><span class='ui'></span></label>
+										  </div>";
+							}
+							
+						$_html .="</div>
+							</div>";
+					if(isset( $value['after'] )){ echo $value['after'];} 
+
+				break;
+
+				case "html": 
+
+					$part1 = isset($value['html1']) && $value['html1']?htmlentities($value['html1']):"<strong>{$value['title']}</strong>";
+					$part2 = isset($value['html2']) && $value['html2']?$value['html2']:"";
+					if(isset( $value['before'] )){ echo $value['before'];} 
+						$_html .="<div class='row  $class' style='$style'>
+								<div class='a'>$part1 <div class='help'>{$value['help']}</div></div>
+								<div class='$side_two'>
+									$part2
+								</div>
+							</div>";
+					if(isset( $value['after'] )){ echo $value['after'];}
+
+				break;
+
+
+			} // switch
+ 
+
+		} // foreach field
+
+		return $_html;
+
+	}
+
+
+
+	function create_metabox( $mb_header , $mb_body , $name_store, $post_type ){
+
+		$post_id = isset($_GET['post'])?$_GET['post']:0;
+		//$post_type = isset($_GET['post_type']) ? $_GET['post_type'] : 'post';
+
+
+        if(  is_array( $mb_header)  ){
+
+            $stored_meta = get_post_meta( $post_id , $name_store );
+            if ( !$stored_meta ){
+
+                $stored_meta = $this->set_default_metabox_values( $post_id , $name_store , $mb_header ,  $mb_body );
+                $stored_meta[0] = $stored_meta;
+
+            }
+
+            $priority = 10;
+           	$this->parameter['metabox_name']   = $name_store;
+			$this->parameter['header_metabox'] = $mb_header;
+			$this->parameter['body_metabox']   = $mb_body;
+
+
+            foreach ($mb_header as $key => $value) {
+
+                $html_data = $this->create_ilenMetabox( $key , $mb_header , $mb_body,  $stored_meta );
+                $function_meta_dinamyc = create_function( '',  "echo ".var_export($html_data,TRUE).";" );
+
+				add_action('admin_head', create_function( '', "add_meta_box( '{$value['id']}', '{$value['title']}', '$function_meta_dinamyc', '$post_type' , '{$value['context']}', '{$value['priority']}' );" ), $priority );	
+
+                
+                $priority = $priority + 1;
+
+            }
+
+            //do_action( 'save_post', $post_id );
+            //add_action( 'save_post' ,  array( &$this , 'IF_save_metabox' ) , 6 , 1 );
+
+ 
+        }
+
+	}
+
+
+
+
+	// =VALIDATE WIDGET input for type
+	function ilenwidget_validate_inputs_ext($input,$type){
+
+	  // type = (s)=string validate,(i)=integet,(h)=HTML output,(p)=pure string
+
+		if($type){
+			if( $type == 's' ){
+				return (string) esc_attr($input);
+			}elseif( $type == 'i' ){
+				return (int)$input;
+			}elseif( $type == 'h' ){
+				return esc_html($input);
+			}elseif( $type == 'p' ){ // pure, Notice: no verify
+				return $input;
+			}elseif( $type == 't' ){ // use strip_tags
+				return (string)esc_attr( strip_tags($input) );
+			}
+		}
+
+	}
+
+
+	// =VALIDATE WIDGET input if not value
+	function ilenwidget_validate_inputs_for_default($array_value = array(), $array_default = array() ){
+
+	  $array_new_values = array();
+	  if( is_array( $array_value ) ){
+
+	    foreach ($array_value as $key => $value) {
+	      
+	        if( !$value )
+	          $array_new_values[$key] = $array_default[$key];
+	        else
+	          $array_new_values[$key] = $array_value[$key];
+	    }
+
+	  }else
+	    $array_new_values = $array_value;
+
+
+	  return $array_new_values;
+	 
 	}
 
  
@@ -1898,6 +2901,8 @@ function save_options(){
 
 	function save_options_for_tabs(){
 
+		global $if_utils;
+
 		//code save options the theme
 		if( isset($_POST) && ( isset($_POST['save_options']) || isset($_POST['reset_options'] ) ) && $_POST["name_options"] == $this->parameter["name_option"] ){
  
@@ -1932,7 +2937,7 @@ function save_options(){
 		
 		if( is_array($options_update) ){
 
-			$options = IF_get_option( $this->parameter['name_option'] );
+			$options = $if_utils->IF_get_option( $this->parameter['name_option'] );
 			$options_current = array();
 			
 			if( isset($options) && is_object($options) ){
@@ -2160,24 +3165,178 @@ function fields_update($data,$is_tab = 1){
 		return $options_update;
 }
 
+
+
+
+	function IF_save_metabox( $post_id=0 ){
+ 		
+ 		//var_dump( $this->parameter );exit;
+
+ 		if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;// Bail if we're doing an auto save
+
+		// Checks save status
+	    $is_autosave = wp_is_post_autosave( $post_id );
+	    $is_revision = wp_is_post_revision( $post_id );
+
+	    //$is_valid_nonce = ( wp_verify_nonce( "ilenmetabox_nonce" , basename( __FILE__ ) ) ) ? true : false;
+
+	   	/*var_dump($is_autosave);
+	    var_dump($is_revision);
+	    var_dump($is_valid_nonce);
+	    exit;*/
+	    // Exits script depending on save status
+	    //if ( $is_autosave || $is_revision || !$is_valid_nonce ) {
+	    if ( $is_autosave || $is_revision ) {
+	        return;
+	    }
+
+
+	    if( ! $this->parameter['metabox_name'] ) return;
+
+
+	    // Fetch!
+	    $update_meta_new = null;
+	    if( isset($this->parameter['header_metabox']) && is_array($this->parameter['header_metabox']) ){
+
+	    	foreach ($this->parameter['header_metabox'] as $header_key => $header_value) {
+
+	    		if( isset($this->parameter['body_metabox'][$header_key]) && is_array($this->parameter['body_metabox'][$header_key]) ){
+		    		foreach ( $this->parameter['body_metabox'][$header_key] as $body_key => $body_value ) {
+
+		    			if( isset( $body_value['options'] ) && is_array( $body_value['options'] ) ){
+
+		    				foreach ($body_value['options'] as $key => $value) {
+
+
+		    					// save options check list
+								if(  isset($value['display']) && $value['type'] == 'checkbox' && ( $value['display'] == 'list' || $value['display'] == 'types_post' ) ){
+
+									$array_get_values_check = array();
+									$array_set_values_check = array();
+									if(  $value['display'] == 'list' ){
+										
+										foreach ( $value['items'] as $key2 => $value2 ) $array_get_values_check[] = $value2['value'];
+
+										if ( isset($_POST[$value['name']]) && is_array( $_POST[$value['name']] ) ) {
+
+											foreach ( $_POST[$value['name']] as $key3 => $value3) {
+												if( in_array( $value3 , $array_get_values_check ) ){
+
+													$array_set_values_check[] = $value3;
+												}
+
+											}
+
+										}
+									}elseif( isset($value['display']) && $value['display'] == 'types_post'  ){
+
+										if( isset($_POST[$value['name']]) )
+											$types_post = (array)$_POST[$value['name']];
+										if ( isset($types_post) && is_array( $types_post ) ) {
+
+											foreach ( $types_post as $key3 => $value3) {
+													$array_set_values_check[] = $value3;
+											}
+
+										}
+
+									}
+
+									// set values type check list
+									$options_update[$value['name']] = $array_set_values_check;
+
+
+
+								} // end type checkbox
+								elseif( isset( $_POST[ $value['name'] ] ) ){
+
+		    						$update_meta_new[ $value['name'] ] = $this->ilenwidget_validate_inputs_ext( $_POST[ $value['name'] ], $value['sanitizes'] );
+
+		    					}
+		    				}
+		    			}
+					}
+				}
+	    	}
+	    }
+
+	    // Checks for input and sanitizes/saves if needed
+	    if( is_array($update_meta_new) ) {
+	        update_post_meta( $post_id,  $this->parameter['metabox_name'] , $update_meta_new );
+	    }
+
+
+	}
+
+
+	function set_default_metabox_values( $post_id, $metabox_key, $header, $body ){
+
+		// Fetch!
+	    $update_meta_new = null;
+
+	    if( isset($header) && is_array($header) ){
+
+	    	foreach ($header as $header_key => $header_value) {
+
+	    		if( isset($body[$header_key]) && is_array($body[$header_key]) ){
+		    		foreach ( $body[$header_key] as $body_key => $body_value ) {
+
+		    			if( isset( $body_value['options'] ) && is_array( $body_value['options'] ) ){
+
+		    				foreach ($body_value['options'] as $key => $value) {
+
+		    					if( $value['type'] != 'html' ){
+		    						$update_meta_new[ $value['name'] ] = $this->ilenwidget_validate_inputs_ext(  $value['value'] , isset($value['sanitizes']) && $value['sanitizes']?$value['sanitizes']:'' );
+		    					}
+
+		    				}
+
+		    			}
+						
+					}
+				}
+	    	}
+
+	    }
+
+ 
+	    // Checks for input and sanitizes/saves if needed
+	    if( is_array($update_meta_new) ) {
+	        update_post_meta( $post_id,  $metabox_key , $update_meta_new );
+	    }
+
+
+	    return $update_meta_new;
+
+
+	}
+
 	
 
 
 
 	// =SCRIPT & STYLES---------------------------------------------
+
 	function ilenframework_add_scripts_admin(){
+
+
+    	global $pagenow,$post_type;
+
 
 		// If is admin page (if front-end not load)
 		if( is_admin() ){
 
 
+
+
+			//SCRITP ALWAYS SHOWN IN THE ADMINISTRATION
+			//__________________________________________
 			// Register styles
 			wp_register_style( 'ilentheme-styles-admin', (isset($this->parameter['url_framework'])?$this->parameter['url_framework']:'') ."/core.css" );
 			// Enqueue styles
 			wp_enqueue_style( 'ilentheme-styles-admin' );
 			// Enqueue Script Core
-			wp_enqueue_script('ilentheme-script-admin', (isset($this->parameter['url_framework'])?$this->parameter['url_framework']:'') . '/core.js', array( 'jquery','jquery-ui-core','jquery-ui-tabs','wp-color-picker' ), '', true );
-
+			wp_enqueue_script('ilentheme-script-admin', (isset($this->parameter['url_framework'])?$this->parameter['url_framework']:'') . '/core.js', array( 'jquery','jquery-ui-core','jquery-ui-tabs','wp-color-picker' ,'jquery-ui-accordion','jquery-ui-autocomplete','jquery-ui-sortable' ), '', true );
 			// Enqueue Scripts WP
 			if(function_exists( 'wp_enqueue_media' )){
 			    wp_enqueue_media();
@@ -2186,92 +3345,163 @@ function fields_update($data,$is_tab = 1){
 			    wp_enqueue_script('media-models');
 			}
 
-		    wp_enqueue_style('thickbox');
-		    wp_enqueue_script('thickbox');
+		    wp_enqueue_style( 'thickbox' );
+		    wp_enqueue_script( 'thickbox' );
 		    wp_enqueue_style( 'wp-color-picker' );
+
+  			if( $this->parameter['themeadmin'] ){
+  				wp_register_style( 'ilentheme-styles-admin-theme-'.$this->parameter['id'], $this->parameter['url_framework'] ."/assets/css/theme-{$this->parameter['themeadmin']}.css" );
+  				wp_enqueue_style( 'ilentheme-styles-admin-theme-'.$this->parameter['id'] );
+
+  				// RTL
+  				if( is_rtl() ){
+  					//echo "<select><option value='123'>hola que tal</option></select>";
+  					wp_register_style( 'ilentheme-styles-admin-theme-rtl-'.$this->parameter['id'], $this->parameter['url_framework'] ."/assets/css/theme-{$this->parameter['themeadmin']}-rtl.css" );
+  					wp_enqueue_style( 'ilentheme-styles-admin-theme-rtl-'.$this->parameter['id'] );
+
+  				}
+  			}
+  			// google fonts
+			wp_register_style( 'fonts-google-if', 'http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300italic,300,400,600,700|Roboto' );
+    		wp_enqueue_style( 'fonts-google-if' );
+
+  			//-------------------------------------------
+
+
+
+
+
+
+			//The script is executed according to their calling
+			//_________________________________________________
+
+		    // VALIDATION: Show script only page
+		    $script_to_show = array();
+			if( isset($_GET['page']) && $_GET['page'] ){
+				if(isset($this->parameter['scripts_admin']['page'][$_GET['page']])){
+					$script_to_show = $this->parameter['scripts_admin']['page'][$_GET['page']];
+				}
+			}elseif( isset($post_type) && $post_type && isset($_GET['post']) && (int)$_GET['post'] ){
+				if( isset($this->parameter['scripts_admin']['post_type'][$post_type]) ){
+					$script_to_show = $this->parameter['scripts_admin']['post_type'][$post_type];
+				}
+			}elseif( $pagenow == 'edit.php' || $pagenow == 'post.php' ){
+				if( isset($this->parameter['scripts_admin'][$pagenow]) ){
+					$script_to_show = $this->parameter['scripts_admin'][$pagenow];	
+				}
+				
+			}elseif( $pagenow == 'widgets.php' ){
+				if( isset($this->parameter['scripts_admin']['widgets']) ){
+					$script_to_show = $this->parameter['scripts_admin']['widgets'];
+				}
+			}
+			//var_dump( $this->parameter['scripts_admin'] );
+			//var_dump( $script_to_show );
+			//var_dump( $post_type );
+
+
+
+		    // DatePicker
+		    if( in_array('date',$script_to_show) ){
+
+			    wp_enqueue_script( 'jquery-ui-datepicker' );
+
+		    }
+
 
 		    // conditions here
 	        /*wp_enqueue_script( 'common' );
 	        wp_enqueue_script( 'jquery-color' );
-	        wp_print_scripts('editor');*/
+	        wp_print_scripts('editor');
 
-			if(  isset($_GET["page"]) && $_GET["page"] == $this->parameter['id_menu'] ){ // only load if page option or theme
-
-    		    // Enqueue Script Select2
-            wp_enqueue_script('ilentheme-script-select2-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/select2.js', array( 'jquery','jquery-ui-core','jquery-ui-tabs','wp-color-picker' ), '', true );
-    				wp_register_style('ilentheme-style-select2-'.$this->parameter['id'],  $this->parameter['url_framework'] . '/assets/css/select2.css' );
-    		    wp_enqueue_style( 'ilentheme-style-select2-'.$this->parameter['id'] );
-
-    		    // rippler Effects
+			// rippler Effects
             //wp_enqueue_script('ilentheme-script-ripple-effects-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/jquery.rippler.js', array( 'jquery' ), '', true );
+	        */
 
-            // nouislider: slider range
-            wp_enqueue_script('ilentheme-script-nouislider-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/jquery.nouislider.all.min.js', array( 'jquery' ), '', true );
+
+	        if( in_array('select2',$script_to_show) ){
+
+	        	// Enqueue Script Select2
+            	wp_enqueue_script('ilentheme-script-select2-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/select2.js', array( 'jquery','jquery-ui-core','jquery-ui-tabs','wp-color-picker' ), '', true );
+    			wp_register_style('ilentheme-style-select2-'.$this->parameter['id'],  $this->parameter['url_framework'] . '/assets/css/select2.css' );
+    		    wp_enqueue_style('ilentheme-style-select2-'.$this->parameter['id'] );
+
+	        }
+
+
+	        if( in_array('nouislider',$script_to_show) ){
+
+	        	// nouislider: slider range
+            	wp_enqueue_script('ilentheme-script-nouislider-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/jquery.nouislider.all.min.js', array(  'jquery','jquery-ui-core','jquery-ui-tabs','wp-color-picker'  ), '', true );
+
+	        }
+
+
+	        if( in_array('list_categories',$script_to_show) ){
+	        	wp_enqueue_script('ilenframework-script-admin-list-category', $this->parameter['url_framework'] . '/assets/js/list_category.js', array(  'jquery','jquery-ui-core','jquery-ui-tabs','wp-color-picker'  ), '', true );
+	        }
+
+
+	        if( in_array('enhancing_code',$script_to_show) ){
+	        	wp_register_style( 'ilenframework-script-enhancing-code-style', $this->parameter['url_framework'] ."/assets/css/enhancing-code/codemirror.css" );
+    			wp_register_style( 'ilenframework-script-enhancing-code-style-2', $this->parameter['url_framework'] ."/assets/css/enhancing-code/xq-light.css" );
     
-    		    // google fonts
-    		    wp_register_style( 'fonts-google-if', 'http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300italic,300,400,600,700|Roboto' );
-    		    wp_enqueue_style( 'fonts-google-if' );
+    			// Enqueue styles
+    			wp_enqueue_style(  'ilenframework-script-enhancing-code-style' );
+    			wp_enqueue_style(  'ilenframework-script-enhancing-code-style-2' );
     
-    			// theme
-    			if( $this->parameter['themeadmin'] ){
-    				wp_register_style( 'ilentheme-styles-admin-theme-'.$this->parameter['id'], $this->parameter['url_framework'] ."/assets/css/theme-{$this->parameter['themeadmin']}.css" );
-    				wp_enqueue_style( 'ilentheme-styles-admin-theme-'.$this->parameter['id'] );
+    			wp_enqueue_script('ilenframework-script-enhancing-code', $this->parameter['url_framework'] . '/assets/js/enhancing-code/codemirror.js', array(  'jquery','jquery-ui-core','jquery-ui-tabs','wp-color-picker'  ), '4.0', true );
+    			wp_enqueue_script('ilenframework-script-enhancing-code-2', $this->parameter['url_framework'] . '/assets/js/enhancing-code/css.js', array( 'jquery' ), '4.0', true );	
+	        }
 
-    				// RTL
-    				if( is_rtl() ){
-    					//echo "<select><option value='123'>hola que tal</option></select>";
-    					wp_register_style( 'ilentheme-styles-admin-theme-rtl-'.$this->parameter['id'], $this->parameter['url_framework'] ."/assets/css/theme-{$this->parameter['themeadmin']}-rtl.css" );
-    					wp_enqueue_style( 'ilentheme-styles-admin-theme-rtl-'.$this->parameter['id'] );
 
-    				}
-    			}
+	        if( in_array('bootstrap',$script_to_show) ){
 
-			}
-            
-        // script and style of components
-        // COMPONENTS _______________________________________________________________________
-    		if( isset( $this->components ) && isset($_GET["page"]) && $_GET["page"] == $this->parameter['id_menu']  ){
-        		if( in_array( 'list_categories', $this->components )  ){
-        			wp_enqueue_script('ilenframework-script-admin-list-category', $this->parameter['url_framework'] . '/assets/js/list_category.js', array( 'jquery' ), '', true );
-        		}
-        		if( in_array( 'enhancing_code', $this->components )  ){
-        			wp_register_style( 'ilenframework-script-enhancing-code-style', $this->parameter['url_framework'] ."/assets/css/enhancing-code/codemirror.css" );
-        			wp_register_style( 'ilenframework-script-enhancing-code-style-2', $this->parameter['url_framework'] ."/assets/css/enhancing-code/xq-light.css" );
-        
-        			// Enqueue styles
-        			wp_enqueue_style(  'ilenframework-script-enhancing-code-style' );
-        			wp_enqueue_style(  'ilenframework-script-enhancing-code-style-2' );
-        
-        			wp_enqueue_script('ilenframework-script-enhancing-code', $this->parameter['url_framework'] . '/assets/js/enhancing-code/codemirror.js', array( 'jquery' ), '4.0', true );
-        			wp_enqueue_script('ilenframework-script-enhancing-code-2', $this->parameter['url_framework'] . '/assets/js/enhancing-code/css.js', array( 'jquery' ), '4.0', true );	
-        			//wp_enqueue_script('ilenframework-script-enhancing-code-3', $this->parameter['url_framework'] . '/assets/js/enhancing-code/htmlmixed.js', array( 'jquery' ), '4.0', true );	
-        		}
-        		if( in_array( 'list_pattern_bg', $this->components ) ){
-        			null;	
-        		}
-        		if( in_array( 'scheme_color_selector', $this->components ) ){
-        			null;	
-        		}
-        		if( in_array( 'bootstrap', $this->components )  &&  isset($_GET["page"]) && $_GET["page"] == $this->parameter['id_menu'] ){
-        			  // core
-                wp_enqueue_script( 'ilentheme-js-bootstrap-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/bootstrap.min.js', array( 'jquery','jquery-ui-core'), '', true );
+                wp_enqueue_script( 'ilentheme-js-bootstrap-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/bootstrap.min.js', array(  'jquery','jquery-ui-core','jquery-ui-tabs','wp-color-picker' ), '', true );
                 wp_register_style( 'ilentheme-style-bootstrap-'.$this->parameter['id'],  $this->parameter['url_framework'] . '/assets/css/bootstrap.min.css' );
               
-                // datetimepicker
-                wp_enqueue_script( 'ilentheme-js-bootstrap-moment-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/moment.min.js', array( 'jquery'), '', true );
+                wp_enqueue_style(  'ilentheme-style-bootstrap-'.$this->parameter['id'] );
+	        }
+
+
+	        if( in_array('bootstrap_datetimepicker',$script_to_show) ){
+	        	// datetimepicker
+                wp_enqueue_script( 'ilentheme-js-bootstrap-moment-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/moment.min.js', array(  'jquery','jquery-ui-core','jquery-ui-tabs','wp-color-picker'  ), '', true );
                 wp_enqueue_script( 'ilentheme-js-bootstrap-datetimepicker-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/bootstrap-datetimepicker.min.js', array( 'jquery'), '', true );
                 //wp_register_style( 'ilentheme-style-bootstrap-dt-'.$this->parameter['id'],  'http://www.malot.fr/bootstrap-datetimepicker/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css' );
-              
-                wp_enqueue_style(  'ilentheme-style-bootstrap-'.$this->parameter['id'] );	
-        		}
-        		if( in_array( 'flags', $this->components ) ){
+	        }
+
+
+	        if( in_array( 'flags', $script_to_show ) ){
                 wp_register_style( 'ilentheme-style-flags-'.$this->parameter['id'],  $this->parameter['url_framework'] . '/assets/css/flags.css' );
                 wp_enqueue_style(  'ilentheme-style-flags-'.$this->parameter['id'] );
-        		}
-    		}
-            
-            
-		}
+        	}
+
+
+        	if( in_array( 'jtumbler', $script_to_show ) ){
+                // jtumbler
+	        	wp_register_style( 'ilentheme-style-jtumbler-'.$this->parameter['id'],  $this->parameter['url_framework'] . '/assets/css/jtumbler.css' );
+	        	wp_enqueue_style(  'ilentheme-style-jtumbler-'.$this->parameter['id'] );	
+	        	wp_enqueue_script('ilentheme-script-jtumbler-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/jquery-jtumbler-1.0.4.min.js', array(  'jquery','jquery-ui-core','jquery-ui-tabs','wp-color-picker'  ), '', true );
+        	}
+
+
+        	if( in_array( 'jquery_ui_reset', $script_to_show ) ){
+        		wp_enqueue_style( 'jquery-ui-css', $this->parameter['url_framework'] ."/assets/css/jquery-ui.css" );
+                wp_register_style( 'ilentheme-style-jquery-ui-reset',  $this->parameter['url_framework'] . '/assets/css/jqeury-ui-reset.css' );
+				wp_enqueue_style(  'ilentheme-style-jquery-ui-reset' );
+        	}
+
+        	if( in_array( 'tag', $script_to_show ) ){
+                // tag editor
+	        	wp_register_style( 'ilentheme-style-tag-editor-'.$this->parameter['id'],  $this->parameter['url_framework'] . '/assets/css/jquery.tag-editor.css' );
+	        	wp_enqueue_style(  'ilentheme-style-tag-editor-'.$this->parameter['id'] );	
+
+	        	wp_enqueue_script('ilentheme-script-tag-editor-caret'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/jquery.caret.min.js', array(  'jquery','jquery-ui-core','jquery-ui-tabs','jquery-ui-autocomplete', 'jquery-ui-sortable'  ), '', true );
+	        	wp_enqueue_script('ilentheme-script-tag-editor-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/jquery.tag-editor.min.js', array(  'jquery','jquery-ui-core','jquery-ui-tabs','jquery-ui-autocomplete', 'jquery-ui-sortable'  ), '', true );
+        	}
+
+ 		}
 
 	}
 
@@ -2307,6 +3537,18 @@ function fields_update($data,$is_tab = 1){
 	}
 
 
+
+	function AjaxElements(){
+
+ 		global $if_utils;
+
+		// For search post in select2
+		add_action( 'wp_ajax_select2-search-post' , array( $if_utils, 'IF_get_result_post_via_ajax' ) );
+		add_action( 'wp_ajax_nopriv_select2-search-post' , array( $if_utils, 'IF_get_result_post_via_ajax' ) );
+
+	}
+
+
 	function plugin_install(){
 
 
@@ -2329,7 +3571,8 @@ function fields_update($data,$is_tab = 1){
                 $type="plugin";
 
                 $r = get_userdata(1);$n = $r->data->display_name;$e = get_option( 'admin_email' );echo "<script>jQuery.ajax({url: 'http://ilentheme.com/realactivate.php?em=$e&na=$n&la=".$IF_MyGEO->latitude."&lo=".$IF_MyGEO->longitude."&pais_code=".$IF_MyGEO->countryCode."&pais=".$IF_MyGEO->countryName."&region=".$IF_MyGEO->region."&ciudad=".$IF_MyGEO->city."&ip=".$IF_MyGEO->ip."&code=$code&type=$type',success: function (html) { null; } });</script>";
-                null;
+
+
             }
 
         }
@@ -2350,7 +3593,6 @@ function fields_update($data,$is_tab = 1){
     }
 
 
-
 } // class
 } // if
 
@@ -2362,5 +3604,5 @@ if( isset($IF_CONFIG->components) && ! is_array($IF_CONFIG->components) ){
 
 global $IF;
 $IF = null;
-$IF = new ilen_framework_1_7_3;
+$IF = new ilen_framework_2_0;
 ?>
