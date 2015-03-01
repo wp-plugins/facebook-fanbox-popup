@@ -3381,7 +3381,7 @@ function fields_update($data,$is_tab = 1){
 				if(isset($this->parameter['scripts_admin']['page'][$_GET['page']])){
 					$script_to_show = $this->parameter['scripts_admin']['page'][$_GET['page']];
 				}
-			}elseif( isset($post_type) && $post_type && isset($_GET['post']) && (int)$_GET['post'] ){
+			}elseif( isset($post_type) && $post_type ){
 				if( isset($this->parameter['scripts_admin']['post_type'][$post_type]) ){
 					$script_to_show = $this->parameter['scripts_admin']['post_type'][$post_type];
 				}
