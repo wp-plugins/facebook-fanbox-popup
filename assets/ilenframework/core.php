@@ -154,7 +154,7 @@ class ilen_framework_2_0 {
 	function theme_plugin_install_set_default_values(){
 
 
-		if( isset($_GET["activate"]) &&  $_GET["activate"] == 'true' ){
+		if( (isset($_GET["activate"]) &&  $_GET["activate"] == 'true') || (isset($_GET["install_data"]) && $_GET["install_data"] == "true"  )  ){
         
 			if( isset($this->parameter['name_option']) && ! $n = get_option( $this->parameter['name_option']."_options") ){
 		

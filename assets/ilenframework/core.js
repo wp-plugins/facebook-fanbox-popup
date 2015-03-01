@@ -132,12 +132,12 @@ jQuery(document).ready( function($) {
 
 
 	// delete upload clear input
-	jQuery(".ilentheme-options .admin_delete_image_upload,.ilenplugin-options .admin_delete_image_upload").live("click",function(){
+	jQuery(".ilentheme-options .admin_delete_image_upload,.ilenplugin-options .admin_delete_image_upload").on("click",function(){
 	    jQuery(this).parent().parent().find('.theme_src_upload').val('');
 	    jQuery(this).prev().fadeOut(300);
 	    jQuery(this).fadeOut(300);
 	});
-    jQuery(".ilentheme-options .admin_delete_image_upload_complete, .ilenplugin-options .admin_delete_image_upload_complete").live("click",function(){
+    jQuery(".ilentheme-options .admin_delete_image_upload_complete, .ilenplugin-options .admin_delete_image_upload_complete").on("click",function(){
         jQuery(this).parent().parent().find('.theme_src_upload').val('');
         jQuery(this).parent().css("background-image","url()");
         jQuery(this).parent().css("height","20px");
