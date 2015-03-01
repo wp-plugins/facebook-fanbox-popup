@@ -18,6 +18,9 @@ Promote your Fanpage in a cool natural way
 
 
 == Description ==
+<blockquote>
+  <p>Support for this plugin will only be served <a href="http://support.ilentheme.com" target="_blank">HERE</a></p>
+</blockquote>
 Turn visitors into fans! New visitors are usually costly to acquire, so it is vital that you get the most engagement out of every single visitor.
 <br />
 <strong>RTL ready!</strong>
