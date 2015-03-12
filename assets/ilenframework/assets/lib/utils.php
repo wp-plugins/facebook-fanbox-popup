@@ -377,31 +377,60 @@ function  IF_paginate( $total_rows,
 
 function IF_get_option( $subject ){
  
-    include_once(ABSPATH . 'wp-includes/pluggable.php');
+    require_once(ABSPATH . 'wp-includes/pluggable.php');
 
     $transient_name = "cache_".$subject;
-    $cacheTime = 20; // Time in minutes between updates.
+    $cacheTime = 10; // Time in minutes between updates.
 
-    if(false === ($data = get_transient($transient_name) ) || ( current_user_can( 'manage_options' )  && !isset($_GET['P3_NOCACHE']) )  ){
+    if( function_exists('bbp_is_user_keymaster') ){ // fix problem bbpress
 
-        $new_array = array();
-        $new_data = get_option( $subject."_options" );
+        if(  false === ($data = get_transient($transient_name) ) || ( bbp_is_user_keymaster() && !isset($_GET['P3_NOCACHE']) )  ){
+     
+            $new_array = array();
+            $new_data = get_option( $subject."_options" );
 
-        if( is_array( $new_data ) ){
-            foreach ($new_data as $key => $value) {
-                $new_array[ str_replace($subject.'_', '', $key) ] = $value;
+            if( is_array( $new_data ) ){
+                foreach ($new_data as $key => $value) {
+                    $new_array[ str_replace($subject.'_', '', $key) ] = $value;
+                }
             }
+
+            $data = json_decode (json_encode ($new_array), FALSE);
+
+            set_transient( $transient_name , $data, MINUTE_IN_SECONDS * $cacheTime);
+
+            return $data;
+
+        } else {
+
+            return $data;
+
+        }
+    }else{
+
+        if(  false === ($data = get_transient($transient_name) ) || ( current_user_can( 'manage_options' ) && !isset($_GET['P3_NOCACHE']) )  ){
+     
+            $new_array = array();
+            $new_data = get_option( $subject."_options" );
+
+            if( is_array( $new_data ) ){
+                foreach ($new_data as $key => $value) {
+                    $new_array[ str_replace($subject.'_', '', $key) ] = $value;
+                }
+            }
+
+            $data = json_decode (json_encode ($new_array), FALSE);
+
+            set_transient( $transient_name , $data, MINUTE_IN_SECONDS * $cacheTime);
+
+            return $data;
+
+        } else {
+
+            return $data;
+
         }
 
-        $data = json_decode (json_encode ($new_array), FALSE);
-
-        set_transient( $transient_name , $data, 60 * $cacheTime);
-
-        return $data;
-
-    } else {
-
-        return $data;
 
     }
 

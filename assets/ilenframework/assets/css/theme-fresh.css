@@ -180,12 +180,12 @@ a:hover{text-decoration: none!important;}
   -o-transition: .5s ease
 
 }
-.ilenplugin-options .row.radio_image .a_line{
-  text-align: left;
-  margin-bottom: 13px;
+.ilenplugin-options   .a_line{
+  text-align: left!important;
+  margin-bottom: 13px!important;
 }
-.ilenplugin-options .row.radio_image .a_line .help{
-  width: 100%;
+.ilenplugin-options  .a_line .help{
+  width: 100%!important;
 }
 .ilenplugin-options .row.radio_image .c img{
   margin-right: 18px;
