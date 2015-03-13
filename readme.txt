@@ -8,8 +8,8 @@ Author URI:
 Author: iLen
 Requires at least: 3.8
 Tested up to: 4.1
-Stable tag: 2.7
-Version: 2.9
+Stable tag: 2.9
+Version: 2.9.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DF2HDEBGSE5KY
@@ -36,6 +36,8 @@ Turn visitors into fans! New visitors are usually costly to acquire, so it is vi
 
 
 == Changelog ==
+= 2.9.1 =
+* Update core <code>iLenFramework 2.2</code>
 = 2.9 =
 * Update core and css
 = 2.8 =

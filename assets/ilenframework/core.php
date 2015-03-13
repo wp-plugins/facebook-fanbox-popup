@@ -1,15 +1,15 @@
 <?php 
 /**
- * iLenFramework 2.1
+ * iLenFramework 2.2
  * @package ilentheme
  * 
  * live as if it were the last day of your life
  */
 
 // REQUIRED FILES TO RUN
-if ( !class_exists('ilen_framework_2_1') ) {
+if ( !class_exists('ilen_framework_2_2') ) {
 
-class ilen_framework_2_1 {
+class ilen_framework_2_2 {
 
 		var $options          = array();
 		var $parameter        = array();
@@ -3388,7 +3388,7 @@ function fields_update($data,$is_tab = 1){
 					$script_to_show = $this->parameter['scripts_admin'][$pagenow];	
 				}
 				
-			}elseif( $pagenow == 'widgets.php' ){
+			}elseif( $pagenow == 'widgets.php' || $pagenow == 'customize.php'  ){
 				if( isset($this->parameter['scripts_admin']['widgets']) ){
 					$script_to_show = $this->parameter['scripts_admin']['widgets'];
 				}
@@ -3602,5 +3602,5 @@ if( isset($IF_CONFIG->components) && ! is_array($IF_CONFIG->components) ){
 
 global $IF;
 $IF = null;
-$IF = new ilen_framework_2_1;
+$IF = new ilen_framework_2_2;
 ?>

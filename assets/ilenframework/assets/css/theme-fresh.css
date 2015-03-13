@@ -672,7 +672,7 @@ input[type="range"]::-webkit-slider-thumb {
   -webkit-animation: reveal 2s ease;
 }
 .ilenplugin-options .btn_donate{
-  width: 85px;
+  width: 230px;
   height: 28px;
   text-decoration: none;
   display: block;
