@@ -10,7 +10,7 @@ function facebook_fanbox_popup(options) {
 	var cook = readCookie('fbfanboxp');
 	//var waitCook = readCookie('spuwait');
 
-	if (cook != 'true') {
+	if (cook != 'true' || options.days_no_click == 0 ) {
 		var windowWidth = document.documentElement.clientWidth;
 		var windowHeight = document.documentElement.clientHeight;
 		var popupHeight = jQuery("#ffbp").height();
