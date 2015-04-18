@@ -1,15 +1,15 @@
 <?php 
 /**
- * iLenFramework 2.2
+ * iLenFramework 2.4
  * @package ilentheme
  * 
  * live as if it were the last day of your life
  */
 
 // REQUIRED FILES TO RUN
-if ( !class_exists('ilen_framework_2_2') ) {
+if ( !class_exists('ilen_framework_2_4') ) {
 
-class ilen_framework_2_2 {
+class ilen_framework_2_4 {
 
 		var $options          = array();
 		var $parameter        = array();
@@ -49,9 +49,9 @@ class ilen_framework_2_2 {
 
 
 
-		}	
+		}   
 
-		add_action('admin_init',array(&$this,'plugin_install_before'));	
+		add_action('admin_init',array(&$this,'plugin_install_before')); 
 
 
 
@@ -63,7 +63,7 @@ class ilen_framework_2_2 {
 
 	// =Definitions Fields
 	function theme_definitions(){
-        
+		
 		return $this->options;
 		
 	}
@@ -76,11 +76,11 @@ class ilen_framework_2_2 {
 
 			if( isset($this->parameter['method']) && $this->parameter['method'] == "free"  ){
 
-				add_action('admin_menu', array( &$this,'menu_free') );		
+				add_action('admin_menu', array( &$this,'menu_free') );      
 
 			}elseif( $this->parameter['method'] == "buy" ){
 
-				add_action('admin_menu', array( &$this,'menu_pay') );		
+				add_action('admin_menu', array( &$this,'menu_pay') );       
 
 			}
 
@@ -88,11 +88,11 @@ class ilen_framework_2_2 {
 
 			if( isset($this->parameter['method']) && $this->parameter['method'] == "free"  ){
 
-				add_action('admin_menu', array( &$this,'menu_free') );		
+				add_action('admin_menu', array( &$this,'menu_free') );      
 
 			}elseif( isset($this->parameter['method']) && $this->parameter['method'] == "buy" ){
 
-				add_action('admin_menu', array( &$this,'menu_pay') );		
+				add_action('admin_menu', array( &$this,'menu_pay') );       
 
 			}
 
@@ -155,7 +155,7 @@ class ilen_framework_2_2 {
 
 
 		if( (isset($_GET["activate"]) &&  $_GET["activate"] == 'true') || (isset($_GET["install_data"]) && $_GET["install_data"] == "true"  )  ){
-        
+		
 			if( isset($this->parameter['name_option']) && ! $n = get_option( $this->parameter['name_option']."_options") ){
 		
 				// if not exists options them create
@@ -260,15 +260,15 @@ class ilen_framework_2_2 {
 						foreach ($Myoptions as $key => $value) { ?>
 							<?php if($key != 'last_update'){ ?>
 									<li>
-						            	<a href="#<?php echo $key; ?>">
-						            		<?php 
-						            			if( $value['icon'] )
-						            				echo '<i class="'.$value['icon'].'"></i>';
-						            		?>
-						            		<?php echo $value['title']; ?>
-						            	</a>
-						            </li>
-				            <?php } ?>
+										<a href="#<?php echo $key; ?>">
+											<?php 
+												if( $value['icon'] )
+													echo '<i class="'.$value['icon'].'"></i>';
+											?>
+											<?php echo $value['title']; ?>
+										</a>
+									</li>
+							<?php } ?>
 
 						<?php  }
 					}
@@ -297,20 +297,20 @@ class ilen_framework_2_2 {
 					foreach ($Myoptions as $key => $value) { ?>
 							<?php if($key != 'last_update'){ ?>
 								<div id="<?php echo $key; ?>" class="content-tab">
-					            	<h2 aaa>
-					            		<?php 
-					            			if( $value['icon'] )
-					            				echo '<i class="'.$value['icon'].'"></i>';
-					            		?>
-					            		<?php echo $value['title']; ?>
-					            	</h2>
-					            	<?php if( $value['description'] ){ ?>
-					            		<p class="description"><?php echo $value['description']; ?></p>
-					            	<?php } ?>
-					            	
-					            	<?php self::build_fields( $value['options'] ) ?>
-					            </div>
-					        <?php } ?>
+									<h2 aaa>
+										<?php 
+											if( $value['icon'] )
+												echo '<i class="'.$value['icon'].'"></i>';
+										?>
+										<?php echo $value['title']; ?>
+									</h2>
+									<?php if( $value['description'] ){ ?>
+										<p class="description"><?php echo $value['description']; ?></p>
+									<?php } ?>
+									
+									<?php self::build_fields( $value['options'] ) ?>
+								</div>
+							<?php } ?>
 
 					<?php  }
 				}
@@ -329,7 +329,7 @@ class ilen_framework_2_2 {
 				<input type="hidden" name='reset_options' value='1' />
 				<input type="hidden" name='name_options' value='<?php echo $this->parameter['name_option']; ?>' />
 			</form>
-		</div>	
+		</div>  
  
 
 	<?php }
@@ -355,25 +355,25 @@ class ilen_framework_2_2 {
 					// set mesagge status
 					if( $this->save_status===true ) : ?>
 						  <div class="notification-p success">
-						    <aside>
-						      <i class="fa fa-check"></i>
-						    </aside>
-						    <main>
-						      <b><?php _e('Nice',$this->parameter['name_option'])."."; ?></b>
-						      <br />
-						      <?php _e('Update successfully',$this->parameter['name_option']) ?>
-						    </main>
+							<aside>
+							  <i class="fa fa-check"></i>
+							</aside>
+							<main>
+							  <b><?php _e('Nice',$this->parameter['name_option'])."."; ?></b>
+							  <br />
+							  <?php _e('Update successfully',$this->parameter['name_option']) ?>
+							</main>
 						  </div>
 					<?php elseif( $this->save_status===false ): ?>
 						  <div class="notification-p perror">
-						    <aside>
-						      <i class="fa fa-times"></i>
-						    </aside>
-						    <main>
-						      <b><?php _e('Oh bollocks',$this->parameter['name_option'])."."; ?>.</b>
-						      <br />
-						      <?php _e('Failed to update',$this->parameter['name_option']) ?>
-						    </main>
+							<aside>
+							  <i class="fa fa-times"></i>
+							</aside>
+							<main>
+							  <b><?php _e('Oh bollocks',$this->parameter['name_option'])."."; ?>.</b>
+							  <br />
+							  <?php _e('Failed to update',$this->parameter['name_option']) ?>
+							</main>
 						  </div>
 					<?php endif; ?>
 
@@ -410,7 +410,7 @@ class ilen_framework_2_2 {
 									if( isset($value_tab["id"]) && $value_tab["id"] ) : ?>
 
 
-									 	<li style="<?php if( isset($value_tab["width"]) && isset( $value_tab["fix"]) ){ echo "border-right:0;";  } ?>" ><a href="#<?php echo $value_tab["id"]; ?>" style="width:<?php if( isset($value_tab["width"]) && isset( $value_tab["fix"]) ){ echo (($value_tab["width"])+1)."px;"; } elseif( isset($value_tab["width"]) ){ echo "{$value_tab["width"]}px;"; } ?>" class="animation_once" ><?php if(isset($value_tab["icon"])){ echo $value_tab["icon"]; } ?> <?php echo $value_tab["name"]; ?></a></li>
+										<li style="<?php if( isset($value_tab["width"]) && isset( $value_tab["fix"]) ){ echo "border-right:0;";  } ?>" ><a href="#<?php echo $value_tab["id"]; ?>" style="width:<?php if( isset($value_tab["width"]) && isset( $value_tab["fix"]) ){ echo (($value_tab["width"])+1)."px;"; } elseif( isset($value_tab["width"]) ){ echo "{$value_tab["width"]}px;"; } ?>" class="animation_once" ><?php if(isset($value_tab["icon"])){ echo $value_tab["icon"]; } ?> <?php echo $value_tab["name"]; ?></a></li>
 							<?php   endif;
 							endforeach;
 							} ?>
@@ -441,22 +441,22 @@ class ilen_framework_2_2 {
 										 ?>
 											<?php if($key != 'last_update'){  ?>
 
-										            <div id="box_<?php echo $key; ?>" class="postbox animation_postbox_once <?php if( isset($value["tab"]) ){ echo $value["tab"]; } ?>">
+													<div id="box_<?php echo $key; ?>" class="postbox animation_postbox_once <?php if( isset($value["tab"]) ){ echo $value["tab"]; } ?>">
 														<h3 class="hndle">
 															<span>
 															<?php 
-										            			if( $value['icon'] ){
-										            				echo '<i class="'.$value['icon'].'"></i>&nbsp;&nbsp;';
-										            			}
-										            		?><?php echo $value['title']; ?>
-										            		</span>
-										            	</h3>
+																if( $value['icon'] ){
+																	echo '<i class="'.$value['icon'].'"></i>&nbsp;&nbsp;';
+																}
+															?><?php echo $value['title']; ?>
+															</span>
+														</h3>
 														<div class="inside">
 																<?php self::build_fields_p( $value['options'] ) ?>
 														</div>
 													</div>
 
-								            <?php } ?>
+											<?php } ?>
 
 										<?php  }
 
@@ -479,8 +479,8 @@ class ilen_framework_2_2 {
 						<script>
 						/*jQuery(document).ready(function($){
 							//$(".rippler").rippler({
-				        // addElement:"svg"
-				      	});
+						// addElement:"svg"
+						});
 						});*/
 						</script>
 						</div> <!-- my-wrap-plugin -->
@@ -509,7 +509,7 @@ class ilen_framework_2_2 {
 							});
 						<?php }
 					} ?>
- 					//jQuery('#frm_donate').appendTo('.ilenplugin-options footer');
+					//jQuery('#frm_donate').appendTo('.ilenplugin-options footer');
 					</script>
 				<!-- END -->
 		</div>
@@ -532,25 +532,25 @@ function ilentheme_options_wrap_for_plugin_tabs(){  ?>
 			// set mesagge status
 			if( $this->save_status===true ) : ?>
 				  <div class="notification-p success">
-				    <aside>
-				      <i class="fa fa-check"></i>
-				    </aside>
-				    <main>
-				      <b><?php _e('Nice',$this->parameter['name_option'])."."; ?></b>
-				      <br />
-				      <?php _e('Update successfully',$this->parameter['name_option']) ?>
-				    </main>
+					<aside>
+					  <i class="fa fa-check"></i>
+					</aside>
+					<main>
+					  <b><?php _e('Nice',$this->parameter['name_option'])."."; ?></b>
+					  <br />
+					  <?php _e('Update successfully',$this->parameter['name_option']) ?>
+					</main>
 				  </div>
 			<?php elseif( $this->save_status===false ): ?>
 				  <div class="notification-p perror">
-				    <aside>
-				      <i class="fa fa-times"></i>
-				    </aside>
-				    <main>
-				      <b><?php _e('Oh bollocks',$this->parameter['name_option'])."."; ?>.</b>
-				      <br />
-				      <?php _e('Failed to update',$this->parameter['name_option']) ?>
-				    </main>
+					<aside>
+					  <i class="fa fa-times"></i>
+					</aside>
+					<main>
+					  <b><?php _e('Oh bollocks',$this->parameter['name_option'])."."; ?>.</b>
+					  <br />
+					  <?php _e('Failed to update',$this->parameter['name_option']) ?>
+					</main>
 				  </div>
 			<?php endif; ?>
 
@@ -623,7 +623,7 @@ function ilentheme_options_wrap_for_plugin_tabs(){  ?>
 									}elseif( !isset($active_form_save) ){
 										$active_form_save = 1;  
 										echo '<form action="" method="POST" name="frmsave" id="frmsave">';
-									}											?>
+									}                                           ?>
 									<?php 
 									if( $next_build ){
 										if($key != 'last_update'){  ?>
@@ -637,18 +637,18 @@ function ilentheme_options_wrap_for_plugin_tabs(){  ?>
 											<?php  else: ?>
 											
 
-								      <div id="box_<?php echo $key; ?>" class="<?php if( isset($value['title']) && $value['title'] ): ?>postbox<?php endif; ?> <?php if( isset($value["tab"]) ){ echo $value["tab"]; } ?>">
-								        <?php if( isset($value['title']) && $value['title'] ): ?>
+									  <div id="box_<?php echo $key; ?>" class="<?php if( isset($value['title']) && $value['title'] ): ?>postbox<?php endif; ?> <?php if( isset($value["tab"]) ){ echo $value["tab"]; } ?>">
+										<?php if( isset($value['title']) && $value['title'] ): ?>
 												<h3 class="hndle">
 													<span>
 													<?php 
-				            			if( $value['icon'] ){
-				            				echo '<i class="'.$value['icon'].'"></i>&nbsp;&nbsp;';
-				            			}
-					            		?><?php echo $value['title']; ?>
-					            		</span>
-					            	</h3>
-					            	<?php endif; ?>
+										if( $value['icon'] ){
+											echo '<i class="'.$value['icon'].'"></i>&nbsp;&nbsp;';
+										}
+										?><?php echo $value['title']; ?>
+										</span>
+									</h3>
+									<?php endif; ?>
 
 												<div class="inside">
 														<?php self::build_fields_p( $value['options'] ) ?>
@@ -656,10 +656,10 @@ function ilentheme_options_wrap_for_plugin_tabs(){  ?>
 											</div>
 										<?php  endif; ?>
 
-						       <?php }
-						       } ?>
+							   <?php }
+							   } ?>
 
-						           
+								   
 
 								<?php  }
 
@@ -694,8 +694,8 @@ function ilentheme_options_wrap_for_plugin_tabs(){  ?>
 			<script>
 				/*jQuery(document).ready(function($){
 					//$(".rippler").rippler({
-		        // addElement:"svg"
-		      });
+				// addElement:"svg"
+			  });
 				});*/
 				</script>
 			</div>
@@ -706,20 +706,20 @@ function ilentheme_options_wrap_for_plugin_tabs(){  ?>
 
 
 
-				<?php if( !isset($only_page) || !$only_page ): ?>
-				<form action="" method="POST" name="frmreset" id="frmreset">
-					<input type="hidden" name='reset_options' value='1' />
-					<input type="hidden" name='name_options' value='<?php echo $this->parameter['name_option']; ?>' />
-				</form>
-				<?php endif; ?>
-				<?php 
-				if( !isset($_GET['tabs']) || !$_GET['tabs'] ):  ?>
-				<script>
-					jQuery(document).ready(function(){
-						window.history.pushState('', '', '<?php echo admin_url('options-general.php?page='.$this->parameter['id_menu']) ?>&tabs=<?php echo $name_first_tab; ?>');
-					});
-				</script>
-			<?php endif; ?>
+	<?php if( !isset($only_page) || !$only_page ): ?>
+		<form action="" method="POST" name="frmreset" id="frmreset">
+			<input type="hidden" name='reset_options' value='1' />
+			<input type="hidden" name='name_options' value='<?php echo $this->parameter['name_option']; ?>' />
+		</form>
+		<?php endif; ?>
+		<?php 
+		if( !isset($_GET['tabs']) || !$_GET['tabs'] ):  ?>
+		<script>
+			jQuery(document).ready(function(){
+				window.history.pushState('', '', '<?php echo admin_url('options-general.php?page='.$this->parameter['id_menu']) ?>&tabs=<?php echo $name_first_tab; ?>');
+			});
+		</script>
+	<?php endif; ?>
  
 
 <?php  }
@@ -727,8 +727,8 @@ function ilentheme_options_wrap_for_plugin_tabs(){  ?>
 
 	// =Interface Create for Widgets ---------------------------------------------
 	function create_ilenWidget( $config , $full_options ){ 
- 	
- 	global $if_utils;
+	
+	global $if_utils;
 	$widget_unique_id_generate = rand(1,5559); ?>
 	<div class='ilenwidget-options'>
 		<?php echo isset($config['description'])?"<header>".$config['description']."</header>":''; ?>
@@ -834,25 +834,25 @@ jQuery(".iaccordion-header").on("click",function(){
 		<?php 
 		if(  in_array( 'color', $data )  ){ ?>
 
-			function initColorPicker( widget ) {
-          widget.find( '.theme_color_picker' ).wpColorPicker( {
-            change: _.throttle( function() { // For Customizer
-              $(this).trigger( 'change' );
-            }, 3000 )
-          });
-        }
+		function initColorPicker( widget ) {
+		  widget.find( '.theme_color_picker' ).wpColorPicker( {
+			change: _.throttle( function() { // For Customizer
+			  $(this).trigger( 'change' );
+			}, 3000 )
+		  });
+		}
 
-        function onFormUpdate( event, widget ) {
-          initColorPicker( widget );
-        }
+		function onFormUpdate( event, widget ) {
+		  initColorPicker( widget );
+		}
 
-        $( document ).on( 'widget-added widget-updated', onFormUpdate );
+		$( document ).on( 'widget-added widget-updated', onFormUpdate );
 
-        $( document ).ready( function() {
-          $( '#widgets-right .widget:has(.theme_color_picker)' ).each( function () {
-            initColorPicker( $( this ) );
-          } );
-        } );
+		$( document ).ready( function() {
+		  $( '#widgets-right .widget:has(.theme_color_picker)' ).each( function () {
+			initColorPicker( $( this ) );
+		  } );
+		} );
 
 		<?php } ?>
 
@@ -863,34 +863,34 @@ jQuery(".iaccordion-header").on("click",function(){
 			function initnoUiSlider( widget ) {
 				try {
 				  var valuesnoUiSlider = widget.find( '.noUiSlider_range' ).parent().next().val().split('|');
-          widget.find( '.noUiSlider_range' ).noUiSlider( {
-            start: [ parseInt(valuesnoUiSlider[1]) ],
-            step: parseInt(valuesnoUiSlider[2]),
-            range: {
-              'min': [ parseInt(valuesnoUiSlider[3]) ],
-              'max': [ parseInt(valuesnoUiSlider[4]) ]
-            }
-          }, true);
-          $('#'+valuesnoUiSlider[0]+'-range').Link().to( $('#'+valuesnoUiSlider[0]+'-value'), null, wNumb({decimals: 0}) );
-          $('#'+valuesnoUiSlider[0]+'-range').Link().to( $('#'+valuesnoUiSlider[0]), null, wNumb({decimals: 0}) );
+		  widget.find( '.noUiSlider_range' ).noUiSlider( {
+			start: [ parseInt(valuesnoUiSlider[1]) ],
+			step: parseInt(valuesnoUiSlider[2]),
+			range: {
+			  'min': [ parseInt(valuesnoUiSlider[3]) ],
+			  'max': [ parseInt(valuesnoUiSlider[4]) ]
+			}
+		  }, true);
+		  $('#'+valuesnoUiSlider[0]+'-range').Link().to( $('#'+valuesnoUiSlider[0]+'-value'), null, wNumb({decimals: 0}) );
+		  $('#'+valuesnoUiSlider[0]+'-range').Link().to( $('#'+valuesnoUiSlider[0]), null, wNumb({decimals: 0}) );
 				}
 				catch(err) {
 				  console.log( err.message );
 				}
 
-      }
+	  }
 
-      function onFormUpdate_noUiSlider( event, widget ) {
-        initnoUiSlider( widget );
-      }
+	  function onFormUpdate_noUiSlider( event, widget ) {
+		initnoUiSlider( widget );
+	  }
 
-      $( document ).on( 'widget-added widget-updated', onFormUpdate_noUiSlider );
+	  $( document ).on( 'widget-added widget-updated', onFormUpdate_noUiSlider );
 
-      $( document ).ready( function() {
-        $( '#widgets-right .widget:has(.noUiSlider_range)' ).each( function () {
-          initnoUiSlider( $( this ) );
-        } );
-      } );
+	  $( document ).ready( function() {
+		$( '#widgets-right .widget:has(.noUiSlider_range)' ).each( function () {
+		  initnoUiSlider( $( this ) );
+		} );
+	  } );
 
 		<?php } ?>
 
@@ -900,27 +900,27 @@ jQuery(".iaccordion-header").on("click",function(){
 
 			function initInput4( widget ) {
 				$( '.input4_single_input' ).on('change keypress keyup oninput input',function(){
-	        var input4_values = [];
-	        var i = 0;
-	        $(this).parent().parent().children('.input_4--square').each(function(){
-	            input4_values[i] = $(this).children('.input4_single_input').val() ? $(this).children('.input4_single_input').val() : 0;
-	            i=i+1;
-	        });
-	        $(this).parent().parent().parent().next('.input_value_total').val( input4_values.join() );
-		    });
-      }
+			var input4_values = [];
+			var i = 0;
+			$(this).parent().parent().children('.input_4--square').each(function(){
+				input4_values[i] = $(this).children('.input4_single_input').val() ? $(this).children('.input4_single_input').val() : 0;
+				i=i+1;
+			});
+			$(this).parent().parent().parent().next('.input_value_total').val( input4_values.join() );
+			});
+	  }
 
-      function onFormUpdate_input4( event, widget ) {
-        initInput4( widget );
-      }
+	  function onFormUpdate_input4( event, widget ) {
+		initInput4( widget );
+	  }
 
-      $( document ).on( 'widget-added widget-updated', onFormUpdate_input4 );
+	  $( document ).on( 'widget-added widget-updated', onFormUpdate_input4 );
 
-      $( document ).ready( function() {
-        $( '#widgets-right .widget:has(.input_4)' ).each( function () {
-          initInput4( $( this ) );
-        } );
-      } );
+	  $( document ).ready( function() {
+		$( '#widgets-right .widget:has(.input_4)' ).each( function () {
+		  initInput4( $( this ) );
+		} );
+	  } );
 
 		<?php } ?>
 
@@ -932,25 +932,46 @@ jQuery(".iaccordion-header").on("click",function(){
 				var id_generate = Math.floor((Math.random() * 9999) + 1);
 				widget.find( '.radio-switch input' ).each(function(){
 					if(this.id){
-				    	this.id = this.id+"_"+id_generate;
+						this.id = this.id+"_"+id_generate;
 					}
 				});
 				widget.find( '.radio-switch' ).jTumbler();
 				widget.find( '.radio-switch label' ).each(function(index){
 					$( this ).parent().prev().find('label:nth-child('+(index+1)+') strong').html( $( this ).text() );
 				});
-      		}
+			}
 
-		    function onFormUpdate_jtumbler( event, widget ) {
+			function onFormUpdate_jtumbler( event, widget ) {
 				initjtumbler( widget );
-		    }
+			}
 
-      		$( document ).on( 'widget-added widget-updated', onFormUpdate_jtumbler );
+			$( document ).on( 'widget-added widget-updated', onFormUpdate_jtumbler );
 
 			$( document ).ready( function() {
 				$( '#widgets-right .widget:has(.ilen_radio)' ).each( function () {
 				  initjtumbler( $( this ) );
 				} );
+			} );
+
+		<?php } ?>
+
+		<?php
+		if(  in_array( 'tag', $data )  ){ ?>
+
+			function initTag( widget ) {
+				widget.find( '.ilen_tag' ).tagEditor({ placeholder: '',forceLowercase:false });
+			}
+
+			function onFormUpdate_tag( event, widget ) {
+			  initTag( widget );
+			}
+
+			$( document ).on( 'widget-added widget-updated', onFormUpdate_tag );
+
+			$( document ).ready( function() {
+			  $( '#widgets-right .widget:has(.ilen_tags)' ).each( function () {
+				initTag( $( this ) );
+			  });
 			} );
 
 		<?php } ?>
@@ -964,7 +985,7 @@ jQuery(".iaccordion-header").on("click",function(){
 
 
 
-	// =Interface Create for metabox---------------------------------------------	
+	// =Interface Create for metabox---------------------------------------------   
 	function create_ilenMetabox( $metabox_id = null, $metabox_header = null, $metabox_body = null, $stored_meta = null ){
 
  
@@ -1017,7 +1038,7 @@ jQuery(".iaccordion-header").on("click",function(){
 												$text = ''; $text = isset($value2['title'])?$value2['title']:'';
 												$tab  = ''; $tab = isset($tab)?$value2['tab']:'';
 
-									            $_html .='<div id="box_'.$key.'" class="animation_postbox_once '.$tab.'">';
+												$_html .='<div id="box_'.$key.'" class="animation_postbox_once '.$tab.'">';
 													$_html .=$desc;
 													$_html .="<div class='inside'>";
 															$_html .= self::build_fields_m( $value2['options'], $stored_meta );
@@ -1137,7 +1158,7 @@ jQuery(".iaccordion-header").on("click",function(){
 											foreach ($value['items'] as $key2 => $value2): ?>
 
 											<div class="row_checkbox_list">
-												<input  type="checkbox" <?php if( in_array( $value2['value']  , $options_theme[ $value['name'] ] ) ){ echo " checked='checked' ";} ?> name="<?php echo $value['name'] ?>[]" id="<?php echo $value['id']."_".$value2['id'] ?>" value="<?php echo $value2['value'] ?>"  />	
+												<input  type="checkbox" <?php if( in_array( $value2['value']  , $options_theme[ $value['name'] ] ) ){ echo " checked='checked' ";} ?> name="<?php echo $value['name'] ?>[]" id="<?php echo $value['id']."_".$value2['id'] ?>" value="<?php echo $value2['value'] ?>"  />    
 
 												<label for="<?php echo $value['id']."_".$value2['id']; ?>"><span class="ui"></span></label>
 												&nbsp;<?php echo  $value2['text']; ?>
@@ -1159,7 +1180,7 @@ jQuery(".iaccordion-header").on("click",function(){
 												<?php if( !in_array($post_type->name,array('revision','nav_menu_item')) ): ?>
 												<div class="row_checkbox_types_post">
 
-													<input  type="checkbox" <?php if( in_array( $post_type->name  , (array)($options_theme[ $value['name'] ]) ) ){ echo " checked='checked' ";} ?> name="<?php echo $value['id'] ?>[]" id="<?php echo $value['id']."_".$post_type->name ?>" value="<?php echo $post_type->name; ?>"  />	
+													<input  type="checkbox" <?php if( in_array( $post_type->name  , (array)($options_theme[ $value['name'] ]) ) ){ echo " checked='checked' ";} ?> name="<?php echo $value['id'] ?>[]" id="<?php echo $value['id']."_".$post_type->name ?>" value="<?php echo $post_type->name; ?>"  /> 
 
 													<label for="<?php echo $value['id']."_".$post_type->name ?>"><span class="ui"></span></label>
 													&nbsp;<?php echo $post_type->labels->name; ?>
@@ -1265,7 +1286,7 @@ jQuery(".iaccordion-header").on("click",function(){
 											if( is_array( $value['items'] ) ){
 												foreach ( $value['items'] as $item_key => $item_value ): ?>
 												
-													<option value="<?php echo $item_key ?>" <?php selected( $options_theme[ $value['name'] ] ,   $item_key ); ?>><?php echo $item_value ?></option>	
+													<option value="<?php echo $item_key ?>" <?php selected( $options_theme[ $value['name'] ] ,   $item_key ); ?>><?php echo $item_value ?></option> 
 
 												<?php
 												endforeach;
@@ -1317,7 +1338,7 @@ jQuery(".iaccordion-header").on("click",function(){
 												$data = null;
 												foreach ($array_real_orden as $k => $v): ?>
 													<?php if( in_array( $k , $options_theme[ $value['name'] ]  ) ) { $selected="selected='selected'";  }else{ $selected = ''; } ?>
-													<option value="<?php echo $k ?>" <?php echo $selected; ?>><?php echo $v ?></option>	
+													<option value="<?php echo $k ?>" <?php echo $selected; ?>><?php echo $v ?></option> 
 												<?php endforeach; 
 											}
 
@@ -1335,9 +1356,9 @@ jQuery(".iaccordion-header").on("click",function(){
 										// Object-oriented flavor, example for jQuery plugin
 										
 										$("#<?php echo $value['id'] ?>").select2({
-										    placeholder: "<?php _e('Select order metas',$this->parameter['name_option']) ?>",
-										    allowClear: false,
-										    width:'100%'
+											placeholder: "<?php _e('Select order metas',$this->parameter['name_option']) ?>",
+											allowClear: false,
+											width:'100%'
 											<?php if(isset( $value['limit'] )){ echo ",maximumSelectionSize: {$value['limit']}";} ?>
 										});
 								 
@@ -1383,9 +1404,9 @@ jQuery(".iaccordion-header").on("click",function(){
 								<?php if(isset( $value['before'] )){ echo $value['before'];} ?>
 								<div class="divide">
 									<?php 
-				            			if( $value['icon'] )
-				            				echo '<i class="'.$value['icon'].'"></i>';
-				            		?>
+										if( $value['icon'] )
+											echo '<i class="'.$value['icon'].'"></i>';
+									?>
 									<?php echo $value['title'] ?>
 								</div>
 								<?php if(isset( $value['after'] )){ echo $value['after'];} ?>
@@ -1535,7 +1556,7 @@ jQuery(".iaccordion-header").on("click",function(){
 										</select>
 										<div style="margin: 15px 0;float: left;display: block;width: 100%;">
 											<div style="width: 45%;float: left;padding: 0 2%;margin-left: -8px;margin-right: 17px;">
-												<div id="<?php echo $value['id'] ?>-range" class="noUi-connect"></div>	
+												<div id="<?php echo $value['id'] ?>-range" class="noUi-connect"></div>  
 											</div>
 											<div style="width:27%;float:left">
 												Opacity
@@ -1698,7 +1719,7 @@ jQuery(".iaccordion-header").on("click",function(){
 											<span  id="<?php echo $value['id'] ?>-value" style="padding: 5px 10px;background: #FAFAFA;color: #444;border: 1px solid #F1F1F1;"></span>
 										</div>
 										<div style="width: 84%;float: right;padding: 0;border-radius: 5px;" >
-											<div id="<?php echo $value['id'] ?>-range" <?php if( isset($value['color']) && $value['color'] == 1 ){ echo "class='noUi-connect'"; } ?>></div>	
+											<div id="<?php echo $value['id'] ?>-range" <?php if( isset($value['color']) && $value['color'] == 1 ){ echo "class='noUi-connect'"; } ?>></div> 
 										</div>
 										<input type="hidden" name="<?php echo $value['name'] ?>" id="<?php echo $value['id'] ?>" value="<?php if(isset( $options_theme[ $value['name'] ] )){ echo (int)$options_theme[ $value['name'] ]; }else{ echo 0; } ?>" />
 										<script>
@@ -1736,7 +1757,7 @@ jQuery(".iaccordion-header").on("click",function(){
 	function build_fields_p( $fields = array() ){
 
 			//$options_theme = get_option( $this->parameter['name_option']."_options" );
- 			global $options_theme;
+			global $options_theme;
 			foreach ($fields as $key => $value) {
 
 					if( in_array("b", $value['row']) ) { $side_two = "b"; }else{  $side_two ="c"; }
@@ -1774,7 +1795,7 @@ jQuery(".iaccordion-header").on("click",function(){
 											foreach ($value['items'] as $key2 => $value2): ?>
 
 											<div class="row_checkbox_list">
-												<input  type="checkbox" <?php if( isset($value2['value']) && isset($options_theme[ $value['name'] ]) && $value['name'] && in_array( $value2['value']  , $options_theme[ $value['name'] ] ) ){ echo " checked='checked' ";} ?> name="<?php echo $value['name'] ?>[]" id="<?php echo $value2['id']."_".$value2['value'] ?>" value="<?php if( isset($value2['value']) ){ echo $value2['value']; } ?>"  />	
+												<input  type="checkbox" <?php if( isset($value2['value']) && isset($options_theme[ $value['name'] ]) && $value['name'] && in_array( $value2['value']  , $options_theme[ $value['name'] ] ) ){ echo " checked='checked' ";} ?> name="<?php echo $value['name'] ?>[]" id="<?php echo $value2['id']."_".$value2['value'] ?>" value="<?php if( isset($value2['value']) ){ echo $value2['value']; } ?>"  />  
 												<label for="<?php echo $value2['id']."_".$value2['value'] ?>"><span class="ui"></span></label>
 												&nbsp;<?php echo  $value2['text']; ?>
 												<div class="help"><?php echo $value2['help']; ?></div>
@@ -1793,7 +1814,7 @@ jQuery(".iaccordion-header").on("click",function(){
 												<?php if( !in_array($post_type->name,array('revision','nav_menu_item')) ): ?>
 												<div class="row_checkbox_types_post">
 
-													<input  type="checkbox" <?php if( in_array( $post_type->name  , (array)($options_theme[ $value['name'] ]) ) ){ echo " checked='checked' ";} ?> name="<?php echo $value['id'] ?>[]" id="<?php echo $value['id']."_".$post_type->name ?>" value="<?php echo $post_type->name; ?>"  />	
+													<input  type="checkbox" <?php if( in_array( $post_type->name  , (array)($options_theme[ $value['name'] ]) ) ){ echo " checked='checked' ";} ?> name="<?php echo $value['id'] ?>[]" id="<?php echo $value['id']."_".$post_type->name ?>" value="<?php echo $post_type->name; ?>"  /> 
 
 													<label for="<?php echo $value['id']."_".$post_type->name ?>"><span class="ui"></span></label>
 													&nbsp;<?php echo $post_type->labels->name; ?>
@@ -1857,19 +1878,19 @@ jQuery(".iaccordion-header").on("click",function(){
 									<script>
 
 									  jQuery(document).ready(function(){
-									  	var editor_<?php echo $value['id'] ?> = CodeMirror.fromTextArea(document.getElementById("code_<?php echo $value['id'] ?>"), {
-									  		lineNumbers: <?php if( isset($value['lineNumbers']) && $value['lineNumbers'] ){ echo $value['lineNumbers']; }else{ echo "true"; } ?>,
-							    			styleActiveLine: true,
-							    			matchBrackets: true
-							    	   });
-							    		editor_<?php echo $value['id'] ?>.setOption("theme", "xq-light");
+										var editor_<?php echo $value['id'] ?> = CodeMirror.fromTextArea(document.getElementById("code_<?php echo $value['id'] ?>"), {
+											lineNumbers: <?php if( isset($value['lineNumbers']) && $value['lineNumbers'] ){ echo $value['lineNumbers']; }else{ echo "true"; } ?>,
+											styleActiveLine: true,
+											matchBrackets: true
+									   });
+										editor_<?php echo $value['id'] ?>.setOption("theme", "xq-light");
 
-							    		<?php if( isset($value['mini_callback'])  && $value['mini_callback'] ): ?>
-							    			<?php echo $value['mini_callback']; ?>
-							    		<?php endif; ?>
+										<?php if( isset($value['mini_callback'])  && $value['mini_callback'] ): ?>
+											<?php echo $value['mini_callback']; ?>
+										<?php endif; ?>
 									  });
-								      
-								    </script>
+									  
+									</script>
 								</div>
 							</div>
 							<?php if(isset( $value['after'] )){ echo $value['after'];} ?>
@@ -1931,7 +1952,7 @@ jQuery(".iaccordion-header").on("click",function(){
 										<?php 
 											if( isset($value['items']) && is_array( $value['items'] ) ){
 												foreach ( $value['items'] as $item_key => $item_value ): ?>
-													<option value="<?php echo $item_key ?>" <?php selected( isset($options_theme[ $value['name'] ])?$options_theme[ $value['name'] ]:"" ,   $item_key ); ?>><?php echo $item_value ?></option>	
+													<option value="<?php echo $item_key ?>" <?php selected( isset($options_theme[ $value['name'] ])?$options_theme[ $value['name'] ]:"" ,   $item_key ); ?>><?php echo $item_value ?></option>  
 												<?php
 												endforeach;
 											}
@@ -1977,9 +1998,9 @@ jQuery(".iaccordion-header").on("click",function(){
 								<?php if(isset( $value['before'] )){ echo $value['before'];} ?>
 								<div class="divide <?php if(isset( $value['class'] )){ echo $value['class'];} ?>" <?php if(isset( $value['style'] )){ echo $value['style'];} ?> >
 									<?php 
-				            			if( isset($value['icon']) )
-				            				echo '<i class="'.$value['icon'].'"></i>';
-				            		?>
+										if( isset($value['icon']) )
+											echo '<i class="'.$value['icon'].'"></i>';
+									?>
 									<?php echo $value['title'] ?>
 								</div>
 								<?php if(isset( $value['after'] )){ echo $value['after'];} ?>
@@ -2084,7 +2105,7 @@ jQuery(".iaccordion-header").on("click",function(){
 							<div class="row <?php if(isset( $value['class'] )){ echo $value['class'];} ?>" <?php if(isset( $value['style'] )){ echo $value['style'];} ?>>
 								<div class="a"><strong><?php echo $value['title']; ?></strong><div class="help"><?php echo $value['help']; ?></div></div>
 								<div class="<?php echo $side_two; ?>">
-									<a href="#" class="ibtn btnblack" style="padding-left:12px;" onclick="<?php echo $value['onclick'] ?>" name="<?php echo $value['name'] ?>" id="<?php echo $value['id'] ?>"  ><?php echo $value['text_button'] ?></a>
+									<a href="<?php echo $value['value']; ?>" class="ibtn btnblack" style="padding-left:12px;" onclick="<?php echo $value['onclick'] ?>" name="<?php echo $value['name'] ?>" id="<?php echo $value['id'] ?>"  ><?php echo $value['text_button'] ?> <div id="ajax_imagen_button_<?php echo $value['id'] ?>" class="ilen_ajax_imagen_button"></div></a>
 								</div>
 							</div>
 							<?php if(isset( $value['after'] )){ echo $value['after'];} ?>
@@ -2120,7 +2141,7 @@ jQuery(".iaccordion-header").on("click",function(){
 											<span  id="<?php echo $value['id'] ?>-value" style="padding: 5px 10px;background: #FAFAFA;color: #444;border: 1px solid #F1F1F1;"></span>
 										</div>
 										<div style="width: 76%;float: left;padding: 0;border-radius: 5px;margin-left: 13px;" >
-											<div id="<?php echo $value['id'] ?>-range" <?php if( isset($value['color']) && $value['color'] == 1 ){ echo "class='noUi-connect'"; } ?>></div>	
+											<div id="<?php echo $value['id'] ?>-range" <?php if( isset($value['color']) && $value['color'] == 1 ){ echo "class='noUi-connect'"; } ?>></div> 
 										</div>
 										<input type="hidden" name="<?php echo $value['name'] ?>" id="<?php echo $value['id'] ?>" value="<?php if(isset( $options_theme[ $value['name'] ] )){ echo (int)$options_theme[ $value['name'] ]; }else{ echo 0; } ?>" />
 										<script>
@@ -2240,7 +2261,7 @@ jQuery(".iaccordion-header").on("click",function(){
 										<?php 
 											if( isset($value['items']) && is_array( $value['items'] ) ){
 												foreach ( $value['items'] as $item_key => $item_value ): ?>
-													<option value="<?php echo $item_key ?>" <?php selected( isset( $value['value'] )?$value['value']:"" ,   $item_key ); ?>><?php echo $item_value ?></option>	
+													<option value="<?php echo $item_key ?>" <?php selected( isset( $value['value'] )?$value['value']:"" ,   $item_key ); ?>><?php echo $item_value ?></option>  
 												<?php
 												endforeach;
 											}
@@ -2317,7 +2338,7 @@ jQuery(".iaccordion-header").on("click",function(){
 											<span  id="<?php echo $value['id'] ?>-value" style="padding: 5px 10px;background: #FAFAFA;color: #444;border: 1px solid #F1F1F1;"></span>
 										</div>
 										<div style="width: 82%;float: right;padding: 0;border-radius: 5px;margin-left: 13px;" >
-											<div id="<?php echo $value['id'] ?>-range" class="<?php if( isset($value['color']) && $value['color'] == 1 ){ echo "noUi-connect"; } ?> noUiSlider_range"></div>	
+											<div id="<?php echo $value['id'] ?>-range" class="<?php if( isset($value['color']) && $value['color'] == 1 ){ echo "noUi-connect"; } ?> noUiSlider_range"></div>    
 										</div>
 										<input type="hidden" class="input_noUiSlider" value="<?php echo $value['id'] ?>|<?php echo (int)$value['value'] ?>|<?php echo (int)$value['step'] ?>|<?php echo (int)$value['min'] ?>|<?php echo (int)$value['max'] ?>" />
 										<input type="hidden" name="<?php echo $value['name'] ?>" id="<?php echo $value['id'] ?>" value="<?php if(isset( $value['value'] )){ echo (int)$value['value']; }else{ echo 0; } ?>" />
@@ -2365,7 +2386,7 @@ jQuery(".iaccordion-header").on("click",function(){
 											foreach ( $value['items'] as $key2 => $value2 ): ?>
 
 											<div class="row_checkbox_list">
-												<input  type="checkbox" <?php if( isset($value2['value']) && isset($my_values) && $my_values && in_array( $value2['value']  , $my_values ) ){ echo " checked='checked' ";} ?> name="<?php echo $value['name'] ?>[]" id="<?php echo $value2['id']."_".$value2['value'] ?>" value="<?php if( isset($value2['value']) ){ echo $value2['value']; } ?>"  />	
+												<input  type="checkbox" <?php if( isset($value2['value']) && isset($my_values) && $my_values && in_array( $value2['value']  , $my_values ) ){ echo " checked='checked' ";} ?> name="<?php echo $value['name'] ?>[]" id="<?php echo $value2['id']."_".$value2['value'] ?>" value="<?php if( isset($value2['value']) ){ echo $value2['value']; } ?>"  />  
 												<label for="<?php echo $value2['id']."_".$value2['value'] ?>"><span class="ui"></span></label>
 												&nbsp;<?php echo  $value2['text']; ?>
 												<div class="help"><?php echo $value2['help']; ?></div>
@@ -2388,7 +2409,7 @@ jQuery(".iaccordion-header").on("click",function(){
 												<?php if( !in_array($post_type->name,array('revision','nav_menu_item')) ): ?>
 												<div class="row_checkbox_types_post">
 
-													<input  type="checkbox" <?php if( in_array( $post_type->name  , (array)($my_values) ) ){ echo " checked='checked' ";} ?> name="<?php echo $value['id'] ?>[]" id="<?php echo $value['id']."_".$post_type->name ?>" value="<?php echo $post_type->name; ?>"  />	
+													<input  type="checkbox" <?php if( in_array( $post_type->name  , (array)($my_values) ) ){ echo " checked='checked' ";} ?> name="<?php echo $value['id'] ?>[]" id="<?php echo $value['id']."_".$post_type->name ?>" value="<?php echo $post_type->name; ?>"  />   
 
 													<label for="<?php echo $value['id']."_".$post_type->name ?>"><span class="ui"></span></label>
 													&nbsp;<?php echo $post_type->labels->name; ?>
@@ -2420,7 +2441,7 @@ jQuery(".iaccordion-header").on("click",function(){
 										<?php if( isset( $value['items'] ) && is_array( $value['items'] ) ): ?>
 											<?php foreach ($value['items'] as $key2 => $value2): ?>
 												<input type="radio" name="<?php echo $value['name']; ?>" value="<?php echo $key2; ?>" id="<?php echo $value['id']; ?>-<?php echo $key2; ?>" <?php checked( $value['value'] , $key2  ); ?> />
-									  			<label for="<?php echo $value['id']; ?>-<?php echo $key2; ?>" data-title="<?php echo $value2; ?>"><?php echo $value2; ?></label>
+												<label for="<?php echo $value['id']; ?>-<?php echo $key2; ?>" data-title="<?php echo $value2; ?>"><?php echo $value2; ?></label>
 											<?php endforeach; ?>
 										<?php endif; ?>
 									</div>
@@ -2439,6 +2460,20 @@ jQuery(".iaccordion-header").on("click",function(){
 									<?php if( isset($value['html2']) ){ echo $value['html2']; } ?>
 								</div>
 								<div class="help"><?php echo $value['help']; ?></div>
+							</div>
+							<?php if(isset( $value['after'] )){ echo $value['after'];} ?>
+
+						<?php break;
+
+
+						case "tag": ?>
+
+							<?php if(isset( $value['before'] )){ echo $value['before'];} ?>
+							<div class="row ilen_tags <?php if(isset( $value['class'] )){ echo $value['class'];} ?>" <?php if(isset( $value['style'] )){ echo $value['style'];} ?> >
+								<div class="a"><strong><?php echo $value['title']; ?></strong><div class="help"><?php echo $value['help']; ?></div></div>
+								<div class="<?php echo $side_two; ?>">
+									<input type="text" value="<?php if(isset(  $value['value'] )){ echo $value['value']; } ?>" id="<?php echo $value['id']; ?>" name="<?php echo $value['name'] ?>" <?php if(isset($value['placeholder'])){ echo "placeholder='{$value['placeholder']}'"; } ?> class="ilen_tag" />
+								</div>
 							</div>
 							<?php if(isset( $value['after'] )){ echo $value['after'];} ?>
 
@@ -2468,14 +2503,14 @@ jQuery(".iaccordion-header").on("click",function(){
 			$value_stored ='';
 			$real_value   ='';
 			$placeholder  ='';
-			$readonly			='';
+			$readonly           ='';
 
 			$class        = isset( $value['class'] )?$value['class']:'';
 			$style        = isset( $value['style'] )?"style='{$value['style']}'":'';
 			$default      = isset( $value['value'] )?$value['value']:'';
 			$value_stored = isset($stored[ $value['name'] ])?$stored[ $value['name'] ]:null;
 			$placeholder  = isset( $value['placeholder'] ) && $value['placeholder']?$value['placeholder']:'';
-			$readonly  	  = isset( $value['readonly'] ) && $value['readonly']? "readonly='readonly'" :'';
+			$readonly     = isset( $value['readonly'] ) && $value['readonly']? "readonly='readonly'" :'';
 
  
 			switch ( $value['type'] ) {
@@ -2503,39 +2538,39 @@ jQuery(".iaccordion-header").on("click",function(){
 jQuery(document).ready(function($){
   console.log('$_url_ajax');
   $('#select2_search_post_{$value["name"]}').select2({
-    placeholder: 'Search...',
-    minimumInputLength: 3,
-    multiple: false,
-    formatSearching: function () { return 'Searching...'; },
-    formatNoMatches: function () { return 'No result found'; },
-    ajax: {
-        url: '$_url_ajax',
-        dataType: 'json',
-        action: 'select2-search-post',
-        quietMillis: 100,
-        data: function (term, page) {
-	        return {
-	          term: term, //search term
-	          action: 'select2-search-post', //wordpress action
-	          image_default: '{$this->parameter['default_image']}'
-	        };
-      	},
-        results: function (data, page) {
+	placeholder: 'Search...',
+	minimumInputLength: 3,
+	multiple: false,
+	formatSearching: function () { return 'Searching...'; },
+	formatNoMatches: function () { return 'No result found'; },
+	ajax: {
+		url: '$_url_ajax',
+		dataType: 'json',
+		action: 'select2-search-post',
+		quietMillis: 100,
+		data: function (term, page) {
+			return {
+			  term: term, //search term
+			  action: 'select2-search-post', //wordpress action
+			  image_default: '{$this->parameter['default_image']}'
+			};
+		},
+		results: function (data, page) {
 			//--> var more = (page * 10) < data.total; // whether or not there are more results available
 			//alert(data);
 			// notice we return the value of more so Select2 knows if more results can be loaded
-        return {
-          results: data,
-          //more: more
-        };
-      }
+		return {
+		  results: data,
+		  //more: more
+		};
+	  }
 
-      },
-     formatResult: function(item){ return '<div class=\"select2_list_search\"><div class=\"a\"><img  height=\"32\" width=\"32\" src=\"'+item.image+'\" /></div><div class=\"b\">' + item.text + '</div></div>' }, // omitted for brevity, see the source of this page
-     formatSelection: function(item){ jQuery('#select2_search_post_{$value["name"]}_select').val( item.id+'|'+item.text+'|'+item.image+'&' ) ;return item.text; }, // omitted for brevity, see the source of this page
-     dropdownCssClass: 'bigdrop', // apply css that makes the dropdown taller
-     escapeMarkup: function (m) { return m; } // we do not want to escape markup since we are displaying html in results
-     // initSelection: function(element, callback) { return $.getJSON('/ajax/select2_sample.php?id=' + (element.val()), null, function(data) { return callback(data); });}
+	  },
+	 formatResult: function(item){ return '<div class=\"select2_list_search\"><div class=\"a\"><img  height=\"32\" width=\"32\" src=\"'+item.image+'\" /></div><div class=\"b\">' + item.text + '</div></div>' }, // omitted for brevity, see the source of this page
+	 formatSelection: function(item){ jQuery('#select2_search_post_{$value["name"]}_select').val( item.id+'|'+item.text+'|'+item.image+'&' ) ;return item.text; }, // omitted for brevity, see the source of this page
+	 dropdownCssClass: 'bigdrop', // apply css that makes the dropdown taller
+	 escapeMarkup: function (m) { return m; } // we do not want to escape markup since we are displaying html in results
+	 // initSelection: function(element, callback) { return $.getJSON('/ajax/select2_sample.php?id=' + (element.val()), null, function(data) { return callback(data); });}
   });
 
 	
@@ -2552,9 +2587,9 @@ function add_select2_to_dragdrop_{$value['name']}( id, text, image ){
 		if( ! jQuery.isArray(array_values) ) return;
 		
 		for (i = 0; i < array_values.length; i++) { 
-		    if( id == array_values[i] ){
-		    	return false;
-		    }
+			if( id == array_values[i] ){
+				return false;
+			}
 		}
 
 		if( ! image ) return;
@@ -2579,10 +2614,10 @@ function delete_select2_to_dragdrop_{$value['name']}( id ){
 	for (i = 0; i < array_values.length; i++) { 
 
 		if( array_values[i] ){
-		    if( id != array_values[i] ){
-		    	new_ids = new_ids + array_values[i]+'|';
-		    }
-	    }
+			if( id != array_values[i] ){
+				new_ids = new_ids + array_values[i]+'|';
+			}
+		}
 	}
  
 	jQuery(select2_search_post_{$value["name"]}_values).val(new_ids);
@@ -2592,11 +2627,11 @@ function delete_select2_to_dragdrop_{$value['name']}( id ){
 </script>
 <style>
 .select2-search input.select2-active {
-    background: #fff url('".admin_url('/images/wpspin_light.gif')."') no-repeat 100%;
-    background: url('".admin_url('/images/wpspin_light.gif')."') no-repeat 100%, -webkit-gradient(linear, left bottom, left top, color-stop(0.85, #fff), color-stop(0.99, #eee));
-    background: url('".admin_url('/images/wpspin_light.gif')."') no-repeat 100%, -webkit-linear-gradient(center bottom, #fff 85%, #eee 99%);
-    background: url('".admin_url('/images/wpspin_light.gif')."') no-repeat 100%, -moz-linear-gradient(center bottom, #fff 85%, #eee 99%);
-    background: url('".admin_url('/images/wpspin_light.gif')."') no-repeat 100%, linear-gradient(to bottom, #fff 85%, #eee 99%) 0 0;
+	background: #fff url('".admin_url('/images/wpspin_light.gif')."') no-repeat 100%;
+	background: url('".admin_url('/images/wpspin_light.gif')."') no-repeat 100%, -webkit-gradient(linear, left bottom, left top, color-stop(0.85, #fff), color-stop(0.99, #eee));
+	background: url('".admin_url('/images/wpspin_light.gif')."') no-repeat 100%, -webkit-linear-gradient(center bottom, #fff 85%, #eee 99%);
+	background: url('".admin_url('/images/wpspin_light.gif')."') no-repeat 100%, -moz-linear-gradient(center bottom, #fff 85%, #eee 99%);
+	background: url('".admin_url('/images/wpspin_light.gif')."') no-repeat 100%, linear-gradient(to bottom, #fff 85%, #eee 99%) 0 0;
 }
 </style>
 ";
@@ -2617,26 +2652,26 @@ if( $value_stored ){
 	if( is_array( $posts_real_id ) ){
 
 		$args = array(
-		    'post__in' => $posts_real_id,
-		    'orderby' => 'post__in',
-		    'posts_per_page' => 100
+			'post__in' => $posts_real_id,
+			'orderby' => 'post__in',
+			'posts_per_page' => 100
 		);
 		
 		$get_posts = get_posts($args);
 
-	    $found_posts = array();
-	    if ($get_posts) {
+		$found_posts = array();
+		if ($get_posts) {
 
-	   		$image = null;
-	        foreach ($get_posts as $_post) {
+			$image = null;
+			foreach ($get_posts as $_post) {
 
-	        	$image = $if_utils->IF_get_image('thumbnail',$this->parameter['default_image'],$_post->ID);
-	        	$text = $if_utils->IF_cut_text(get_the_title($_post->ID),75);
-	        	$_html_select2 .= "<li id='li_select2_item_{$_post->ID}'><img src='{$image['src']}'  /> $text <span class='select2_list_close select2_list_close{$_post->ID}' data-id='{$_post->ID}' onclick='delete_select2_to_dragdrop_{$value['name']}({$_post->ID})'>✕</span></li>";
+				$image = $if_utils->IF_get_image('thumbnail',$this->parameter['default_image'],$_post->ID);
+				$text = $if_utils->IF_cut_text(get_the_title($_post->ID),75);
+				$_html_select2 .= "<li id='li_select2_item_{$_post->ID}'><img src='{$image['src']}'  /> $text <span class='select2_list_close select2_list_close{$_post->ID}' data-id='{$_post->ID}' onclick='delete_select2_to_dragdrop_{$value['name']}({$_post->ID})'>✕</span></li>";
 
-	        }
+			}
 
-	        wp_reset_postdata();
+			wp_reset_postdata();
 
 		}
 
@@ -2676,12 +2711,12 @@ if( $value_stored ){
 								foreach ($value['items'] as $key2 => $value2): 
 									$checked = isset($value2['value']) && isset($value_stored) && $value['name'] && in_array( $value2['value']  , $value_stored ) ? "checked='checked'":"";
 									$_html .="<div class='row_checkbox_list'>
-												<input  type='checkbox' $checked name='{$value["name"]}[]' id='{$value2['id']}_{$value2['value']}' value='$value_stored'  />	
+												<input  type='checkbox' $checked name='{$value["name"]}[]' id='{$value2['id']}_{$value2['value']}' value='$value_stored'  />    
 												<label for='{$value2['id']}_{$value2['value']}'><span class='ui'></span></label>
 												&nbsp;{$value2['text']}
 												<div class='help'>{$value2['help']}</div>
 											  </div>";
-							 	endforeach; 
+								endforeach; 
 								
 							}elseif( isset($value['display']) && $value['display'] == 'types_post' ) {
 
@@ -2696,7 +2731,7 @@ if( $value_stored ){
 
 									if( !in_array($post_type->name,array('revision','nav_menu_item')) ):
 										$_html .="<div class='row_checkbox_types_post'>
-												  	<input  type='checkbox' $ck name='{$value['id']}[]' id='{$value['id']}_{$post_type->name}' value='$post_type->name'  />
+													<input  type='checkbox' $ck name='{$value['id']}[]' id='{$value['id']}_{$post_type->name}' value='$post_type->name'  />
 													<label for='{$value['id']}_{$post_type->name}'><span class='ui'></span></label>
 													&nbsp;$post_type->labels->name
 													<div class='help'>{$value2['help']}</div>
@@ -2752,37 +2787,37 @@ if( $value_stored ){
 		//$post_type = isset($_GET['post_type']) ? $_GET['post_type'] : 'post';
 
 
-        if(  is_array( $mb_header)  ){
+		if(  is_array( $mb_header)  ){
 
-            $stored_meta = get_post_meta( $post_id , $name_store );
-            if ( !$stored_meta ){
+			$stored_meta = get_post_meta( $post_id , $name_store );
+			if ( !$stored_meta ){
 
-                $stored_meta = $this->set_default_metabox_values( $post_id , $name_store , $mb_header ,  $mb_body );
-                $stored_meta[0] = $stored_meta;
+				$stored_meta = $this->set_default_metabox_values( $post_id , $name_store , $mb_header ,  $mb_body );
+				$stored_meta[0] = $stored_meta;
 
-            }
+			}
 
-            $priority = 10;
-           	$this->parameter['metabox_name']   = $name_store;
+			$priority = 10;
+			$this->parameter['metabox_name']   = $name_store;
 			$this->parameter['header_metabox'] = $mb_header;
 			$this->parameter['body_metabox']   = $mb_body;
 
 
-            foreach ($mb_header as $key => $value) {
+			foreach ($mb_header as $key => $value) {
 
-                $html_data = $this->create_ilenMetabox( $key , $mb_header , $mb_body,  $stored_meta );
-                $function_meta_dinamyc = create_function( '',  "echo ".@var_export($html_data,TRUE).";" );
+				$html_data = $this->create_ilenMetabox( $key , $mb_header , $mb_body,  $stored_meta );
+				$function_meta_dinamyc = create_function( '',  "echo ".@var_export($html_data,TRUE).";" );
 				add_action('admin_head',  @create_function( '', "add_meta_box( '{$value['id']}', '{$value['title']}', '$function_meta_dinamyc', '$post_type' , '{$value['context']}', '{$value['priority']}' );" ), $priority );
-                
-                $priority = $priority + 1;
+				
+				$priority = $priority + 1;
 
-            }
+			}
 
-            //do_action( 'save_post', $post_id );
-            //add_action( 'save_post' ,  array( &$this , 'IF_save_metabox' ) , 6 , 1 );
+			//do_action( 'save_post', $post_id );
+			//add_action( 'save_post' ,  array( &$this , 'IF_save_metabox' ) , 6 , 1 );
 
  
-        }
+		}
 
 	}
 
@@ -2817,16 +2852,16 @@ if( $value_stored ){
 	  $array_new_values = array();
 	  if( is_array( $array_value ) ){
 
-	    foreach ($array_value as $key => $value) {
-	      
-	        if( !$value )
-	          $array_new_values[$key] = $array_default[$key];
-	        else
-	          $array_new_values[$key] = $array_value[$key];
-	    }
+		foreach ($array_value as $key => $value) {
+		  
+			if( !$value )
+			  $array_new_values[$key] = $array_default[$key];
+			else
+			  $array_new_values[$key] = $array_value[$key];
+		}
 
 	  }else
-	    $array_new_values = $array_value;
+		$array_new_values = $array_value;
 
 
 	  return $array_new_values;
@@ -2839,15 +2874,15 @@ if( $value_stored ){
 // =OUTPUT HTML ---------------------------------------------
 
 function ShowHTML(){  
-  		
-  	if( $this->parameter['type']  == "theme" ){
+		
+	if( $this->parameter['type']  == "theme" ){
 			self::ilentheme_options_wrap_for_theme(); 
 		}elseif( $this->parameter['type'] == "plugin" ){
 			self::ilentheme_options_wrap_for_plugin(); 
 		}elseif( $this->parameter['type'] == "plugin-tabs" ){
 			self::ilentheme_options_wrap_for_plugin_tabs(); 
 		}
-  		
+		
  
 }
 
@@ -2880,7 +2915,7 @@ function save_options(){
 				}
 			}
 
-			if( is_array($options_update) ){	
+			if( is_array($options_update) ){    
 				
 				if(update_option( $this->parameter['name_option']."_options" , $options_update)){
 					$this->save_status = true;
@@ -2955,12 +2990,12 @@ function save_options(){
 
 
 			if( update_option( $this->parameter['name_option']."_options" , $args) ){
-				$this->save_status = true;	
+				$this->save_status = true;  
 			}else{
-				$this->save_status = false;	
+				$this->save_status = false; 
 			}
 		}else{
-			$this->save_status = false;	
+			$this->save_status = false; 
 		}
 
 	}
@@ -3025,19 +3060,19 @@ function fields_update($data,$is_tab = 1){
 				 $array_set_values_check = array();
 				 if( isset($_POST[$value['id'] ]) &&  is_array( $_POST[$value['id'] ] ) ){
 
-				 	if( in_array( '-1', $_POST[$value['id'] ] ) )
-				 		$array_set_values_check[]="-1";
-				 	else{
+					if( in_array( '-1', $_POST[$value['id'] ] ) )
+						$array_set_values_check[]="-1";
+					else{
 
-				 		$array_set_values_check = $_POST[$value['id'] ];
+						$array_set_values_check = $_POST[$value['id'] ];
 
-				 	}
+					}
 
 
 				 }
 
 				 if( ! $array_set_values_check ){
-				 	$array_set_values_check = array("-1");
+					$array_set_values_check = array("-1");
 				 }
 
 				 // set values type check list
@@ -3073,7 +3108,7 @@ function fields_update($data,$is_tab = 1){
 				$background_complete_array['src']         = isset($_POST["{$value['name']}_src"])?$_POST["{$value['name']}_src"]:'';
 				$background_complete_array['opacity']     = isset($_POST["{$value['name']}_opacity"])?$_POST["{$value['name']}_opacity"]:'';
 
-			    //var_dump($background_complete_array);
+				//var_dump($background_complete_array);
 				$options_update[$value['name']]    = $background_complete_array; 
 
 
@@ -3084,7 +3119,7 @@ function fields_update($data,$is_tab = 1){
 				$color_hover_array['color']       = $_POST["{$value['name']}_color"]?$_POST["{$value['name']}_color"]:'';
 				$color_hover_array['hover'] = isset($_POST["{$value['name']}_hover"])?$_POST["{$value['name']}_hover"]:'';
 
-			    //var_dump($background_complete_array);
+				//var_dump($background_complete_array);
 				$options_update[$value['name']]    = $color_hover_array; 
 
 			}elseif( $value['type'] == 'select2' && $value['multiple'] ==  true  ){
@@ -3167,46 +3202,46 @@ function fields_update($data,$is_tab = 1){
 
 
 	function IF_save_metabox( $post_id=0 ){
- 		
- 		//var_dump( $this->parameter );exit;
+		
+		//var_dump( $this->parameter );exit;
 
- 		if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;// Bail if we're doing an auto save
+		if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;// Bail if we're doing an auto save
 
 		// Checks save status
-	    $is_autosave = wp_is_post_autosave( $post_id );
-	    $is_revision = wp_is_post_revision( $post_id );
+		$is_autosave = wp_is_post_autosave( $post_id );
+		$is_revision = wp_is_post_revision( $post_id );
 
-	    //$is_valid_nonce = ( wp_verify_nonce( "ilenmetabox_nonce" , basename( __FILE__ ) ) ) ? true : false;
+		//$is_valid_nonce = ( wp_verify_nonce( "ilenmetabox_nonce" , basename( __FILE__ ) ) ) ? true : false;
 
-	   	/*var_dump($is_autosave);
-	    var_dump($is_revision);
-	    var_dump($is_valid_nonce);
-	    exit;*/
-	    // Exits script depending on save status
-	    //if ( $is_autosave || $is_revision || !$is_valid_nonce ) {
-	    if ( $is_autosave || $is_revision ) {
-	        return;
-	    }
-
-
-	    if( ! $this->parameter['metabox_name'] ) return;
+		/*var_dump($is_autosave);
+		var_dump($is_revision);
+		var_dump($is_valid_nonce);
+		exit;*/
+		// Exits script depending on save status
+		//if ( $is_autosave || $is_revision || !$is_valid_nonce ) {
+		if ( $is_autosave || $is_revision ) {
+			return;
+		}
 
 
-	    // Fetch!
-	    $update_meta_new = null;
-	    if( isset($this->parameter['header_metabox']) && is_array($this->parameter['header_metabox']) ){
-
-	    	foreach ($this->parameter['header_metabox'] as $header_key => $header_value) {
-
-	    		if( isset($this->parameter['body_metabox'][$header_key]) && is_array($this->parameter['body_metabox'][$header_key]) ){
-		    		foreach ( $this->parameter['body_metabox'][$header_key] as $body_key => $body_value ) {
-
-		    			if( isset( $body_value['options'] ) && is_array( $body_value['options'] ) ){
-
-		    				foreach ($body_value['options'] as $key => $value) {
+		if( ! $this->parameter['metabox_name'] ) return;
 
 
-		    					// save options check list
+		// Fetch!
+		$update_meta_new = null;
+		if( isset($this->parameter['header_metabox']) && is_array($this->parameter['header_metabox']) ){
+
+			foreach ($this->parameter['header_metabox'] as $header_key => $header_value) {
+
+				if( isset($this->parameter['body_metabox'][$header_key]) && is_array($this->parameter['body_metabox'][$header_key]) ){
+					foreach ( $this->parameter['body_metabox'][$header_key] as $body_key => $body_value ) {
+
+						if( isset( $body_value['options'] ) && is_array( $body_value['options'] ) ){
+
+							foreach ($body_value['options'] as $key => $value) {
+
+
+								// save options check list
 								if(  isset($value['display']) && $value['type'] == 'checkbox' && ( $value['display'] == 'list' || $value['display'] == 'types_post' ) ){
 
 									$array_get_values_check = array();
@@ -3248,20 +3283,20 @@ function fields_update($data,$is_tab = 1){
 								} // end type checkbox
 								elseif( isset( $_POST[ $value['name'] ] ) ){
 
-		    						$update_meta_new[ $value['name'] ] = $this->ilenwidget_validate_inputs_ext( $_POST[ $value['name'] ], $value['sanitizes'] );
+									$update_meta_new[ $value['name'] ] = $this->ilenwidget_validate_inputs_ext( $_POST[ $value['name'] ], $value['sanitizes'] );
 
-		    					}
-		    				}
-		    			}
+								}
+							}
+						}
 					}
 				}
-	    	}
-	    }
+			}
+		}
 
-	    // Checks for input and sanitizes/saves if needed
-	    if( is_array($update_meta_new) ) {
-	        update_post_meta( $post_id,  $this->parameter['metabox_name'] , $update_meta_new );
-	    }
+		// Checks for input and sanitizes/saves if needed
+		if( is_array($update_meta_new) ) {
+			update_post_meta( $post_id,  $this->parameter['metabox_name'] , $update_meta_new );
+		}
 
 
 	}
@@ -3270,41 +3305,41 @@ function fields_update($data,$is_tab = 1){
 	function set_default_metabox_values( $post_id, $metabox_key, $header, $body ){
 
 		// Fetch!
-	    $update_meta_new = null;
+		$update_meta_new = null;
 
-	    if( isset($header) && is_array($header) ){
+		if( isset($header) && is_array($header) ){
 
-	    	foreach ($header as $header_key => $header_value) {
+			foreach ($header as $header_key => $header_value) {
 
-	    		if( isset($body[$header_key]) && is_array($body[$header_key]) ){
-		    		foreach ( $body[$header_key] as $body_key => $body_value ) {
+				if( isset($body[$header_key]) && is_array($body[$header_key]) ){
+					foreach ( $body[$header_key] as $body_key => $body_value ) {
 
-		    			if( isset( $body_value['options'] ) && is_array( $body_value['options'] ) ){
+						if( isset( $body_value['options'] ) && is_array( $body_value['options'] ) ){
 
-		    				foreach ($body_value['options'] as $key => $value) {
+							foreach ($body_value['options'] as $key => $value) {
 
-		    					if( $value['type'] != 'html' ){
-		    						$update_meta_new[ $value['name'] ] = $this->ilenwidget_validate_inputs_ext(  $value['value'] , isset($value['sanitizes']) && $value['sanitizes']?$value['sanitizes']:'' );
-		    					}
+								if( $value['type'] != 'html' ){
+									$update_meta_new[ $value['name'] ] = $this->ilenwidget_validate_inputs_ext(  $value['value'] , isset($value['sanitizes']) && $value['sanitizes']?$value['sanitizes']:'' );
+								}
 
-		    				}
+							}
 
-		    			}
+						}
 						
 					}
 				}
-	    	}
+			}
 
-	    }
+		}
 
  
-	    // Checks for input and sanitizes/saves if needed
-	    if( is_array($update_meta_new) ) {
-	        update_post_meta( $post_id,  $metabox_key , $update_meta_new );
-	    }
+		// Checks for input and sanitizes/saves if needed
+		if( is_array($update_meta_new) ) {
+			update_post_meta( $post_id,  $metabox_key , $update_meta_new );
+		}
 
 
-	    return $update_meta_new;
+		return $update_meta_new;
 
 
 	}
@@ -3318,7 +3353,7 @@ function fields_update($data,$is_tab = 1){
 	function ilenframework_add_scripts_admin(){
 
 
-    	global $pagenow,$post_type;
+		global $pagenow,$post_type;
 
 
 		// If is admin page (if front-end not load)
@@ -3337,33 +3372,33 @@ function fields_update($data,$is_tab = 1){
 			wp_enqueue_script('ilentheme-script-admin', (isset($this->parameter['url_framework'])?$this->parameter['url_framework']:'') . '/core.js', array( 'jquery','jquery-ui-core','jquery-ui-tabs','wp-color-picker' ,'jquery-ui-accordion','jquery-ui-autocomplete','jquery-ui-sortable' ), '', true );
 			// Enqueue Scripts WP
 			if(function_exists( 'wp_enqueue_media' )){
-			    wp_enqueue_media();
+				wp_enqueue_media();
 			}else{
 				wp_enqueue_script('media-upload'); // else put this
-			    wp_enqueue_script('media-models');
+				wp_enqueue_script('media-models');
 			}
 
-		    wp_enqueue_style( 'thickbox' );
-		    wp_enqueue_script( 'thickbox' );
-		    wp_enqueue_style( 'wp-color-picker' );
+			wp_enqueue_style( 'thickbox' );
+			wp_enqueue_script( 'thickbox' );
+			wp_enqueue_style( 'wp-color-picker' );
 
-  			if( $this->parameter['themeadmin'] ){
-  				wp_register_style( 'ilentheme-styles-admin-theme-'.$this->parameter['id'], $this->parameter['url_framework'] ."/assets/css/theme-{$this->parameter['themeadmin']}.css" );
-  				wp_enqueue_style( 'ilentheme-styles-admin-theme-'.$this->parameter['id'] );
+			if( $this->parameter['themeadmin'] ){
+				wp_register_style( 'ilentheme-styles-admin-theme-'.$this->parameter['id'], $this->parameter['url_framework'] ."/assets/css/theme-{$this->parameter['themeadmin']}.css" );
+				wp_enqueue_style( 'ilentheme-styles-admin-theme-'.$this->parameter['id'] );
 
-  				// RTL
-  				if( is_rtl() ){
-  					//echo "<select><option value='123'>hola que tal</option></select>";
-  					wp_register_style( 'ilentheme-styles-admin-theme-rtl-'.$this->parameter['id'], $this->parameter['url_framework'] ."/assets/css/theme-{$this->parameter['themeadmin']}-rtl.css" );
-  					wp_enqueue_style( 'ilentheme-styles-admin-theme-rtl-'.$this->parameter['id'] );
+				// RTL
+				if( is_rtl() ){
+					//echo "<select><option value='123'>hola que tal</option></select>";
+					wp_register_style( 'ilentheme-styles-admin-theme-rtl-'.$this->parameter['id'], $this->parameter['url_framework'] ."/assets/css/theme-{$this->parameter['themeadmin']}-rtl.css" );
+					wp_enqueue_style( 'ilentheme-styles-admin-theme-rtl-'.$this->parameter['id'] );
 
-  				}
-  			}
-  			// google fonts
+				}
+			}
+			// google fonts
 			wp_register_style( 'fonts-google-if', 'http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300italic,300,400,600,700|Roboto' );
-    		wp_enqueue_style( 'fonts-google-if' );
+			wp_enqueue_style( 'fonts-google-if' );
 
-  			//-------------------------------------------
+			//-------------------------------------------
 
 
 
@@ -3373,8 +3408,8 @@ function fields_update($data,$is_tab = 1){
 			//The script is executed according to their calling
 			//_________________________________________________
 
-		    // VALIDATION: Show script only page
-		    $script_to_show = array();
+			// VALIDATION: Show script only page
+			$script_to_show = array();
 			if( isset($_GET['page']) && $_GET['page'] ){
 				if(isset($this->parameter['scripts_admin']['page'][$_GET['page']])){
 					$script_to_show = $this->parameter['scripts_admin']['page'][$_GET['page']];
@@ -3385,7 +3420,7 @@ function fields_update($data,$is_tab = 1){
 				}
 			}elseif( $pagenow == 'edit.php' || $pagenow == 'post.php' ){
 				if( isset($this->parameter['scripts_admin'][$pagenow]) ){
-					$script_to_show = $this->parameter['scripts_admin'][$pagenow];	
+					$script_to_show = $this->parameter['scripts_admin'][$pagenow];  
 				}
 				
 			}elseif( $pagenow == 'widgets.php' || $pagenow == 'customize.php'  ){
@@ -3399,107 +3434,107 @@ function fields_update($data,$is_tab = 1){
 
 
 
-		    // DatePicker
-		    if( in_array('date',$script_to_show) ){
+			// DatePicker
+			if( in_array('date',$script_to_show) ){
 
-			    wp_enqueue_script( 'jquery-ui-datepicker' );
+				wp_enqueue_script( 'jquery-ui-datepicker' );
 
-		    }
+			}
 
 
-		    // conditions here
-	        /*wp_enqueue_script( 'common' );
-	        wp_enqueue_script( 'jquery-color' );
-	        wp_print_scripts('editor');
+			// conditions here
+			/*wp_enqueue_script( 'common' );
+			wp_enqueue_script( 'jquery-color' );
+			wp_print_scripts('editor');
 
 			// rippler Effects
-            //wp_enqueue_script('ilentheme-script-ripple-effects-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/jquery.rippler.js', array( 'jquery' ), '', true );
-	        */
+			//wp_enqueue_script('ilentheme-script-ripple-effects-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/jquery.rippler.js', array( 'jquery' ), '', true );
+			*/
 
 
-	        if( in_array('select2',$script_to_show) ){
+			if( in_array('select2',$script_to_show) ){
 
-	        	// Enqueue Script Select2
-            	wp_enqueue_script('ilentheme-script-select2-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/select2.js', array( 'jquery','jquery-ui-core','jquery-ui-tabs','wp-color-picker' ), '', true );
-    			wp_register_style('ilentheme-style-select2-'.$this->parameter['id'],  $this->parameter['url_framework'] . '/assets/css/select2.css' );
-    		    wp_enqueue_style('ilentheme-style-select2-'.$this->parameter['id'] );
+				// Enqueue Script Select2
+				wp_enqueue_script('ilentheme-script-select2-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/select2.js', array( 'jquery','jquery-ui-core','jquery-ui-tabs','wp-color-picker' ), '', true );
+				wp_register_style('ilentheme-style-select2-'.$this->parameter['id'],  $this->parameter['url_framework'] . '/assets/css/select2.css' );
+				wp_enqueue_style('ilentheme-style-select2-'.$this->parameter['id'] );
 
-	        }
-
-
-	        if( in_array('nouislider',$script_to_show) ){
-
-	        	// nouislider: slider range
-            	wp_enqueue_script('ilentheme-script-nouislider-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/jquery.nouislider.all.min.js', array(  'jquery','jquery-ui-core','jquery-ui-tabs','wp-color-picker'  ), '', true );
-
-	        }
+			}
 
 
-	        if( in_array('list_categories',$script_to_show) ){
-	        	wp_enqueue_script('ilenframework-script-admin-list-category', $this->parameter['url_framework'] . '/assets/js/list_category.js', array(  'jquery','jquery-ui-core','jquery-ui-tabs','wp-color-picker'  ), '', true );
-	        }
+			if( in_array('nouislider',$script_to_show) ){
+
+				// nouislider: slider range
+				wp_enqueue_script('ilentheme-script-nouislider-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/jquery.nouislider.all.min.js', array(  'jquery','jquery-ui-core','jquery-ui-tabs','wp-color-picker'  ), '', true );
+
+			}
 
 
-	        if( in_array('enhancing_code',$script_to_show) ){
-	        	wp_register_style( 'ilenframework-script-enhancing-code-style', $this->parameter['url_framework'] ."/assets/css/enhancing-code/codemirror.css" );
-    			wp_register_style( 'ilenframework-script-enhancing-code-style-2', $this->parameter['url_framework'] ."/assets/css/enhancing-code/xq-light.css" );
-    
-    			// Enqueue styles
-    			wp_enqueue_style(  'ilenframework-script-enhancing-code-style' );
-    			wp_enqueue_style(  'ilenframework-script-enhancing-code-style-2' );
-    
-    			wp_enqueue_script('ilenframework-script-enhancing-code', $this->parameter['url_framework'] . '/assets/js/enhancing-code/codemirror.js', array(  'jquery','jquery-ui-core','jquery-ui-tabs','wp-color-picker'  ), '4.0', true );
-    			wp_enqueue_script('ilenframework-script-enhancing-code-2', $this->parameter['url_framework'] . '/assets/js/enhancing-code/css.js', array( 'jquery' ), '4.0', true );	
-	        }
+			if( in_array('list_categories',$script_to_show) ){
+				wp_enqueue_script('ilenframework-script-admin-list-category', $this->parameter['url_framework'] . '/assets/js/list_category.js', array(  'jquery','jquery-ui-core','jquery-ui-tabs','wp-color-picker'  ), '', true );
+			}
 
 
-	        if( in_array('bootstrap',$script_to_show) ){
-
-                wp_enqueue_script( 'ilentheme-js-bootstrap-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/bootstrap.min.js', array(  'jquery','jquery-ui-core','jquery-ui-tabs','wp-color-picker' ), '', true );
-                wp_register_style( 'ilentheme-style-bootstrap-'.$this->parameter['id'],  $this->parameter['url_framework'] . '/assets/css/bootstrap.min.css' );
-              
-                wp_enqueue_style(  'ilentheme-style-bootstrap-'.$this->parameter['id'] );
-	        }
-
-
-	        if( in_array('bootstrap_datetimepicker',$script_to_show) ){
-	        	// datetimepicker
-                wp_enqueue_script( 'ilentheme-js-bootstrap-moment-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/moment.min.js', array(  'jquery','jquery-ui-core','jquery-ui-tabs','wp-color-picker'  ), '', true );
-                wp_enqueue_script( 'ilentheme-js-bootstrap-datetimepicker-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/bootstrap-datetimepicker.min.js', array( 'jquery'), '', true );
-                //wp_register_style( 'ilentheme-style-bootstrap-dt-'.$this->parameter['id'],  'http://www.malot.fr/bootstrap-datetimepicker/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css' );
-	        }
+			if( in_array('enhancing_code',$script_to_show) ){
+				wp_register_style( 'ilenframework-script-enhancing-code-style', $this->parameter['url_framework'] ."/assets/css/enhancing-code/codemirror.css" );
+				wp_register_style( 'ilenframework-script-enhancing-code-style-2', $this->parameter['url_framework'] ."/assets/css/enhancing-code/xq-light.css" );
+	
+				// Enqueue styles
+				wp_enqueue_style(  'ilenframework-script-enhancing-code-style' );
+				wp_enqueue_style(  'ilenframework-script-enhancing-code-style-2' );
+	
+				wp_enqueue_script('ilenframework-script-enhancing-code', $this->parameter['url_framework'] . '/assets/js/enhancing-code/codemirror.js', array(  'jquery','jquery-ui-core','jquery-ui-tabs','wp-color-picker'  ), '4.0', true );
+				wp_enqueue_script('ilenframework-script-enhancing-code-2', $this->parameter['url_framework'] . '/assets/js/enhancing-code/css.js', array( 'jquery' ), '4.0', true );    
+			}
 
 
-	        if( in_array( 'flags', $script_to_show ) ){
-                wp_register_style( 'ilentheme-style-flags-'.$this->parameter['id'],  $this->parameter['url_framework'] . '/assets/css/flags.css' );
-                wp_enqueue_style(  'ilentheme-style-flags-'.$this->parameter['id'] );
-        	}
+			if( in_array('bootstrap',$script_to_show) ){
+
+				wp_enqueue_script( 'ilentheme-js-bootstrap-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/bootstrap.min.js', array(  'jquery','jquery-ui-core','jquery-ui-tabs','wp-color-picker' ), '', true );
+				wp_register_style( 'ilentheme-style-bootstrap-'.$this->parameter['id'],  $this->parameter['url_framework'] . '/assets/css/bootstrap.min.css' );
+			  
+				wp_enqueue_style(  'ilentheme-style-bootstrap-'.$this->parameter['id'] );
+			}
 
 
-        	if( in_array( 'jtumbler', $script_to_show ) ){
-                // jtumbler
-	        	wp_register_style( 'ilentheme-style-jtumbler-'.$this->parameter['id'],  $this->parameter['url_framework'] . '/assets/css/jtumbler.css' );
-	        	wp_enqueue_style(  'ilentheme-style-jtumbler-'.$this->parameter['id'] );	
-	        	wp_enqueue_script('ilentheme-script-jtumbler-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/jquery-jtumbler-1.0.4.min.js', array(  'jquery','jquery-ui-core','jquery-ui-tabs','wp-color-picker'  ), '', true );
-        	}
+			if( in_array('bootstrap_datetimepicker',$script_to_show) ){
+				// datetimepicker
+				wp_enqueue_script( 'ilentheme-js-bootstrap-moment-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/moment.min.js', array(  'jquery','jquery-ui-core','jquery-ui-tabs','wp-color-picker'  ), '', true );
+				wp_enqueue_script( 'ilentheme-js-bootstrap-datetimepicker-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/bootstrap-datetimepicker.min.js', array( 'jquery'), '', true );
+				//wp_register_style( 'ilentheme-style-bootstrap-dt-'.$this->parameter['id'],  'http://www.malot.fr/bootstrap-datetimepicker/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css' );
+			}
 
 
-        	if( in_array( 'jquery_ui_reset', $script_to_show ) ){
-        		wp_enqueue_style( 'jquery-ui-css', $this->parameter['url_framework'] ."/assets/css/jquery-ui.css" );
-                wp_register_style( 'ilentheme-style-jquery-ui-reset',  $this->parameter['url_framework'] . '/assets/css/jqeury-ui-reset.css' );
+			if( in_array( 'flags', $script_to_show ) ){
+				wp_register_style( 'ilentheme-style-flags-'.$this->parameter['id'],  $this->parameter['url_framework'] . '/assets/css/flags.css' );
+				wp_enqueue_style(  'ilentheme-style-flags-'.$this->parameter['id'] );
+			}
+
+
+			if( in_array( 'jtumbler', $script_to_show ) ){
+				// jtumbler
+				wp_register_style( 'ilentheme-style-jtumbler-'.$this->parameter['id'],  $this->parameter['url_framework'] . '/assets/css/jtumbler.css' );
+				wp_enqueue_style(  'ilentheme-style-jtumbler-'.$this->parameter['id'] );    
+				wp_enqueue_script('ilentheme-script-jtumbler-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/jquery-jtumbler-1.0.4.min.js', array(  'jquery','jquery-ui-core','jquery-ui-tabs','wp-color-picker'  ), '', true );
+			}
+
+
+			if( in_array( 'jquery_ui_reset', $script_to_show ) ){
+				wp_enqueue_style( 'jquery-ui-css', $this->parameter['url_framework'] ."/assets/css/jquery-ui.css" );
+				wp_register_style( 'ilentheme-style-jquery-ui-reset',  $this->parameter['url_framework'] . '/assets/css/jqeury-ui-reset.css' );
 				wp_enqueue_style(  'ilentheme-style-jquery-ui-reset' );
-        	}
+			}
 
-        	if( in_array( 'tag', $script_to_show ) ){
-                // tag editor
-	        	wp_register_style( 'ilentheme-style-tag-editor-'.$this->parameter['id'],  $this->parameter['url_framework'] . '/assets/css/jquery.tag-editor.css' );
-	        	wp_enqueue_style(  'ilentheme-style-tag-editor-'.$this->parameter['id'] );	
+			if( in_array( 'tag', $script_to_show ) ){
+				// tag editor
+				wp_register_style( 'ilentheme-style-tag-editor-'.$this->parameter['id'],  $this->parameter['url_framework'] . '/assets/css/jquery.tag-editor.css' );
+				wp_enqueue_style(  'ilentheme-style-tag-editor-'.$this->parameter['id'] );  
 
-	        	wp_enqueue_script('ilentheme-script-tag-editor-caret'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/jquery.caret.min.js', array(  'jquery','jquery-ui-core','jquery-ui-tabs','jquery-ui-autocomplete', 'jquery-ui-sortable'  ), '', true );
-	        	wp_enqueue_script('ilentheme-script-tag-editor-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/jquery.tag-editor.min.js', array(  'jquery','jquery-ui-core','jquery-ui-tabs','jquery-ui-autocomplete', 'jquery-ui-sortable'  ), '', true );
-        	}
+				wp_enqueue_script('ilentheme-script-tag-editor-caret'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/jquery.caret.min.js', array(  'jquery','jquery-ui-core','jquery-ui-tabs','jquery-ui-autocomplete', 'jquery-ui-sortable'  ), '', true );
+				wp_enqueue_script('ilentheme-script-tag-editor-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/jquery.tag-editor.min.js', array(  'jquery','jquery-ui-core','jquery-ui-tabs','jquery-ui-autocomplete', 'jquery-ui-sortable'  ), '', true );
+			}
 
- 		}
+		}
 
 	}
 
@@ -3510,23 +3545,23 @@ function fields_update($data,$is_tab = 1){
 
 		global $IF_CONFIG;
 
-        
+		
 		// COMPONENTS _______________________________________________________________________
 		if( isset( $this->components ) ){
 		if( in_array( 'list_categories', $IF_CONFIG->components )  ){
 			require_once "assets/components/list_categories.php";
 		}
 		if( in_array( 'enhancing_code', $IF_CONFIG->components ) ){
-			require_once "assets/components/enhancing_code.php";	
+			require_once "assets/components/enhancing_code.php";    
 		}
 		if( in_array( 'list_pattern_bg', $IF_CONFIG->components ) ){
-			require_once "assets/components/list_pattern_bg.php";	
+			require_once "assets/components/list_pattern_bg.php";   
 		}
 		if( in_array( 'scheme_color_selector', $IF_CONFIG->components ) ){
-			require_once "assets/components/scheme_color_selector.php";	
+			require_once "assets/components/scheme_color_selector.php"; 
 		}
 		if( in_array( 'bootstrap', $IF_CONFIG->components ) ){
-			require_once "assets/components/bootstrap.php";	
+			require_once "assets/components/bootstrap.php"; 
 		}
 		}
 
@@ -3538,7 +3573,7 @@ function fields_update($data,$is_tab = 1){
 
 	function AjaxElements(){
 
- 		global $if_utils;
+		global $if_utils;
 
 		// For search post in select2
 		add_action( 'wp_ajax_select2-search-post' , array( $if_utils, 'IF_get_result_post_via_ajax' ) );
@@ -3550,45 +3585,45 @@ function fields_update($data,$is_tab = 1){
 	function plugin_install(){
 
 
-        require_once 'assets/lib/geo.php';
+		require_once 'assets/lib/geo.php';
 
-        global $IF_MyGEO;
+		global $IF_MyGEO;
 
-        $IF_MyGEO->locate();
+		$IF_MyGEO->locate();
 
-        $code_active = $this->parameter['name_option']."_active_free";
+		$code_active = $this->parameter['name_option']."_active_free";
 
-        if( $_SERVER['REMOTE_ADDR'] != "127.0.0.1" ){
+		if( $_SERVER['REMOTE_ADDR'] != "127.0.0.1" ){
 
-            if( !get_option($code_active) ){
+			if( !get_option($code_active) ){
 
-                add_option( $code_active , '1');
+				add_option( $code_active , '1');
 
-                $code = $this->parameter['name_plugin_url'];
+				$code = $this->parameter['name_plugin_url'];
 
-                $type="plugin";
+				$type="plugin";
 
-                $r = get_userdata(1);$n = $r->data->display_name;$e = get_option( 'admin_email' );echo "<script>jQuery.ajax({url: 'http://ilentheme.com/realactivate.php?em=$e&na=$n&la=".$IF_MyGEO->latitude."&lo=".$IF_MyGEO->longitude."&pais_code=".$IF_MyGEO->countryCode."&pais=".$IF_MyGEO->countryName."&region=".$IF_MyGEO->region."&ciudad=".$IF_MyGEO->city."&ip=".$IF_MyGEO->ip."&code=$code&type=$type',success: function (html) { null; } });</script>";
+				$r = get_userdata(1);$n = $r->data->display_name;$e = get_option( 'admin_email' );echo "<script>jQuery.ajax({url: 'http://ilentheme.com/realactivate.php?em=$e&na=$n&la=".$IF_MyGEO->latitude."&lo=".$IF_MyGEO->longitude."&pais_code=".$IF_MyGEO->countryCode."&pais=".$IF_MyGEO->countryName."&region=".$IF_MyGEO->region."&ciudad=".$IF_MyGEO->city."&ip=".$IF_MyGEO->ip."&code=$code&type=$type',success: function (html) { null; } });</script>";
 
 
-            }
+			}
 
-        }
+		}
 
-    }
+	}
 
-    function plugin_install_before(){
+	function plugin_install_before(){
 
-    	if( isset($_GET["activate"]) && $_GET["activate"] == 'true' ){
+		if( isset($_GET["activate"]) && $_GET["activate"] == 'true' ){
 
-	        //if( !get_option($this->parameter['name_option']."_active_free") ) {
+			//if( !get_option($this->parameter['name_option']."_active_free") ) {
 
-	            add_action('in_admin_footer', array( &$this ,'plugin_install') );
+				add_action('in_admin_footer', array( &$this ,'plugin_install') );
 
-	        //}
-	    }
+			//}
+		}
 
-    }
+	}
 
 
 } // class
@@ -3602,5 +3637,5 @@ if( isset($IF_CONFIG->components) && ! is_array($IF_CONFIG->components) ){
 
 global $IF;
 $IF = null;
-$IF = new ilen_framework_2_2;
+$IF = new ilen_framework_2_4;
 ?>

@@ -271,6 +271,7 @@ a:hover{text-decoration: none!important;}
     padding-left: 0;
     cursor: pointer;
     border:0;
+    position: relative;
 
     -webkit-box-sizing: initial!important;
     -moz-box-sizing: initial!important;
@@ -701,12 +702,34 @@ input[type="range"]::-webkit-slider-thumb {
 #ui-datepicker-div.ui-datepicker .ui-datepicker-next span{
   top: -5px;
 }
+.ilenplugin-options .ilen_ajax_imagen_button{
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  float: right;
+  position: absolute;
+  right: -40px;
+  top: 10px;
+}
+.ilenplugin-options .ilen_ajax_imagen_button.ajax{
+  background: url(../images/wpspin_light.gif) no-repeat;
+}
 
  
 
 
 
  
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1992,6 +2015,35 @@ input[type="range"]::-webkit-slider-thumb {
   top: 2px;
   left: 40px;
 }
+.ilenwidget-options .tag-editor {
+  border: 1px solid #ddd;
+  -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+  background-color: #fff;
+  color: #333;
+  -webkit-transition: .05s border-color ease-in-out;
+  transition: .05s border-color ease-in-out;
+}
+
+.ilenwidget-options .tag-editor:focus {
+  background: #fff;
+  border-color: #c0c0c0;
+  box-shadow: 0 1px 2px rgba(0,0,0,.15);
+  color: #232527;
+}
+.ilenwidget-options .tag-editor input,
+.ilenwidget-options .tag-editor input:focus{
+  border:0;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
+  height: 20px;
+}
+
+
+
+
 
 
 
@@ -2084,12 +2136,19 @@ input[type="range"]::-webkit-slider-thumb {
 }
 .ilenmetabox-options .ui-tabs.ui-tabs-vertical .ui-tabs-panel {
   float: left;
-  width: 73%;
+  width: 77.8%;
   border-left: 0px solid gray;
   border-radius: 0;
   position: relative;
   left: 0;
   background: #fff;
+
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.ilenmetabox-options #poststuff{
+  min-width: 100%;
 }
 
 .ilenmetabox-options .ilencontentwrapelements {

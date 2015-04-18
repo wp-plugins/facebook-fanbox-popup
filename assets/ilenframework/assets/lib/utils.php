@@ -384,7 +384,7 @@ function IF_get_option( $subject ){
 
     if( function_exists('bbp_is_user_keymaster') ){ // fix problem bbpress
 
-        if(  false === ($data = get_transient($transient_name) ) || ( bbp_is_user_keymaster() && !isset($_GET['P3_NOCACHE']) )  ){
+        //if(  false === ($data = get_transient($transient_name) ) || ( bbp_is_user_keymaster() && !isset($_GET['P3_NOCACHE']) )  ){
      
             $new_array = array();
             $new_data = get_option( $subject."_options" );
@@ -397,18 +397,18 @@ function IF_get_option( $subject ){
 
             $data = json_decode (json_encode ($new_array), FALSE);
 
-            set_transient( $transient_name , $data, MINUTE_IN_SECONDS * $cacheTime);
+            //set_transient( $transient_name , $data, MINUTE_IN_SECONDS * $cacheTime);
 
             return $data;
 
-        } else {
+        /*} else {
 
             return $data;
 
-        }
+        }*/
     }else{
 
-        if(  false === ($data = get_transient($transient_name) ) || ( current_user_can( 'manage_options' ) && !isset($_GET['P3_NOCACHE']) )  ){
+        //if(  false === ($data = get_transient($transient_name) ) || ( current_user_can( 'manage_options' ) && !isset($_GET['P3_NOCACHE']) )  ){
      
             $new_array = array();
             $new_data = get_option( $subject."_options" );
@@ -421,15 +421,15 @@ function IF_get_option( $subject ){
 
             $data = json_decode (json_encode ($new_array), FALSE);
 
-            set_transient( $transient_name , $data, MINUTE_IN_SECONDS * $cacheTime);
+            //set_transient( $transient_name , $data, MINUTE_IN_SECONDS * $cacheTime);
 
             return $data;
 
-        } else {
+        /*} else {
 
             return $data;
 
-        }
+        }*/
 
 
     }
