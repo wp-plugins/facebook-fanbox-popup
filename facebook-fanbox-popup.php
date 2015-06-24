@@ -3,7 +3,7 @@
 Plugin Name: Facebook FanBox Popup
 Plugin URI: https://wordpress.org/plugins/facebook-fanbox-popup/
 Description: Promote your Fanpage in a cool natural way
-Version: 3.1
+Version: 3.2
 Author: iLen
 Author URI:
 */
@@ -169,16 +169,15 @@ class facebook_fanbox_popup extends facebook_fanbox_popup_make{
  		$fb_id = isset($opt_fanbox_popup->fb_id) && $opt_fanbox_popup->fb_id?$opt_fanbox_popup->fb_id:"https://www.facebook.com/FarandulaEcuatoriana";
  		$show_post = isset($opt_fanbox_popup->show_post) && $opt_fanbox_popup->show_post?"true":"false";
  		$height = $show_post == 'true'?"data-height='500'":"";
-		echo ' <!-- Plugin: Facebook FanBox Popup (https://wordpress.org/plugins/facebook-fanbox-popup/) --><br />
-				<div id="ffbp-bg" data-version="'.$this->parameter["version"].'"></div>
-				<div id="ffbp">
-				<a href="#" onClick="fbfanboxp('. $opt_fanbox_popup->until_popup .');" id="ffbp-close">✕</a>';
-				echo '<div id="ffbp-body">';
-				echo '<div id="ffbp-msg-cont">
-						    <div class="fb-like-box" data-href="'.$fb_id.'" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="'.$show_post.'" data-show-border="false" '.$height.'></div>
-					  </div>';
-				echo "</div>";
-		echo '</div>';
+		echo ' <!-- Plugin: Facebook FanBox Popup (https://wordpress.org/plugins/facebook-fanbox-popup/) -->
+<div id="ffbp-bg" data-version="'.$this->parameter["version"].'"></div><div id="ffbp">
+<a href="#" onClick="fbfanboxp('. $opt_fanbox_popup->until_popup .');" id="ffbp-close">✕</a>';
+echo '<div id="ffbp-body">';
+echo '<div id="ffbp-msg-cont">
+<div class="fb-like-box" data-href="'.$fb_id.'" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="'.$show_post.'" data-show-border="false" '.$height.'></div>
+</div>';
+echo "</div>";
+echo '</div>';
 		//echo "<input type='hidden' name='hd_msg_thanks' id='hd_msg_thanks' value='".$opt_fanbox_popup->thanks_message."' />";
 
 		}
