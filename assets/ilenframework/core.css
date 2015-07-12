@@ -5,7 +5,7 @@ Author URI: http://ilentheme.com
 */
 
 @import url('assets/css/font-awesome.css');
-@import url('assets/css/elusive-webfont.css');    
+@import url('assets/css/elusive-icons.css');
 @import url('assets/css/tooltip.css');
 
 @import url('assets/css/jquery.nouislider.min.css'); 
@@ -22,7 +22,9 @@ Author URI: http://ilentheme.com
   background: #F1F1F1;
   border: 1px solid rgb(189, 189, 189);
   margin-top: 20px;
-  overflow: hidden;
+  /*overflow: hidden;*/
+  display: inline-block;
+  width: 100%;
   font-size: 1.2em;
 }
 
@@ -144,7 +146,7 @@ Author URI: http://ilentheme.com
   background: #e2e2e2;
   border: 0;
   color: #445157;
-  padding: 7px 3% 7px 3%;
+  padding: 7px 1% 7px 1%;
   border-radius: 3px;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
@@ -271,11 +273,11 @@ Author URI: http://ilentheme.com
   margin-top: 10px;
 }
 .ilentheme-options .upload2 input[type="text"] {
-  width: 260px;
+  width: 48%;
 }
 
 .ilentheme-options .background_complete .upload .preview{
-  width: 93%;
+  width: 100%;
   min-height: 10px;
   border:1px dotted rgb(179, 179, 179);
   margin: 10px 0;
@@ -509,7 +511,7 @@ Author URI: http://ilentheme.com
   display: inline;
   position: relative;
   top: -14px;
-  margin-left: 35px;
+  margin-left: 0;
 }
 
 
@@ -706,6 +708,27 @@ Author URI: http://ilentheme.com
   padding: 2px;
   width: 100%!important;
 }
+.ilentheme-options .wrap_background_complete{}
+.ilentheme-options .wrap_background_complete .part_1,
+.ilentheme-options .wrap_background_complete .part_2{
+  width: 45%;
+  float: left;
+}
+.ilentheme-options .wrap_background_complete .part_3{
+  width: 100%;
+}
+.ilentheme-options .wrap_background_complete .part_2{
+  float: right;
+}
+.ilentheme-options .wrap_background_complete .selectbc{
+  margin-bottom: 10px;
+}
+.ilentheme-options .wrap_background_complete select{
+  width: 100%
+}
+
+
+
 /* only ie10 */
 .ilentheme-options .row .b select::-ms-expand {
   display: none;
@@ -720,8 +743,6 @@ Author URI: http://ilentheme.com
   }
 }
 
-
-
 /**
  * =Typography
  */
@@ -733,7 +754,7 @@ Author URI: http://ilentheme.com
   font-style: normal;
 }
 
-@font-face {
+/*@font-face {
   font-family: 'Elusive-Icons';
   src:url('assets/css/fonts/elusive/Elusive-Icons.eot');
   src:url('assets/css/fonts/elusive/Elusive-Icons.eot?#iefix') format('embedded-opentype'),
@@ -742,7 +763,7 @@ Author URI: http://ilentheme.com
     url('assets/css/fonts/elusive/Elusive-Icons.svg#Elusive-Icons') format('svg');
   font-weight: normal;
   font-style: normal;
-}
+}*/
 
 
 

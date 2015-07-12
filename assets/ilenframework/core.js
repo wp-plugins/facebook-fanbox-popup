@@ -84,25 +84,50 @@ jQuery(document).ready( function($) {
 		        },
 		        multiple: false  // Set this to true to allow multiple files to be selected
 		    })
-		    .on('select', function() {
+		    .on('select', function( event ) {
+
+
 		        var attachment = custom_uploader.state().get('selection').first().toJSON();
 
 		        jQuery("#"+formfield).val(attachment.url);
                 if( jQuery(button_this).hasClass("upload_image_button_complete") ){
-                    jQuery(button_this).next(".preview").html("<span class='admin_delete_image_upload admin_delete_image_upload_complete'>✕</span>");
-                    jQuery(button_this).next(".preview").css("background-image","url("+attachment.url+")");
-                    jQuery(button_this).next(".preview").css("height","200px");
+    
+                    jQuery(button_this).parent().next(".preview").empty().append("<span class='admin_delete_image_upload admin_delete_image_upload_complete'>✕</span>");
+                    jQuery(button_this).parent().next(".preview").css("background-image","url("+attachment.url+")");
+                    jQuery(button_this).parent().next(".preview").css("width","100%");
+                    jQuery(button_this).parent().next(".preview").css("height","450px");
+                    jQuery(button_this).parent().prev().children("input").val(attachment.url);
+
+                    // delete upload clear input
+                    jQuery(".ilentheme-options .admin_delete_image_upload_complete,.ilenplugin-options .admin_delete_image_upload_complete").on("click",function(){
+ 
+                        jQuery(this).parent().parent().find('.theme_src_upload').val('');
+                        jQuery(this).parent().css("background-image","url()");
+                        jQuery(this).parent().css("height","20px");
+                        jQuery(this).fadeOut(300);
+
+                    });
+
+                    
                 }else{
-                    jQuery(button_this).parent().find(".preview").html("<img src='"+attachment.url+"' /><span class='admin_delete_image_upload'>✕</span>");
+                    jQuery(button_this).parent().find(".preview").empty().append("<img src='"+attachment.url+"' /><span class='admin_delete_image_upload admin_delete_image_upload_normal'>✕</span>");
+                    // delete upload clear input
+                    jQuery(".ilentheme-options .admin_delete_image_upload_normal,.ilenplugin-options .admin_delete_image_upload_normal").on("click",function(){
+                        jQuery(this).parent().parent().find('.theme_src_upload').val('');
+                        jQuery(this).prev().fadeOut(300);
+                        jQuery(this).fadeOut(300);
+                    });
                 }
 		    })
 		    .open();
+
+
 
 	});
 
     jQuery('.ilenplugin-options .upload_image_default,.ilentheme-options .upload_image_default').on('click',function(){
         jQuery(this).prev().prev().val( jQuery(this).attr("image-default") );
-        jQuery(this).parent().find(".preview").html("<img src='"+jQuery(this).attr("image-default")+"' /><span class='admin_delete_image_upload'>✕</span>");
+        jQuery(this).parent().find(".preview").html("<img src='"+jQuery(this).attr("image-default")+"' /><span class='admin_delete_image_upload admin_delete_image_upload_normal'>✕</span>");
     });
 
     // end upload >3.5
@@ -132,7 +157,7 @@ jQuery(document).ready( function($) {
 
 
 	// delete upload clear input
-	jQuery(".ilentheme-options .admin_delete_image_upload,.ilenplugin-options .admin_delete_image_upload").on("click",function(){
+	jQuery(".ilentheme-options .admin_delete_image_upload_normal,.ilenplugin-options .admin_delete_image_upload_normal").on("click",function(){
 	    jQuery(this).parent().parent().find('.theme_src_upload').val('');
 	    jQuery(this).prev().fadeOut(300);
 	    jQuery(this).fadeOut(300);
@@ -146,7 +171,7 @@ jQuery(document).ready( function($) {
 
     // select2 change event in background_complete
     jQuery(".ilentheme-options .background_complete .select2_background_complete, .ilenplugin-options .background_complete .select2_background_complete").on("change",function(){
-        jQuery(this).parent().parent().next().find(".preview").css(jQuery(this).attr('data-attribute'),jQuery(this).val());
+        jQuery(this).parent().parent().find(".preview").css(jQuery(this).attr('data-attribute'),jQuery(this).val());
     });
     
 

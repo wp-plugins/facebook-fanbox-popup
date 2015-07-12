@@ -1,15 +1,15 @@
 <?php 
 /**
- * iLenFramework 2.5
+ * iLenFramework 2.6.3
  * @package ilentheme
  * 
  * live as if it were the last day of your life
  */
 
 // REQUIRED FILES TO RUN
-if ( !class_exists('ilen_framework_2_5') ) {
+if ( !class_exists('ilen_framework_2_6_4') ) {
 
-class ilen_framework_2_5 {
+class ilen_framework_2_6_4 {
 
 		var $options          = array();
 		var $parameter        = array();
@@ -181,8 +181,9 @@ class ilen_framework_2_5 {
 				if(  $key2 != 'last_update' ){
 					foreach ($value2['options'] as $key => $value) {
 
-						if( isset($value['name']) )
+						if( isset($value['name']) && $value['type'] != "html" ){
 							$defaults[$value['name']] = $value['value'];
+						}
 
 					}
 				}
@@ -736,7 +737,7 @@ function ilentheme_options_wrap_for_plugin_tabs(){  ?>
 			<div class="gray ilenwidget-accordion"  id="ilenwidget_id_<?php echo isset($config['id'])?$config['id'].'_'.$widget_unique_id_generate:'_none'; ?>">
 				<div id='iaccordion-container'>
 			<?php 
-
+			//var_dump( $full_options['d'] );
 			if( is_array($full_options) ){
 				$i = 0;
  
@@ -744,7 +745,7 @@ function ilentheme_options_wrap_for_plugin_tabs(){  ?>
 					
 					if( isset( $value['title'] ) ) { echo "<h2 class='iaccordion-header ".(( $i == 0)?"active":"")."'>{$value['title']}</h2>"; } ?>
 					<div class="iaccordion-content" style="display:<?php if( $i != 0): ?>none<?php else: ?>block<?php endif; ?>">
-					<?php self::build_fields_w( $value['options'], $config['ref']  ); ?>
+					<?php self::build_fields_w( $value['options'], $config['ref'], $widget_unique_id_generate  ); ?>
 					</div>
 				<?php $i++; 
 
@@ -829,9 +830,10 @@ jQuery(".iaccordion-header").on("click",function(){
 
 	function ilen_print_script_footer_widget( $data, $class_widget_name, $id_widget ){ ?>
  
-		<script>
-		( function( $ ){ 
-		<?php 
+	<script>
+	( function( $ ){ 
+		<?php
+
 		if(  in_array( 'color', $data )  ){ ?>
 
 		function initColorPicker( widget ) {
@@ -957,7 +959,7 @@ jQuery(".iaccordion-header").on("click",function(){
 
 		<?php
 		if(  in_array( 'tag', $data )  ){ ?>
-
+ 
 			function initTag( widget ) {
 				widget.find( '.ilen_tag' ).tagEditor({ placeholder: '',forceLowercase:false });
 			}
@@ -969,9 +971,40 @@ jQuery(".iaccordion-header").on("click",function(){
 			$( document ).on( 'widget-added widget-updated', onFormUpdate_tag );
 
 			$( document ).ready( function() {
-			  $( '#widgets-right .widget:has(.ilen_tags)' ).each( function () {
+			  $( '#widgets-right .widget:has(.ilen_tag)' ).each( function () {
 				initTag( $( this ) );
-			  });
+			});
+		} );
+
+		<?php } ?>
+
+
+
+		<?php
+		if(  in_array( 'check_list', $data )  ){ ?>
+
+			function initCheckList( widget ) {
+				//alert( widget.find( '.ilen_check_list' ).children().children("input").length );
+				var num_rand_list = Math.floor((Math.random() * 10) + 1);
+				var new_genery_id_check_list = null;
+				$( widget.find( '.ilen_check_list' ).children() ).each( function () {
+					new_genery_id_check_list = $(this).children("input").attr("id")+"_generic_"+num_rand_list;
+					$(this).children("input").attr("id", new_genery_id_check_list );
+					$(this).children("label").attr("for", new_genery_id_check_list );
+				} );
+				
+			}
+
+			function onFormUpdate_CheckList( event, widget ) {
+				initCheckList( widget );
+			}
+
+			$( document ).on( 'widget-added widget-updated', onFormUpdate_CheckList );
+
+			$( document ).ready( function() {
+				$( '#widgets-right .widget:has(.ilen_tags)' ).each( function () {
+					initCheckList( $( this ) );
+				});
 			} );
 
 		<?php } ?>
@@ -1193,12 +1226,12 @@ jQuery(".iaccordion-header").on("click",function(){
 									<?php }else { ?>
 										<?php $ck=''; if( isset($options_theme[ $value['name'] ]) ){ $ck =  checked(  $options_theme[ $value['name'] ]  , 1, FALSE );  } ?>
 										<div class="row_checkbox_normal">
-											<div style="width:20%;float:left">
+											<div style="width:11%;float:left">
 												<input  type="checkbox" <?php echo $ck; ?> name="<?php echo $value['name'] ?>" id="<?php echo $value['id'] ?>" value="<?php echo $value['value_check'] ?>"  />
 												<label for="<?php echo $value['id'] ?>"><span class="ui"></span></label>
 											</div>
-											<div style="width:70%;float:right">
-												<div class="help"><?php echo $value['help']; ?></div>
+											<div style="width:70%;float:left;line-height: 34px;">
+												<div class="help" style="display: inline-block;vertical-align: middle;line-height: normal;"><?php echo $value['help']; ?></div>
 											</div>
 										</div>
 									<?php } ?>
@@ -1215,12 +1248,13 @@ jQuery(".iaccordion-header").on("click",function(){
 							<div class="row upload <?php if(isset( $value['class'] )){ echo $value['class'];} ?>" <?php if(isset( $value['style'] )){ echo $value['style'];} ?> >
 								<div class="a"><h3><?php echo $value['title']; ?></h3></div>
 								<div class="<?php echo $side_two; ?>">
-									<input id="<?php echo $value['id'] ?>" type="text" data-title="<?php echo $value['title'] ?>" data-button-set="<?php _e('Select image',$this->parameter['name_option']) ?>" class='theme_src_upload'  />
+									<input id="<?php echo $value['id'] ?>" name="<?php echo $value['name'] ?>" value="<?php if(isset($options_theme[ $value['name'] ]) && $options_theme[ $value['name'] ] ){ echo $options_theme[ $value['name'] ]; } ?>" type="text" data-title="<?php echo $value['title'] ?>" data-button-set="<?php _e('Select image',$this->parameter['name_option']) ?>" class='theme_src_upload'  />
 									<a class="button upload_image_button" data-title="<?php echo $value['title'] ?>" data-button-set="<?php _e('Select image',$this->parameter['name_option']) ?>" > <i class="fa fa-cloud-upload"></i><?php _e('Set Image',$this->parameter['name_option']) ?></a>
+									<div class="clearfix"></div>
 									<div class="preview">
 										<?php  if( isset($options_theme[ $value['name'] ]) && $options_theme[ $value['name'] ] ) : ?>
 											<img src="<?php echo $options_theme[ $value['name'] ]; ?>" />
-											<span class='admin_delete_image_upload'>✕</span>
+											<span class='admin_delete_image_upload admin_delete_image_upload_normal'>✕</span>
 										<?php endif; ?>
 									</div>
 									<div class="help"><?php echo $value['help']; ?></div>
@@ -1238,6 +1272,7 @@ jQuery(".iaccordion-header").on("click",function(){
 									<input id="<?php echo $value['id'] ?>" type="text" name="<?php echo $value['name'] ?>" value="<?php echo $options_theme[ $value['name'] ]; ?>" class="theme_src_upload"  />
 									<a class="upload_image_button button top-tip" data-tips="<?php _e('Select image',$this->parameter['name_option']) ?>" data-title="<?php echo $value['title'] ?>" data-button-set="<?php _e('Select image',$this->parameter['name_option']) ?>" > <i class="fa fa-cloud-upload"></i><?php _e('',$this->parameter['name_option']) ?></a>
 									<?php if(isset( $value['value'] ) && $value['value']) : ?><a class="upload_image_default button top-tip" data-tips="<?php _e('Default',$this->parameter['name_option']) ?>" image-default="<?php echo $value['value']; ?>" > <i class="fa fa-repeat"></i><?php _e('',$this->parameter['name_option']) ?></a><?php endif; ?>
+									<div class="clearfix"></div>
 									<div class="preview">
 										<?php  if( $options_theme[ $value['name'] ] ) : ?>
 											<img src="<?php echo $options_theme[ $value['name'] ]; ?>" />
@@ -1277,17 +1312,20 @@ jQuery(".iaccordion-header").on("click",function(){
 						case "select": ?>
 
 							<?php if(isset( $value['before'] )){ echo $value['before'];} ?>
-							<div class="row <?php if(isset( $value['class'] )){ echo $value['class'];} ?> ilentheme_row_select" <?php if(isset( $value['style'] )){ echo $value['style'];} ?> >
+							<div class="row aa <?php if(isset( $value['class'] )){ echo $value['class'];} ?> ilentheme_row_select" <?php if(isset( $value['style'] )){ echo $value['style'];} ?> >
 								<div class="a"><h3><?php echo $value['title']; ?></h3></div>
 								<div class="<?php echo $side_two; ?>">
 									<div class="select-wrapper">
 									<select name="<?php echo $value['name'] ?>" id="<?php echo $value['id'] ?>">
 										<?php 
-											if( is_array( $value['items'] ) ){
-												foreach ( $value['items'] as $item_key => $item_value ): ?>
-												
-													<option value="<?php echo $item_key ?>" <?php selected( $options_theme[ $value['name'] ] ,   $item_key ); ?>><?php echo $item_value ?></option> 
 
+											if( is_array( $value['items'] ) ){
+												foreach ( $value['items'] as $item_key => $item_value ): $value_item_select_current = isset($options_theme[ $value['name'] ]) && $options_theme[ $value['name'] ]?$options_theme[ $value['name'] ]:$value['value'];   ?>
+													
+													<option value="<?php echo $item_key; ?>" 
+													<?php selected( $value_item_select_current ,   $item_key ); ?>>
+													<?php echo $item_value ?></option> 
+   
 												<?php
 												endforeach;
 											}
@@ -1434,11 +1472,12 @@ jQuery(".iaccordion-header").on("click",function(){
 
 							<?php if(isset( $value['before'] )){ echo $value['before'];} ?>
 							<div class="row <?php if(isset( $value['class'] )){ echo $value['class'];} ?> color_hover" <?php if(isset( $value['style'] )){ echo $value['style'];} ?> >
-								<div class="a"><?php echo $value['title']; ?><div class="help"><?php echo $value['help']; ?></div></div>
+								<div class="a"><?php echo $value['title']; ?></div>
 								<div class="<?php echo $side_two; ?>">
 									<?php $bg_hover = isset($options_theme[ $value['name'] ])?$options_theme[ $value['name'] ]:''; ?>
 									<div class="color_hover_first_element"><input type="text" class="theme_color_picker" value="<?php if(isset( $bg_hover['color'] )){ echo $bg_hover['color']; } ?>" name="<?php echo $value['name'].'_color'; ?>" id="<?php echo $value['id'].'_color' ?>" data-default-color="<?php if(isset( $bg_hover['color'] )){ echo $bg_hover['color']; } ?>" /></div>
 									<div class='color_hover_two_element'><?php _e('hover',$this->parameter['name_option']); ?> <input type="text" class="theme_color_picker" value="<?php if(isset( $bg_hover['hover'] )){ echo $bg_hover['hover']; } ?>" name="<?php echo $value['name'].'_hover';  ?>" id="<?php echo $value['id'].'_hover'; ?>" data-default-color="<?php if(isset( $bg_hover['hover'] )){  echo  $bg_hover['hover']; } ?>" /></div>
+									<div class="help"><?php echo $value['help']; ?></div>
 								</div>
 							</div>
 							<?php if(isset( $value['after'] )){ echo $value['after'];} ?>
@@ -1453,7 +1492,7 @@ jQuery(".iaccordion-header").on("click",function(){
 							<div class="row <?php if(isset( $value['class'] )){ echo $value['class'];} ?> ilentheme_row_textarea" <?php if(isset( $value['style'] )){ echo $value['style'];} ?> >
 								<div class="a"><h3><?php echo $value['title']; ?></h3></div>
 								<div class="<?php echo $side_two; ?>">
-									<textarea name="<?php echo $value['name'] ?>" id="<?php echo $value['id'] ?>" style="width:100%;height:120px;" <?php if(isset($value['placeholder'])){ echo "placeholder='{$value['placeholder']}'"; } ?>><?php if( isset( $options_theme[ $value['name'] ] )) { echo $options_theme[ $value['name'] ]; } ?></textarea>
+									<textarea name="<?php echo $value['name'] ?>" id="<?php echo $value['id'] ?>" style="width:100%;height:120px;" <?php if(isset($value['placeholder'])){ echo "placeholder='{$value['placeholder']}'"; } ?>><?php if( isset( $options_theme[ $value['name'] ] )) { echo _wp_specialchars( stripslashes($options_theme[ $value['name'] ]) ); } ?></textarea>
 									<div class="help"><?php echo $value['help']; ?></div>
 								</div>
 
@@ -1486,7 +1525,7 @@ jQuery(".iaccordion-header").on("click",function(){
 									<?php
 										//$initial_data='What you want to appear in the text box initially';
 										$id = $value['id'];//has to be lower case
-										wp_editor($options_theme[ $value['name'] ],$id,$value['setting']);
+										wp_editor( html_entity_decode( $options_theme[ $value['name'] ] , ENT_QUOTES, 'UTF-8' ),$id,$value['setting']);
 									?>
 								</div>
 								<div class="help"><?php echo $value['help']; ?></div>
@@ -1514,111 +1553,127 @@ jQuery(".iaccordion-header").on("click",function(){
 									$bg_complete['src']         = '';
 									$bg_complete['opacity']     = '100';
 									if( isset( $options_theme[ $value['name'] ]) && $options_theme[ $value['name'] ]){ $bg_complete = $options_theme[ $value['name'] ]; } ?>
-									<div>
-									  <input type="text" class="theme_color_picker" value="<?php echo $bg_complete['color'] ?>" name="<?php echo $value['name']; ?>_color" id="<?php echo $value['id'] ?>_color" data-default-color="<?php echo $bg_complete['color']; ?>" />
-									  &nbsp;
-									  <div class="background_complete_transparent_check"><input type="checkbox"  id="<?php echo $value['id'] ?>_transparent" name="<?php echo $value['id'] ?>_transparent" value="1" <?php if(  $bg_complete['transparent'] ){ echo " checked='checked' ";} ?> /><label for="<?php echo $value['id'] ?>_transparent"><span class="ui"></span></label> Transparent</div>
-									</div>
-									<div style="padding:0 0 10px 0;">
-										<select name="<?php echo $value['name']; ?>_repeat" id="<?php echo $value['id'] ?>_repeat" style="width:45%;" data-attribute="background-repeat" class="select2_background_complete" >
-											<option value=""></option>
-											<option value="no-repeat" <?php selected(  $bg_complete['repeat'], 'no-repeat'); ?>><?php _e('No repeat',$this->parameter['name_option']) ?></option>
-											<option value="repeat" <?php selected(  $bg_complete['repeat'], 'repeat'); ?>><?php _e('Repeat all',$this->parameter['name_option']) ?></option>
-											<option value="repeat-x" <?php selected(  $bg_complete['repeat'], 'repeat-x'); ?>><?php _e('Repeat Horizontally',$this->parameter['name_option']) ?></option>
-											<option value="repeat-y" <?php selected(  $bg_complete['repeat'], 'repeat-y'); ?>><?php _e('Repeat Vertically',$this->parameter['name_option']) ?></option>
-											<option value="inherit" <?php selected(  $bg_complete['repeat'], 'inherit'); ?>><?php _e('Inherit',$this->parameter['name_option']) ?></option>
-										</select>
-										<select name="<?php echo $value['name']; ?>_size" id="<?php echo $value['id'] ?>_size" style="width:45%;margin-left:25px;"  data-attribute="background-size" class="select2_background_complete" >
-											<option value=""></option>
-											<option value="inherit"  <?php selected(  $bg_complete['size'], 'inherit'); ?>> <?php _e('Inherit',$this->parameter['name_option']) ?></option>
-											<option value="cover" <?php selected(  $bg_complete['size'], 'cover'); ?>> <?php _e('Cover',$this->parameter['name_option']) ?></option>
-											<option value="contain" <?php selected(  $bg_complete['size'], 'contain'); ?>> <?php _e('Contain',$this->parameter['name_option']) ?></option>
-										</select> 
-									</div>   
-									<div>
-										<select name="<?php echo $value['name']; ?>_attachment" id="<?php echo $value['id'] ?>_attachment" style="width:45%;"  data-attribute="background-attachment" class="select2_background_complete" >
-											<option value=""></option>
-											<option value="fixed" <?php selected(  $bg_complete['attachment'], 'fixed'); ?>><?php _e('Fixed',$this->parameter['name_option']) ?></option>
-											<option value="scroll" <?php selected(  $bg_complete['attachment'], 'scroll'); ?>><?php _e('Scroll',$this->parameter['name_option']) ?></option>
-											<option value="inherit" <?php selected(  $bg_complete['attachment'], 'inherit'); ?>><?php _e('Inherit',$this->parameter['name_option']) ?></option>
-										</select>
-										<select name="<?php echo $value['name']; ?>_position" id="<?php echo $value['id'] ?>_position" style="width:45%;margin-left:25px;"  data-attribute="background-position" class="select2_background_complete" >
-											<option value=""></option>
-											<option value="left top" <?php selected(  $bg_complete['position'], 'left top'); ?>><?php _e('Left top',$this->parameter['name_option']) ?></option>
-											<option value="left center" <?php selected(  $bg_complete['position'], 'left center'); ?>><?php _e('Left center',$this->parameter['name_option']) ?></option>
-											<option value="left bottom" <?php selected(  $bg_complete['position'], 'left bottom'); ?>><?php _e('Left bottom',$this->parameter['name_option']) ?></option>
-											<option value="center top" <?php selected(  $bg_complete['position'], 'center top'); ?>><?php _e('Center top',$this->parameter['name_option']) ?></option>
-											<option value="center center" <?php selected(  $bg_complete['position'], 'center center'); ?>><?php _e('Center center',$this->parameter['name_option']) ?></option>
-											<option value="center bottom" <?php selected(  $bg_complete['position'], 'center bottom'); ?>><?php _e('Center bottom',$this->parameter['name_option']) ?></option>
-											<option value="right top" <?php selected(  $bg_complete['position'], 'right top'); ?>><?php _e('Right top',$this->parameter['name_option']) ?></option>
-											<option value="right center" <?php selected(  $bg_complete['position'], 'right center'); ?>><?php _e('Right center',$this->parameter['name_option']) ?></option>
-											<option value="right bottom" <?php selected(  $bg_complete['position'], 'right bottom'); ?>><?php _e('Right bottom',$this->parameter['name_option']) ?></option>
-										</select>
-										<div style="margin: 15px 0;float: left;display: block;width: 100%;">
-											<div style="width: 45%;float: left;padding: 0 2%;margin-left: -8px;margin-right: 17px;">
-												<div id="<?php echo $value['id'] ?>-range" class="noUi-connect"></div>  
+									<div class="wrap_background_complete">
+										<div class="part_1">
+											<input type="text" class="theme_color_picker" value="<?php echo $bg_complete['color'] ?>" name="<?php echo $value['name']; ?>_color" id="<?php echo $value['id'] ?>_color" data-default-color="<?php echo $bg_complete['color']; ?>" />
+										</div>
+										<div class="part_2">
+											<div class="background_complete_transparent_check"><input type="checkbox"  id="<?php echo $value['id'] ?>_transparent" name="<?php echo $value['id'] ?>_transparent" value="1" <?php if(  $bg_complete['transparent'] ){ echo " checked='checked' ";} ?> /><label for="<?php echo $value['id'] ?>_transparent"><span class="ui"></span></label> Transparent</div>
+										</div>
+										<div class="clearfix"></div>
+										<div class="part_1 selectbc">
+											<select name="<?php echo $value['name']; ?>_repeat" id="<?php echo $value['id'] ?>_repeat" style="width:100%;" data-attribute="background-repeat" class="select2_background_complete" >
+												<option value=""></option>
+												<option value="no-repeat" <?php selected(  $bg_complete['repeat'], 'no-repeat'); ?>><?php _e('No repeat',$this->parameter['name_option']) ?></option>
+												<option value="repeat" <?php selected(  $bg_complete['repeat'], 'repeat'); ?>><?php _e('Repeat all',$this->parameter['name_option']) ?></option>
+												<option value="repeat-x" <?php selected(  $bg_complete['repeat'], 'repeat-x'); ?>><?php _e('Repeat Horizontally',$this->parameter['name_option']) ?></option>
+												<option value="repeat-y" <?php selected(  $bg_complete['repeat'], 'repeat-y'); ?>><?php _e('Repeat Vertically',$this->parameter['name_option']) ?></option>
+												<option value="inherit" <?php selected(  $bg_complete['repeat'], 'inherit'); ?>><?php _e('Inherit',$this->parameter['name_option']) ?></option>
+											</select>
+										</div>
+										<div class="part_2 selectbc">
+											<select name="<?php echo $value['name']; ?>_size" id="<?php echo $value['id'] ?>_size" style="width:100%;margin-left:25px;"  data-attribute="background-size" class="select2_background_complete" >
+												<option value=""></option>
+												<option value="inherit"  <?php selected(  $bg_complete['size'], 'inherit'); ?>> <?php _e('Inherit',$this->parameter['name_option']) ?></option>
+												<option value="cover" <?php selected(  $bg_complete['size'], 'cover'); ?>> <?php _e('Cover',$this->parameter['name_option']) ?></option>
+												<option value="contain" <?php selected(  $bg_complete['size'], 'contain'); ?>> <?php _e('Contain',$this->parameter['name_option']) ?></option>
+											</select> 
+										</div>
+										<div class="clearfix"></div>
+										<div class="part_1 selectbc">
+											<select name="<?php echo $value['name']; ?>_attachment" id="<?php echo $value['id'] ?>_attachment" style="width:100%;"  data-attribute="background-attachment" class="select2_background_complete" >
+												<option value=""></option>
+												<option value="fixed" <?php selected(  $bg_complete['attachment'], 'fixed'); ?>><?php _e('Fixed',$this->parameter['name_option']) ?></option>
+												<option value="scroll" <?php selected(  $bg_complete['attachment'], 'scroll'); ?>><?php _e('Scroll',$this->parameter['name_option']) ?></option>
+												<option value="inherit" <?php selected(  $bg_complete['attachment'], 'inherit'); ?>><?php _e('Inherit',$this->parameter['name_option']) ?></option>
+											</select>
+										</div>
+										<div class="part_2 selectbc">
+											<select name="<?php echo $value['name']; ?>_position" id="<?php echo $value['id'] ?>_position" style="width:100%;margin-left:25px;"  data-attribute="background-position" class="select2_background_complete" >
+												<option value=""></option>
+												<option value="left top" <?php selected(  $bg_complete['position'], 'left top'); ?>><?php _e('Left top',$this->parameter['name_option']) ?></option>
+												<option value="left center" <?php selected(  $bg_complete['position'], 'left center'); ?>><?php _e('Left center',$this->parameter['name_option']) ?></option>
+												<option value="left bottom" <?php selected(  $bg_complete['position'], 'left bottom'); ?>><?php _e('Left bottom',$this->parameter['name_option']) ?></option>
+												<option value="center top" <?php selected(  $bg_complete['position'], 'center top'); ?>><?php _e('Center top',$this->parameter['name_option']) ?></option>
+												<option value="center center" <?php selected(  $bg_complete['position'], 'center center'); ?>><?php _e('Center center',$this->parameter['name_option']) ?></option>
+												<option value="center bottom" <?php selected(  $bg_complete['position'], 'center bottom'); ?>><?php _e('Center bottom',$this->parameter['name_option']) ?></option>
+												<option value="right top" <?php selected(  $bg_complete['position'], 'right top'); ?>><?php _e('Right top',$this->parameter['name_option']) ?></option>
+												<option value="right center" <?php selected(  $bg_complete['position'], 'right center'); ?>><?php _e('Right center',$this->parameter['name_option']) ?></option>
+												<option value="right bottom" <?php selected(  $bg_complete['position'], 'right bottom'); ?>><?php _e('Right bottom',$this->parameter['name_option']) ?></option>
+											</select>
+										</div>
+										<div class="clearfix"></div>
+										<div class="part_3">
+											<div style="width: 100%;float: left;padding: 0 2%;margin-left: -8px;margin-right: 17px;">
+												<div style="width:16%;float:left">
+													Opacity
+													<span  id="<?php echo $value['id'] ?>-value" style="padding: 5px 10px;background: #FAFAFA;color: #444;border: 1px solid #F1F1F1;"></span>
+													<input type="hidden" name="<?php echo $value['name'] ?>_opacity" id="<?php echo $value['id'] ?>_opacity" value="<?php if(isset( $options_theme[ $value['name'] ] )){ echo (int)$options_theme[ $value['name'] ]; }else{ echo 100; } ?>" />
+												</div>
+												<div style="width:84%;float:left">
+													<div id="<?php echo $value['id'] ?>-range" class="noUi-connect"></div>  	
+												</div>
 											</div>
-											<div style="width:27%;float:left">
-												Opacity
-												<span  id="<?php echo $value['id'] ?>-value" style="padding: 5px 10px;background: #FAFAFA;color: #444;border: 1px solid #F1F1F1;"></span>
+										</div>
+										<div class="clearfix"></div>
+										<div class="part_3">
+											<div style="padding: 10px 0;;" class="upload">
+												<div class="part_1">
+													<input id="<?php echo $value['id'] ?>_src" type="text" name="<?php echo $value['name'] ?>_src" value="<?php echo $bg_complete['src']; ?>" class="theme_src_upload"  />
+												</div>
+												<div class="part_2">
+													<a class="upload_image_button_complete button top-tip"  data-button-set="<?php _e('Select image',$this->parameter['name_option']) ?>" > <i class="fa fa-cloud-upload"></i><?php _e('Upload image',$this->parameter['name_option']) ?></a>
+												</div>
+
+												<?php 
+													// get data background
+													$repeat     = $bg_complete['repeat']?"background-repeat:{$bg_complete['repeat']};":'';
+													$size       = $bg_complete['size']?"background-size:{$bg_complete['size']};":'';
+													$attachment = $bg_complete['attachment']?"background-attachment:{$bg_complete['attachment']};":'';
+													$position   = $bg_complete['position']?"background-position:{$bg_complete['position']};":'';
+													$src        = $bg_complete['src']?"background-image:url({$bg_complete['src']});":'';
+												?>
+
+												<div class="preview" <?php  if( isset($options_theme[ $value['name'] ]['src']) && $options_theme[ $value['name'] ]['src'] ){ echo "style='$repeat $size $attachment $position $src height:450px'"; } ?>>
+													<?php  if( $src ) : ?>
+														<span class='admin_delete_image_upload admin_delete_image_upload_complete'>✕</span>
+													<?php endif; ?>
+												</div>
 											</div>
-											<input type="hidden" name="<?php echo $value['name'] ?>_opacity" id="<?php echo $value['id'] ?>_opacity" value="<?php if(isset( $options_theme[ $value['name'] ] )){ echo (int)$options_theme[ $value['name'] ]; }else{ echo 100; } ?>" />
-											<script>
-											jQuery(document).ready(function($){
-												$('#<?php echo $value['id'] ?>-range').noUiSlider({
-													start: [ <?php if(isset( $bg_complete['opacity'] )){ echo (int)$bg_complete['opacity']; }else{ echo 100; } ?> ],
-													step: 1,
-													range: {
-														'min': [  1 ],
-														'max': [ 100 ]
-													}
-												});
-												$('#<?php echo $value['id'] ?>-range').Link().to( $('#<?php echo $value['id'] ?>-value'), null, wNumb({decimals: 0}) );
-												$('#<?php echo $value['id'] ?>-range').Link().to( $('#<?php echo $value['id'] ?>_opacity'), null, wNumb({decimals: 0}) );
-												$('#<?php echo $value['id'] ?>-range').Link().to(function( value ){
-													var opacity_preview = parseInt(value) / 100;
-													$("#<?php echo $value['id'] ?>_opacity").parent().parent().parent().parent().find(".preview").css("opacity", opacity_preview );
-												});
-												 
-											});
-											
-											</script>
+										<div class="help"><?php echo $value['help']; ?></div>
 										</div>
 									</div>
+									<script>
+									jQuery(document).ready(function($){
+										$('#<?php echo $value['id'] ?>-range').noUiSlider({
+											start: [ <?php if(isset( $bg_complete['opacity'] )){ echo (int)$bg_complete['opacity']; }else{ echo 100; } ?> ],
+											step: 1,
+											range: {
+												'min': [  1 ],
+												'max': [ 100 ]
+											}
+										});
+										$('#<?php echo $value['id'] ?>-range').Link().to( $('#<?php echo $value['id'] ?>-value'), null, wNumb({decimals: 0}) );
+										$('#<?php echo $value['id'] ?>-range').Link().to( $('#<?php echo $value['id'] ?>_opacity'), null, wNumb({decimals: 0}) );
+										$('#<?php echo $value['id'] ?>-range').Link().to(function( value ){
+											var opacity_preview = parseInt(value) / 100;
+											$("#<?php echo $value['id'] ?>_opacity").parent().parent().parent().parent().find(".preview").css("opacity", opacity_preview );
+										});
+										 
+									});
 									
-										<script>
-											jQuery(document).ready(function($){
-												$("#<?php echo $value['id'] ?>_repeat").select2({placeholder: "<?php _e('Background Repeat',$this->parameter['name_option']) ?>",allowClear: true}); 
-												$("#<?php echo $value['id'] ?>_attachment").select2({placeholder: "<?php _e('Background Attachment',$this->parameter['name_option']) ?>",allowClear: true}); 
-												$("#<?php echo $value['id'] ?>_size").select2({placeholder: "<?php _e('Background Size',$this->parameter['name_option']) ?>",allowClear: true}); 
-												$("#<?php echo $value['id'] ?>_position").select2({placeholder: "<?php _e('Background Position',$this->parameter['name_option']) ?>",allowClear: true}); 
-											});
-										</script>
+									</script>
+									<script>
+										jQuery(document).ready(function($){
+											$("#<?php echo $value['id'] ?>_repeat").select2({placeholder: "<?php _e('Background Repeat',$this->parameter['name_option']) ?>",allowClear: true}); 
+											$("#<?php echo $value['id'] ?>_attachment").select2({placeholder: "<?php _e('Background Attachment',$this->parameter['name_option']) ?>",allowClear: true}); 
+											$("#<?php echo $value['id'] ?>_size").select2({placeholder: "<?php _e('Background Size',$this->parameter['name_option']) ?>",allowClear: true}); 
+											$("#<?php echo $value['id'] ?>_position").select2({placeholder: "<?php _e('Background Position',$this->parameter['name_option']) ?>",allowClear: true}); 
+										});
+									</script>
 									
 								</div>
-								<div class="b" style="float:right">
-									<div style="padding: 10px 0;;" class="upload">
-										<input id="<?php echo $value['id'] ?>_src" type="text" name="<?php echo $value['name'] ?>_src" value="<?php echo $bg_complete['src']; ?>" class="theme_src_upload"  />
-										<a class="upload_image_button_complete button top-tip"  data-button-set="<?php _e('Select image',$this->parameter['name_option']) ?>" > <i class="fa fa-cloud-upload"></i><?php _e('Upload image',$this->parameter['name_option']) ?></a>
-
-										<?php 
-											// get data background
-											$repeat     = $bg_complete['repeat']?"background-repeat:{$bg_complete['repeat']};":'';
-											$size       = $bg_complete['size']?"background-size:{$bg_complete['size']};":'';
-											$attachment = $bg_complete['attachment']?"background-attachment:{$bg_complete['attachment']};":'';
-											$position   = $bg_complete['position']?"background-position:{$bg_complete['position']};":'';
-											$src        = $bg_complete['src']?"background-image:url({$bg_complete['src']});":'';
-						
-										?>
-
-										<div class="preview" <?php  if( isset($options_theme[ $value['name'] ]['src']) && $options_theme[ $value['name'] ]['src'] ){ echo "style='$repeat $size $attachment $position $src height:200px'"; } ?>>
-											<?php  if( $src ) : ?>
-												<span class='admin_delete_image_upload admin_delete_image_upload_complete'>✕</span>
-											<?php endif; ?>
-										</div>
-									</div>
-									<div class="help"><?php echo $value['help']; ?></div>
-								</div>
+ 
 
 
 							</div>
@@ -1715,30 +1770,72 @@ jQuery(".iaccordion-header").on("click",function(){
 								<div class="a"><h3><?php if(isset( $value['title'] )){ echo $value['title']; } ?></h3></div>
 								<div class="<?php echo $side_two; ?>">
 									<div>
-										<div style="width:10%;float:left">
+										<div style="width:7%;float:left">
 											<span  id="<?php echo $value['id'] ?>-value" style="padding: 5px 10px;background: #FAFAFA;color: #444;border: 1px solid #F1F1F1;"></span>
 										</div>
-										<div style="width: 84%;float: right;padding: 0;border-radius: 5px;" >
+										<div style="width: 91%;float: right;padding: 0;border-radius: 5px;" >
 											<div id="<?php echo $value['id'] ?>-range" <?php if( isset($value['color']) && $value['color'] == 1 ){ echo "class='noUi-connect'"; } ?>></div> 
 										</div>
 										<input type="hidden" name="<?php echo $value['name'] ?>" id="<?php echo $value['id'] ?>" value="<?php if(isset( $options_theme[ $value['name'] ] )){ echo (int)$options_theme[ $value['name'] ]; }else{ echo 0; } ?>" />
 										<script>
-										jQuery(document).ready(function($){
-											$('#<?php echo $value['id'] ?>-range').noUiSlider({
-												start: [ <?php if(isset( $options_theme[ $value['name'] ] )){ echo (int)$options_theme[ $value['name'] ]; }else{ echo 0; } ?> ],
-												step: <?php if(isset( $value['step'] )){ echo $value['step']; } ?>,
-												range: {
-													'min': [  <?php if(isset( $value['min'] )){ echo $value['min']; } ?> ],
-													'max': [ <?php if(isset( $value['max'] )){ echo $value['max']; } ?> ]
-												}
+											jQuery(document).ready(function($){
+												$('#<?php echo $value['id'] ?>-range').noUiSlider({
+													start: [ <?php if(isset( $options_theme[ $value['name'] ] )){ echo (int)$options_theme[ $value['name'] ]; }else{ echo 0; } ?> ],
+													step: <?php if(isset( $value['step'] )){ echo $value['step']; } ?>,
+													range: {
+														'min': [  <?php if(isset( $value['min'] )){ echo $value['min']; } ?> ],
+														'max': [ <?php if(isset( $value['max'] )){ echo $value['max']; } ?> ]
+													}
+												});
+												$('#<?php echo $value['id'] ?>-range').Link().to( $('#<?php echo $value['id'] ?>-value'), null, wNumb({decimals: 0}) );
+												$('#<?php echo $value['id'] ?>-range').Link().to( $('#<?php echo $value['id'] ?>'), null, wNumb({decimals: 0}) );
 											});
-											$('#<?php echo $value['id'] ?>-range').Link().to( $('#<?php echo $value['id'] ?>-value'), null, wNumb({decimals: 0}) );
-											$('#<?php echo $value['id'] ?>-range').Link().to( $('#<?php echo $value['id'] ?>'), null, wNumb({decimals: 0}) );
-										});
-										
 										</script>
 									</div>
 									<div class="help"><?php echo $value['help']; ?></div>
+								</div>
+							</div>
+							<?php if(isset( $value['after'] )){ echo $value['after'];} ?>
+
+						<?php break;
+
+						case "input_2": ?>
+							<?php if(isset( $value['before'] )){ echo $value['before'];} ?>
+							<div class="row input_2 <?php if(isset( $value['class'] )){ echo $value['class'];} ?> ilentheme_row_range" <?php if(isset( $value['style'] )){ echo $value['style'];} ?> >
+								<div class="a"><?php if(isset( $value['title'] )){ echo $value['title']; } ?></div>
+								<div class="<?php echo $side_two; ?>">
+								  <?php $margin_input4 = isset($options_theme[ $value['name'] ])?$options_theme[ $value['name'] ]:''; ?>
+									<div>
+										<div class="input_2--square"><span>&nbsp; </span><input type="number" name="<?php echo $value['name'].'_top'; ?>" id="<?php echo $value['id'].'_top' ?>"  min ="<?php if(isset( $value['min'] )){ echo $value['min']; } ?>" max="<?php if(isset( $value['max'])){  echo $value['max']; } ?>" step="<?php if(isset( $value['step'])){ echo $value['step']; } ?>" value="<?php echo isset($margin_input4['top'])?$margin_input4['top']:0; ?>" ></div>
+										<div class="input_2--square"><span>&nbsp; </span><input type="number" name="<?php echo $value['name'].'_bottom'; ?>" id="<?php echo $value['id'].'_bottom' ?>"  min ="<?php if(isset( $value['min'] )){ echo $value['min']; } ?>" max="<?php if(isset( $value['max'])){  echo $value['max']; } ?>" step="<?php if(isset( $value['step'])){ echo $value['step']; } ?>" value="<?php echo isset($margin_input4['bottom'])?$margin_input4['bottom']:0; ?>" ></div>
+									</div>
+									<div class="help"><?php if( isset($value['help']) ){ echo $value['help']; } ?></div>
+								</div>
+							</div>
+							<?php if(isset( $value['after'] )){ echo $value['after'];} ?>
+
+						<?php break;
+
+						case "fonts": ?>
+							<?php if(isset( $value['before'] )){ echo $value['before'];} ?>
+							<div class="row input_2 <?php if(isset( $value['class'] )){ echo $value['class'];} ?> ilentheme_row_range" <?php if(isset( $value['style'] )){ echo $value['style'];} ?> >
+								<div class="a"><?php if(isset( $value['title'] )){ echo $value['title']; } ?></div>
+								<div class="<?php echo $side_two; ?>">
+								  	<?php 
+								  		//include 'styles-font-menu/plugin.php';
+										$ThemeURL = get_template_directory();
+										//echo $ThemeURL . '/framework/ilenframework/styles-font-menu-master/plugin.php';
+										include( $ThemeURL . '/framework/ilenframework/assets/lib/styles-fonts-select/plugin.php' ); // beginning actions
+										$attributes = array(
+										    'name' => 'sfm-field-name',
+										    'id' => 'sfm-field-id',
+										    // 'data-custom' => 'Some custom data attribute value',
+										);
+										$default_value = '{"family":"Arial, Helvetica, sans-serif","name":"Arial","classname":"arial"}';
+
+										do_action( 'styles_font_menu', $attributes, $default_value );
+								  	?>
+									<div class="help"><?php if( isset($value['help']) ){ echo $value['help']; } ?></div>
 								</div>
 							</div>
 							<?php if(isset( $value['after'] )){ echo $value['after'];} ?>
@@ -1876,20 +1973,20 @@ jQuery(".iaccordion-header").on("click",function(){
 										<textarea id="code_<?php echo $value['id'] ?>" name="<?php echo $value['name'] ?>"><?php echo isset($options_theme[ $value['name'] ])?$options_theme[ $value['name'] ]:$value['value']; ?></textarea>
 									</div>
 									<script>
+										var editor_<?php echo $value['id'] ?>;
+										jQuery(document).ready(function(){
+												editor_<?php echo $value['id'] ?> = CodeMirror.fromTextArea(document.getElementById("code_<?php echo $value['id'] ?>"), {
+												lineNumbers: <?php if( isset($value['lineNumbers']) && $value['lineNumbers'] ){ echo $value['lineNumbers']; }else{ echo "true"; } ?>,
+												styleActiveLine: true,
+												matchBrackets: true
+											});
 
-									  jQuery(document).ready(function(){
-										var editor_<?php echo $value['id'] ?> = CodeMirror.fromTextArea(document.getElementById("code_<?php echo $value['id'] ?>"), {
-											lineNumbers: <?php if( isset($value['lineNumbers']) && $value['lineNumbers'] ){ echo $value['lineNumbers']; }else{ echo "true"; } ?>,
-											styleActiveLine: true,
-											matchBrackets: true
-									   });
-										editor_<?php echo $value['id'] ?>.setOption("theme", "xq-light");
+											editor_<?php echo $value['id'] ?>.setOption("theme", "xq-light");
 
-										<?php if( isset($value['mini_callback'])  && $value['mini_callback'] ): ?>
-											<?php echo $value['mini_callback']; ?>
-										<?php endif; ?>
-									  });
-									  
+											<?php if( isset($value['mini_callback'])  && $value['mini_callback'] ): ?>
+												<?php echo $value['mini_callback']; ?>
+											<?php endif; ?>
+										});
 									</script>
 								</div>
 							</div>
@@ -1904,11 +2001,11 @@ jQuery(".iaccordion-header").on("click",function(){
 							<div class="row upload <?php if(isset( $value['class'] )){ echo $value['class'];} ?>" <?php if(isset( $value['style'] )){ echo $value['style'];} ?> >
 								<div class="a"><?php echo $value['title']; ?><div class="help"><?php echo $value['help']; ?></div></div>
 								<div class="<?php echo $side_two; ?>">
-									<input id="<?php echo $value['id'] ?>" type="text" name="<?php echo $value['name'] ?>" value="<?php echo $options_theme[ $value['name'] ]; ?>" class="theme_src_upload"  />
+									<input id="<?php echo $value['id'] ?>" type="text" name="<?php echo $value['name'] ?>" value="<?php echo isset($options_theme[ $value['name'] ])?$options_theme[ $value['name'] ]:''; ?>" class="theme_src_upload"  />
 									<a class="upload_image_button button top-tip" data-tips="<?php _e('Select image',$this->parameter['name_option']) ?>" data-title="<?php echo $value['title'] ?>" data-button-set="<?php _e('Select image',$this->parameter['name_option']) ?>" > <i class="fa fa-cloud-upload"></i><?php _e('',$this->parameter['name_option']) ?></a>
 									<?php if(isset( $value['value'] ) && $value['value']) : ?><a class="upload_image_default button top-tip" data-tips="<?php _e('Use default',$this->parameter['name_option']) ?>" image-default="<?php echo $value['value']; ?>" > <i class="fa fa-repeat"></i><?php _e('',$this->parameter['name_option']) ?></a><?php endif; ?>
 									<div class="preview">
-										<?php  if( $options_theme[ $value['name'] ] ) : ?>
+										<?php  if( isset($options_theme[ $value['name'] ]) && $options_theme[ $value['name'] ] ) : ?>
 											<img src="<?php echo $options_theme[ $value['name'] ]; ?>" />
 											<span class='admin_delete_image_upload'>✕</span>
 										<?php endif; ?>
@@ -2145,19 +2242,18 @@ jQuery(".iaccordion-header").on("click",function(){
 										</div>
 										<input type="hidden" name="<?php echo $value['name'] ?>" id="<?php echo $value['id'] ?>" value="<?php if(isset( $options_theme[ $value['name'] ] )){ echo (int)$options_theme[ $value['name'] ]; }else{ echo 0; } ?>" />
 										<script>
-										jQuery(document).ready(function($){
-											$('#<?php echo $value['id'] ?>-range').noUiSlider({
-												start: [ <?php if(isset( $options_theme[ $value['name'] ] )){ echo (int)$options_theme[ $value['name'] ]; }else{ echo 0; } ?> ],
-												step: <?php if(isset( $value['step'] )){ echo $value['step']; } ?>,
-												range: {
-													'min': [  <?php if(isset( $value['min'] )){ echo $value['min']; } ?> ],
-													'max': [ <?php if(isset( $value['max'] )){ echo $value['max']; } ?> ]
-												}
+											jQuery(document).ready(function($){
+												$('#<?php echo $value['id'] ?>-range').noUiSlider({
+													start: [ <?php if(isset( $options_theme[ $value['name'] ] )){ echo (int)$options_theme[ $value['name'] ]; }else{ echo 0; } ?> ],
+													step: <?php if(isset( $value['step'] )){ echo $value['step']; } ?>,
+													range: {
+														'min': [  <?php if(isset( $value['min'] )){ echo $value['min']; } ?> ],
+														'max': [ <?php if(isset( $value['max'] )){ echo $value['max']; } ?> ]
+													}
+												});
+												$('#<?php echo $value['id'] ?>-range').Link().to( $('#<?php echo $value['id'] ?>-value'), null, wNumb({decimals: 0}) );
+												$('#<?php echo $value['id'] ?>-range').Link().to( $('#<?php echo $value['id'] ?>'), null, wNumb({decimals: 0}) );
 											});
-											$('#<?php echo $value['id'] ?>-range').Link().to( $('#<?php echo $value['id'] ?>-value'), null, wNumb({decimals: 0}) );
-											$('#<?php echo $value['id'] ?>-range').Link().to( $('#<?php echo $value['id'] ?>'), null, wNumb({decimals: 0}) );
-										});
-										
 										</script>
 									</div>
 								</div>
@@ -2230,7 +2326,7 @@ jQuery(".iaccordion-header").on("click",function(){
 
 
 	// =BUILD Fields widget---------------------------------------------
-	function build_fields_w( $fields = array(), $widget_id = '' ){
+	function build_fields_w( $fields = array(), $widget_id = '', $other_ref_widget = 0 ){
 
 			foreach ($fields as $key => $value) {
 
@@ -2372,9 +2468,15 @@ jQuery(".iaccordion-header").on("click",function(){
 						case "checkbox": ?>
 
 							<?php if(isset( $value['before'] )){ echo $value['before'];} ?>
+							<?php 
+								$class_ilen_list = null;
+								if( isset($value['display']) && ($value['display'] == 'list' || $value['display'] == 'types_post') ){
+									$class_ilen_list = "ilen_check_list";
+								}
+							?>
 							<div class="row <?php if(isset( $value['class'] )){ echo $value['class'];} ?> ilentheme_row_checkbox" <?php if(isset( $value['style'] )){ echo $value['style']; } ?>> 
 								<div class="a"><strong><?php echo $value['title']; ?></strong><div class="help"><?php echo $value['help']; ?></div></div>
-								<div class="<?php echo $side_two; ?>">
+								<div class="<?php echo $side_two." ".$class_ilen_list; ?>">
 
 									
 									<?php if( isset($value['display']) && $value['display'] == 'list' ){  ?>
@@ -2395,23 +2497,23 @@ jQuery(".iaccordion-header").on("click",function(){
 										<?php endforeach; ?>
 										
 									<?php } elseif( isset($value['display']) && $value['display'] == 'types_post' ) { ?>
-										<?php $ck=''; if( isset($my_values) ){ $ck =  checked(  $my_values  , 1, FALSE );  }
+										<?php //$ck=''; if( isset($my_values) ){ $ck =  checked(  $my_values  , 1, FALSE );  }
 
 
 											// get type post 
 											$post_types = get_post_types(array(), "objects");
-
+											/*$my_values = null;
 											if( isset($my_values) && !is_array(  $my_values ) ){
 												$my_values = array();
-											}
-
-											foreach ($post_types as $post_type): ?>
+											}*/
+												//var_dump( $value['value'] );
+											foreach ($post_types as $post_type):  ?>
 												<?php if( !in_array($post_type->name,array('revision','nav_menu_item')) ): ?>
 												<div class="row_checkbox_types_post">
 
-													<input  type="checkbox" <?php if( in_array( $post_type->name  , (array)($my_values) ) ){ echo " checked='checked' ";} ?> name="<?php echo $value['id'] ?>[]" id="<?php echo $value['id']."_".$post_type->name ?>" value="<?php echo $post_type->name; ?>"  />   
+													<input  type="checkbox" <?php if( in_array( $post_type->name  , (array)$value['value'] ) ){ echo " checked='checked' ";} ?> name="<?php echo $value['name'] ?>[]" id="<?php echo $value['id']."__".$post_type->name."__{$widget_id}" ?>" value="<?php echo $post_type->name; ?>"  />   
 
-													<label for="<?php echo $value['id']."_".$post_type->name ?>"><span class="ui"></span></label>
+													<label for="<?php echo $value['id']."__".$post_type->name."__{$widget_id}" ?>"><span class="ui"></span></label>
 													&nbsp;<?php echo $post_type->labels->name; ?>
 													<div class="help"><?php //echo $value2['help']; ?></div>
 												</div>
@@ -2840,6 +2942,8 @@ if( $value_stored ){
 				return $input;
 			}elseif( $type == 't' ){ // use strip_tags
 				return (string)esc_attr( strip_tags($input) );
+			}elseif( $type == 'a' ){ // use strip_tags
+				return (array)$input;
 			}
 		}
 
@@ -3158,6 +3262,18 @@ function fields_update($data,$is_tab = 1){
 
 				$options_update[$value['name']]    = $input_4_array; 
 
+			}elseif(  $value['type'] == 'input_2' ){
+
+				$input_2_array = array();
+				$input_2_array['top']    = isset($_POST["{$value['name']}_top"])?$_POST["{$value['name']}_top"]:'';
+				$input_2_array['bottom'] = isset($_POST["{$value['name']}_bottom"])?$_POST["{$value['name']}_bottom"]:'';
+
+				$options_update[$value['name']]    = $input_2_array; 
+
+			}elseif(  $value['type'] == 'component_enhancing_code' ){
+
+				$options_update[$value['name']] =  $_POST[$value['name']];
+
 			}else{
 
 
@@ -3165,7 +3281,8 @@ function fields_update($data,$is_tab = 1){
 				// set values normal
 				$value_final = '';
 				if( isset( $_POST ) && isset( $value['name'] ) && isset( $_POST[$value['name']] ) ){
-					$value_final = (string)$_POST[$value['name']];
+					//$value_final = mysql_real_escape_string( stripslashes($_POST[$value['name']]) );
+					$value_final = stripslashes($_POST[$value['name']]);
 				}
 
 				if( isset( $value['name'] ) ){
@@ -3383,8 +3500,10 @@ function fields_update($data,$is_tab = 1){
 			wp_enqueue_style( 'wp-color-picker' );
 
 			if( $this->parameter['themeadmin'] ){
-				wp_register_style( 'ilentheme-styles-admin-theme-'.$this->parameter['id'], $this->parameter['url_framework'] ."/assets/css/theme-{$this->parameter['themeadmin']}.css" );
-				wp_enqueue_style( 'ilentheme-styles-admin-theme-'.$this->parameter['id'] );
+				//wp_register_style( 'ilentheme-styles-admin-theme-'.$this->parameter['id'], $this->parameter['url_framework'] ."/assets/css/theme-{$this->parameter['themeadmin']}.css" );
+				//wp_enqueue_style( 'ilentheme-styles-admin-theme-'.$this->parameter['id'] );
+				wp_register_style( 'ilentheme-styles-admin-theme', $this->parameter['url_framework'] ."/assets/css/theme-{$this->parameter['themeadmin']}.css" );
+				wp_enqueue_style( 'ilentheme-styles-admin-theme');
 
 				// RTL
 				if( is_rtl() ){
@@ -3637,5 +3756,5 @@ if( isset($IF_CONFIG->components) && ! is_array($IF_CONFIG->components) ){
 
 global $IF;
 $IF = null;
-$IF = new ilen_framework_2_5;
+$IF = new ilen_framework_2_6_4;
 ?>

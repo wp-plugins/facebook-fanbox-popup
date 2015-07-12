@@ -46,12 +46,12 @@ a:hover{text-decoration: none!important;}
   font-weight: bold;
 }
 .ilenplugin-options .row .a {
-  width: 48%!important;
+  width: 48%;
   float: left;
   text-align: right;
 }
 .ilenplugin-options .row .b {
-  width: 50%!important;
+  width: 50%;
   float: right;
 }
 .ilenplugin-options .postbox{
@@ -183,6 +183,7 @@ a:hover{text-decoration: none!important;}
 .ilenplugin-options   .a_line{
   text-align: left!important;
   margin-bottom: 13px!important;
+  width: 100%!important;
 }
 .ilenplugin-options  .a_line .help{
   width: 100%!important;
@@ -756,6 +757,7 @@ input[type="range"]::-webkit-slider-thumb {
   border: 0;
   box-shadow: 0px 0px 3px rgb(187, 187, 187);
   background: #FDFDFD;
+  width: 98.5%;
 }
 .ilentheme-options .top-right,
 .ilentheme-options .top-left{
@@ -781,7 +783,8 @@ input[type="range"]::-webkit-slider-thumb {
   margin-top: -8px;
 }
 .ilentheme-options li.ui-state-active{
-  border-bottom: 1px solid #ECECEC;  
+  border-bottom: 1px solid #ECECEC;
+  background-color:  #fff!important;
 }
 
 .ilentheme-options .ui-tabs.ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active a i{
@@ -826,7 +829,7 @@ input[type="range"]::-webkit-slider-thumb {
   border-left: 1px solid rgb(236, 236, 236);
 }
 .ilentheme-options .content-tab{
-  width:690px;
+  width:95%;
 }
 .ilentheme-options .content-tab{
   padding: 0px;
@@ -884,7 +887,7 @@ input[type="range"]::-webkit-slider-thumb {
   color: #BDC3C7;
   /*border-bottom: 1px solid #EBEBEB;*/
   padding-bottom: 0;
-  margin: 20px ;
+  margin: 20px 0 0 30px;
 }
 .ilentheme-options h3{
   color: #525252;
@@ -1075,10 +1078,22 @@ input[type="range"]::-webkit-slider-thumb {
   border-bottom: 1px dashed #E5E7E8;
 }
 .ilentheme-options .row .a{
-  width: 30%;
+  width: 20%;
   margin-bottom: 10px;
   text-align: right;
   padding-right: 12px;
+  /*line-height: 35px;*/
+  /*display: flex;
+  justify-content: center;*/
+  /* align horizontal */
+  align-items: center;
+  /* align vertical */
+  /* http://stackoverflow.com/questions/8865458/how-to-align-text-vertically-center-in-div-with-css */
+}
+.ilentheme-options .row .a h3{
+  /*display: inline-block;
+  vertical-align: middle;*/
+  line-height: normal;
 }
 .ilentheme-options .row .b{
   width: 70%;
@@ -1163,7 +1178,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 .ilentheme-options .background_complete .upload input[type="text"]{
   margin-top: 0;
-  width: 52%;
+  width: 100%;
 }
 .ilentheme-options .background_complete .theme_src_upload{}
 .ilentheme-options .upload_image_button_complete {
@@ -1267,6 +1282,7 @@ input[type="range"]::-webkit-slider-thumb {
   border-radius: 3px;
   border: 1px solid #F1F1F1;
   box-shadow: 0 1px 1px rgba(0,0,0,.1);
+  width: 100%;
 }
 .ilentheme-options .postbox h3 span {
   font-weight: normal;
@@ -1282,7 +1298,9 @@ input[type="range"]::-webkit-slider-thumb {
 .ilentheme-options .postbox .inside{
   margin: 0 0 0;
   padding: 0 12px 0!important;
-  overflow: hidden;
+  /*overflow: hidden;*/
+  display: inline-block;
+  width: 100%;
   background: #fff;
   font-size: 14px!important;
 }
@@ -1375,7 +1393,7 @@ input[type="range"]::-webkit-slider-thumb {
   display: inline;
   position: relative;
   top: -9px;
-  margin-left: 72px;
+  margin-left: 0;
 }
 .ilentheme-options .wp-color-picker {
     width: 75px !important;
@@ -1666,7 +1684,7 @@ input[type="range"]::-webkit-slider-thumb {
 .ilentheme-options .color_hover_two_element,
 .ilentheme-options .color_hover_first_element{
   float: left;
-  width: 49%;
+  width: 28%;
 }
 .ilentheme-options .color_hover_two_element{
   line-height: 32px;
@@ -1686,9 +1704,49 @@ input[type="range"]::-webkit-slider-thumb {
   display: block;
 }
 .ilentheme-options .upload .admin_delete_image_upload{
-  width: 20px;
-  height: 20px;
+    width: 20px;
+    height: 20px;
 }
+.ilentheme-options .ui-widget-header{
+  background-color: #EAEAEA!important;
+}
+
+.ilentheme-options .input_2 .input_2--square{
+  width:13%;
+  float:left;
+}
+.ilentheme-options .input_2 .input_2--square span{
+  display: inline-block;
+  height: 27px;
+  line-height: 27px;
+  width: 21px;
+  text-align: center;
+  color: #fff;
+  opacity: 0.3;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.ilentheme-options .input_2 .input_2--square:nth-child(1) span{
+  background: #B5B5B5 url(../images/input_4_up.png) 3px 6px no-repeat;
+}
+.ilentheme-options .input_2 .input_2--square:nth-child(2) span{
+  background: #B5B5B5 url(../images/input_4_down.png) 3px 6px no-repeat;
+}
+.ilentheme-options .input_2 .input_2--square input{
+  width: 54px;
+  margin-left:0;
+  padding: 4px 5px;
+}
+.ilentheme-options .separate{
+  padding: 10px 0 0 10px;
+  background-color: #FCFCFC;
+}
+.ilentheme-options .separate .b{
+  color: #949393;
+  margin-left: 120px;
+} 
+
+
 
 
 
@@ -2064,6 +2122,7 @@ input[type="range"]::-webkit-slider-thumb {
   padding:6px 0;
   border-bottom: 1px dashed #e7eaec;
   margin-bottom: 0!important;
+  margin-left: 2px;
 }
 .ilenmetabox-options .row .a{
   width: 30%;
@@ -2222,7 +2281,7 @@ input[type="range"]::-webkit-slider-thumb {
 .ilenmetabox-options .ui-widget-header .ui-state-default i{
   font-size: 16px;
   position: relative;
-  top: 3px;
+  top: 1px;
 }
 .ilenmetabox-options #wpbody-content .metabox-holder{
   margin: 0;
