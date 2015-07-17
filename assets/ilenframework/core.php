@@ -1,15 +1,15 @@
 <?php 
 /**
- * iLenFramework 2.6.3
+ * iLenFramework 2.6.5
  * @package ilentheme
  * 
  * live as if it were the last day of your life
  */
 
 // REQUIRED FILES TO RUN
-if ( !class_exists('ilen_framework_2_6_4') ) {
+if ( !class_exists('ilen_framework_2_6_5') ) {
 
-class ilen_framework_2_6_4 {
+class ilen_framework_2_6_5 {
 
 		var $options          = array();
 		var $parameter        = array();
@@ -2593,6 +2593,7 @@ jQuery(".iaccordion-header").on("click",function(){
 
 		global $if_utils;
 
+
 		$_html = "";
 		$stored = $stored[0];
 		foreach ($fields as $key => $value) {
@@ -2605,12 +2606,15 @@ jQuery(".iaccordion-header").on("click",function(){
 			$value_stored ='';
 			$real_value   ='';
 			$placeholder  ='';
-			$readonly           ='';
+			$readonly     ='';
+
+			//if( $value['type'] == 'checkbox' ) { var_dump ( $stored[ $value['name'] ] ); }
+
 
 			$class        = isset( $value['class'] )?$value['class']:'';
 			$style        = isset( $value['style'] )?"style='{$value['style']}'":'';
 			$default      = isset( $value['value'] )?$value['value']:'';
-			$value_stored = isset($stored[ $value['name'] ])?$stored[ $value['name'] ]:null;
+			$value_stored = isset( $stored[ $value['name'] ])  && $stored[ $value['name'] ]?$stored[ $value['name'] ]:null;
 			$placeholder  = isset( $value['placeholder'] ) && $value['placeholder']?$value['placeholder']:'';
 			$readonly     = isset( $value['readonly'] ) && $value['readonly']? "readonly='readonly'" :'';
 
@@ -2892,6 +2896,7 @@ if( $value_stored ){
 		if(  is_array( $mb_header)  ){
 
 			$stored_meta = get_post_meta( $post_id , $name_store );
+
 			if ( !$stored_meta ){
 
 				$stored_meta = $this->set_default_metabox_values( $post_id , $name_store , $mb_header ,  $mb_body );
@@ -2906,7 +2911,6 @@ if( $value_stored ){
 
 
 			foreach ($mb_header as $key => $value) {
-
 				$html_data = $this->create_ilenMetabox( $key , $mb_header , $mb_body,  $stored_meta );
 				$function_meta_dinamyc = create_function( '',  "echo ".@var_export($html_data,TRUE).";" );
 				add_action('admin_head',  @create_function( '', "add_meta_box( '{$value['id']}', '{$value['title']}', '$function_meta_dinamyc', '$post_type' , '{$value['context']}', '{$value['priority']}' );" ), $priority );
@@ -3393,27 +3397,41 @@ function fields_update($data,$is_tab = 1){
 									}
 
 									// set values type check list
-									$options_update[$value['name']] = $array_set_values_check;
+									$update_meta_new[$value['name']] = $array_set_values_check;
 
 
 
-								} // end type checkbox
-								elseif( isset( $_POST[ $value['name'] ] ) ){
+								} elseif($value['type'] == 'checkbox') {
+									//var_dump( isset($_POST[ $value['name'] ] ) );
+									if( isset($_POST[ $value['name'] ]) && $_POST[ $value['name'] ] ){
+										$update_meta_new[ $value['name'] ] = $this->ilenwidget_validate_inputs_ext( $_POST[ $value['name'] ], $value['sanitizes'] );
+									}else{
+										$update_meta_new[ $value['name'] ] = null;
+									}
+
+								// end type checkbox
+								}elseif( isset( $_POST[ $value['name'] ] ) ){
 
 									$update_meta_new[ $value['name'] ] = $this->ilenwidget_validate_inputs_ext( $_POST[ $value['name'] ], $value['sanitizes'] );
 
 								}
 							}
+
 						}
 					}
 				}
 			}
+			//var_dump(  $_POST );
 		}
 
 		// Checks for input and sanitizes/saves if needed
 		if( is_array($update_meta_new) ) {
 			update_post_meta( $post_id,  $this->parameter['metabox_name'] , $update_meta_new );
 		}
+
+
+		//var_dump( $update_meta_new );
+		//exit;
 
 
 	}
@@ -3756,5 +3774,5 @@ if( isset($IF_CONFIG->components) && ! is_array($IF_CONFIG->components) ){
 
 global $IF;
 $IF = null;
-$IF = new ilen_framework_2_6_4;
+$IF = new ilen_framework_2_6_5;
 ?>

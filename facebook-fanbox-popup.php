@@ -3,7 +3,7 @@
 Plugin Name: Facebook FanBox Popup
 Plugin URI: https://wordpress.org/plugins/facebook-fanbox-popup/
 Description: Promote your Fanpage in a cool natural way
-Version: 3.3
+Version: 3.4
 Author: iLen
 Author URI:
 */
@@ -26,16 +26,16 @@ class facebook_fanbox_popup extends facebook_fanbox_popup_make{
         }elseif( ! is_admin() ) {
 
         	// get utils: IF_get_option
-      		require_once plugin_dir_path( __FILE__ )."assets/ilenframework/assets/lib/utils.php";
-          global $opt_fanbox_popup;
-          $opt_fanbox_popup = $if_utils->IF_get_option( $this->parameter['name_option'] );
+			require_once plugin_dir_path( __FILE__ )."assets/ilenframework/assets/lib/utils.php";
+			global $opt_fanbox_popup;
+			$opt_fanbox_popup = $if_utils->IF_get_option( $this->parameter['name_option'] );
 
 
-          if( isset($opt_fanbox_popup->enabled) && $opt_fanbox_popup->enabled ){
+			if( isset($opt_fanbox_popup->enabled) && $opt_fanbox_popup->enabled ){
 
-		        self::add_actions_FacebookFanBox();
+				self::add_actions_FacebookFanBox();
 
-          }
+			}
 
         }
 
@@ -50,7 +50,17 @@ class facebook_fanbox_popup extends facebook_fanbox_popup_make{
 	function print_scripts(){
 		//code 
 		
-		global $opt_fanbox_popup,$print_script;
+		global $opt_fanbox_popup,$print_script, $post, $disabled_facebook_fanbox_popup, $FFB_CORE;
+		
+		$disabled_facebook_fanbox_popup = false;
+		$meta_options_ffp = get_post_meta( $post->ID, $FFB_CORE->parameter['name_option']."__metabox" );
+		// var_dump($meta_options_ffp);exit;
+	 	// validate if Yuzo is disabled in the post
+		if( isset($meta_options_ffp[0]['disabled_popup_facebook']) && $meta_options_ffp[0]['disabled_popup_facebook'] ){
+			$disabled_facebook_fanbox_popup = true;
+			return;
+		}
+
 
 		$array_show_in = $opt_fanbox_popup->show_in;
 		
@@ -123,8 +133,9 @@ class facebook_fanbox_popup extends facebook_fanbox_popup_make{
 	*/
 	function print_scripts_footer(){
 
-		global $opt_fanbox_popup,$print_script;
+		global $opt_fanbox_popup,$print_script,$disabled_facebook_fanbox_popup;
 		//$credit = $opt_fanbox_popup->credits;
+		if( $disabled_facebook_fanbox_popup == true) return;
 
 		if( $print_script ){
 		?>							
@@ -159,9 +170,10 @@ class facebook_fanbox_popup extends facebook_fanbox_popup_make{
 	*/
 	function print_pop()
 	{
-		global $opt_fanbox_popup,$print_script;
+		global $opt_fanbox_popup,$print_script, $disabled_facebook_fanbox_popup;
 		//$credit = $opt_fanbox_popup->credits;
- 
+ 		if( $disabled_facebook_fanbox_popup == true) return;
+
  		if( $print_script ){
 		
 
@@ -202,10 +214,10 @@ echo '</div>';
 	function add_actions_FacebookFanBox(){
 		global $print_script;
 
-			add_action('template_redirect', array(&$this,'print_scripts') );
-			add_action( 'wp_footer',array(&$this,'print_pop' ) );	
-			add_action( 'wp_footer', array( &$this,'print_scripts_footer'));
-			
+		add_action( 'template_redirect', array(&$this,'print_scripts') );
+		add_action( 'wp_footer',array(&$this,'print_pop' ) );	
+		add_action( 'wp_footer', array( &$this,'print_scripts_footer'));
+		
 
 	}
 
@@ -215,9 +227,10 @@ echo '</div>';
 } // end class
 } // end if
 
-global $IF_CONFIG;
+global $IF_CONFIG, $FFB_CORE;
 unset($IF_CONFIG);
 $IF_CONFIG = null;
-$IF_CONFIG = new facebook_fanbox_popup;
+$IF_CONFIG = $FFB_CORE = new facebook_fanbox_popup;
 require_once "assets/ilenframework/core.php";
+require_once "assets/functions/metabox.php";
 ?>

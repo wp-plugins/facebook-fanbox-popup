@@ -34,7 +34,7 @@ class facebook_fanbox_popup_make{
                      'name_option'    =>'facebook_fanbox_popup',
                      'name_plugin_url'=>'facebook-fanbox-popup',
                      'descripcion'    =>'Promote your Fanpage in a cool natural way',
-                     'version'        =>'3.3',
+                     'version'        =>'3.4',
                      'url'            =>'',
                      'logo'           =>'<i class="fa fa-facebook text-long" style="padding:12px 18px;"></i>',
                       // or image .jpg,png | use class 'text-long' in case of name long
@@ -148,7 +148,7 @@ class facebook_fanbox_popup_make{
                                                                             'class' =>'', //class
                                                                             'row'   =>array('a','b')),
 
-                                                                    array(  'title' =>__('Lock the scroll while the popup is displayed:',$this->parameter['name_option']), //title section
+                                                                    /*array(  'title' =>__('Lock the scroll while the popup is displayed:',$this->parameter['name_option']), //title section
                                                                             'help'  =>'When the person close the popup the scroll appear, is a way to attract more attention',
                                                                             'type'  =>'checkbox', //type input configuration
                                                                             'value' =>'0', //value default
@@ -156,7 +156,7 @@ class facebook_fanbox_popup_make{
                                                                             'id'    =>$this->parameter['name_option'].'_'.'disabled_scroll', 
                                                                             'name'  =>$this->parameter['name_option'].'_'.'disabled_scroll',  
                                                                             'class' =>'', //class
-                                                                            'row'   =>array('a','b')),
+                                                                            'row'   =>array('a','b')),*/
 
                                                                     array(  'title' =>__('Clear Cookie:',$this->parameter['name_option']),  
                                                                             'help'  =>"If you already closed the popup and don't want to wait for 7 days, click this button to see the popup again.",
