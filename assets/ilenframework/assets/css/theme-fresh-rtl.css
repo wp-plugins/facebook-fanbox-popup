@@ -1,3 +1,84 @@
+.CodeMirror {
+  direction: ltr;
+}
+
+.tag-editor-hidden-src{
+right: -99999px;
+}
+
+div.widget[id*=_yuzo_widget-] .widget-title::before{
+  left: initial;
+  right: 0px;
+}
+
+div.widget[id*=_yuzo_widget-] .widget-title h4{
+  padding-right: 32px;
+}
+
+div.widget[id*=_yuzo_widget-] .widget-title::after{
+  left: initial;
+  right: 33px;
+}
+
+.ilenwidget-options .row .a{
+  float: right;
+  text-align: left;
+}
+
+.ilenwidget-options .row .b{
+  float: left;
+}
+
+.ilenwidget-options .select-wrapper{
+  margin: 0 0 0 5px;
+}
+
+.ilenwidget-options .select-wrapper:before{
+  left: 10px;
+  right: initial;
+}
+
+.ilenwidget-options .select-wrapper select{
+  float: left;
+}
+
+.ilenwidget-options .row.radio_image .a_line{
+  text-align: right;
+}
+
+.ilenwidget-options .input_4 .input_4--square{
+  float: right;
+}
+
+.ilenwidget-options [type="checkbox"]:not(:checked), .ilenwidget-options [type="checkbox"]:checked{
+  right: -9999px;
+  left: initial;
+}
+
+.ilenwidget-options [type="checkbox"]:not(:checked) + label, .ilenwidget-options [type="checkbox"]:checked + label{
+  direction: ltr;
+}
+
+.jtumbler {
+  float: right!important;
+}
+
+.jtumbler label.state{
+  float: right!important;
+}
+
+.ilenmetabox-options [type="checkbox"]:not(:checked), .ilenmetabox-options [type="checkbox"]:checked{
+  right: -9999px;
+}
+
+.ilenmetabox-options [type="checkbox"]:not(:checked) + label, .ilenmetabox-options [type="checkbox"]:checked + label{
+  float: right!important;
+}
+
+.ilenmetabox-options .row_checkbox_normal{
+  direction: ltr;
+}
+
 .ilenplugin-options #tabs > ul li{
   float: right!important;
 }
@@ -126,4 +207,8 @@
 }
 .ilenplugin-options footer a.btn_donate i{
   margin-right: 13px;  
+}
+.style-3 .yuzo-list:before {
+  content: '';
+  background: url(../images/arrow-right-point.png);
 }

@@ -1488,42 +1488,77 @@ Author URI: http://ilentheme.com
 }
 
 .ilenwidget-options  .ilenwidget-accordion .iaccordion-header {
-  background: #EEEEEE;
-  border: 0;
-  padding: 12px 10px;
-  font-size: 1.1em;
-  color: rgb(116, 116, 116);
-  font-family: arial;
-  /*border-bottom: 1px solid rgb(226, 226, 226);*/
-  border-left: 2px solid rgb(225, 225, 225);
-  cursor: pointer;
-  clear: both;
+    background: #EEEEEE;
+    border: 0;
+    padding: 12px 10px;
+    font-size: 1.1em;
+    color: rgb(116, 116, 116);
+    font-family: arial;
+    /*border-bottom: 1px solid rgb(226, 226, 226);*/
+    border-left: 2px solid rgb(225, 225, 225);
+    cursor: pointer;
+    clear: both;
 }
 
 .ilenwidget-options  .ilenwidget-accordion .iaccordion-header.active{
-  background: #86A4C0;
-  border-left: 0;
-  /*border-bottom: 3px solid #BDC7D0;*/
-  /*box-shadow: 0px 1px 0px  rgba(134,164,192,.5);*/
-  font-weight: bold;
-  /* border-top: 1px solid rgb(238, 238, 238); */
-  color: #fff;
+    background: #86A4C0;
+    border-left: 0;
+    /*border-bottom: 3px solid #BDC7D0;*/
+    /*box-shadow: 0px 1px 0px  rgba(134,164,192,.5);*/
+    font-weight: bold;
+    /* border-top: 1px solid rgb(238, 238, 238); */
+    color: #fff;
 }
 .ilenwidget-options .ilenwidget-accordion .iaccordion-content {
-  display: none;
-  padding: 20px;
-  background: #ffffff;
-  /*border: 1px solid #cccccc;*/
-  border-top: 0;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  width: 100%;
-  float: left;
+    display: none;
+    padding: 20px;
+    background: #ffffff;
+    /*border: 1px solid #cccccc;*/
+    border-top: 0;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    float: left;
 }
-
-
-
+.ilenwidget-more--button{
+    background: #EAEAEA;
+    color: #8A8A8A;
+    padding: 0px 28px;
+    box-shadow: 0px 1px 1px #C5C5C5;
+    cursor: pointer;
+    margin-bottom: 10px;
+    position: relative;
+}
+.ilenwidget-more--button:after{
+    font-family: "FontAwesome";
+    content:'\f067';
+    position:absolute;
+    left: 10px;
+    top: 2px;
+}
+.ilenwidget-more--button.active_ilen_widget_more:after{
+    font-family: "FontAwesome";
+    content:'\f068';
+}
+.ilenwidget-more .widget_body-more{
+    display:none;
+}
+.ilenwidget-more .widget_body-more.active_ilen_widget_more{
+    display:block;
+}
+.ilenwidget-more header{
+    background: #F9F9F9;
+    position: relative;
+    top: -10px;
+    font-style: italic;
+    color: #A0A0A0;
+}
+.ilenwidget-more .row .a .help{
+    display: inline-block;
+    margin-left: 20px;
+    color: #CECECE;
+}
 
 
 
