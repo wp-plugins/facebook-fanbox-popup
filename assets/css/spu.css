@@ -10,8 +10,8 @@
 }
 
 #ffbp{
-    min-width: 320px;
-    max-width: 420px;
+    min-width: 250px;
+    /*max-width: 420px;*/
     position:fixed;
     left:-99999px;
     background:#fff;
@@ -98,4 +98,5 @@
     text-decoration: none!important;
     top: -13px;
     position: absolute;
+    z-index: 99999;
 }

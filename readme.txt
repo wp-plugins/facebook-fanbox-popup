@@ -7,9 +7,9 @@ Tags: get follow,get like,get traffic,traffic,popup facebook,fanbox,facebook,soc
 Author URI: 
 Author: iLen
 Requires at least: 3.8
-Tested up to: 4.2.2
-Stable tag: 3.4
-Version: 3.5
+Tested up to: 4.2.3
+Stable tag: 3.6
+Version: 3.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DF2HDEBGSE5KY
@@ -36,6 +36,10 @@ Turn visitors into fans! New visitors are usually costly to acquire, so it is vi
 
 
 == Changelog ==
+= 3.6 =
+* Fixed: Code css for 'close button'
+* Language facebook 'like button' is automatically detected.
+* Add option 'Width': Choose the width you want to display the popup. Example: 250, 400, 500, 600
 = 3.5 =
 * Update core <code>iLenFramework 2.6.6</code>
 = 3.4 =

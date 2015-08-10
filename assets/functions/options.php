@@ -34,7 +34,7 @@ class facebook_fanbox_popup_make{
                      'name_option'    =>'facebook_fanbox_popup',
                      'name_plugin_url'=>'facebook-fanbox-popup',
                      'descripcion'    =>'Promote your Fanpage in a cool natural way',
-                     'version'        =>'3.5',
+                     'version'        =>'3.6',
                      'url'            =>'',
                      'logo'           =>'<i class="fa fa-facebook text-long" style="padding:12px 18px;"></i>',
                       // or image .jpg,png | use class 'text-long' in case of name long
@@ -91,9 +91,9 @@ class facebook_fanbox_popup_make{
                                                                             'row'   =>array('a','b')),
 
                                                                     array(  'title' =>__('Show Post?:',$this->parameter['name_option']), //title section
-                                                                            'help'  =>'Displays the last post your facebook page',
+                                                                            'help'  =>'Displays the last post your facebook page (clean the cache to see the result)',
                                                                             'type'  =>'checkbox', //type input configuration
-                                                                            'value' =>'0', //value default
+                                                                            'value' =>'1', //value default
                                                                             'value_check'=>1,
                                                                             'id'    =>$this->parameter['name_option'].'_'.'show_post', 
                                                                             'name'  =>$this->parameter['name_option'].'_'.'show_post',  
@@ -145,6 +145,15 @@ class facebook_fanbox_popup_make{
                                                                             'value' =>'1', //value default
                                                                             'id'    =>$this->parameter['name_option'].'_'.'seconds_appear', 
                                                                             'name'  =>$this->parameter['name_option'].'_'.'seconds_appear',  
+                                                                            'class' =>'', //class
+                                                                            'row'   =>array('a','b')),
+
+                                                                    array(  'title' =>__('Width',$this->parameter['name_option']), //title section
+                                                                            'help'  =>"Choose the width you want to display the popup. Example: 250, 400, 500, 600",
+                                                                            'type'  =>'text',
+                                                                            'value' =>'500', //value default
+                                                                            'id'    =>$this->parameter['name_option'].'_'.'width', 
+                                                                            'name'  =>$this->parameter['name_option'].'_'.'width',  
                                                                             'class' =>'', //class
                                                                             'row'   =>array('a','b')),
 
