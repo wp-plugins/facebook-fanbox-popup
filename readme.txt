@@ -9,7 +9,7 @@ Author: iLen
 Requires at least: 3.8
 Tested up to: 4.3
 Stable tag: 3.7
-Version: 3.7
+Version: 3.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DF2HDEBGSE5KY
@@ -36,6 +36,8 @@ Turn visitors into fans! New visitors are usually costly to acquire, so it is vi
 
 
 == Changelog ==
+= 3.8 =
+* Add option 'Closing in grey area': f you enable this option the popup will close which give a click anywhere on the gray area
 = 3.7 =
 * Fix top and left postition
 * Update core <code>iLenFramework 2.6.6 (new)</code>

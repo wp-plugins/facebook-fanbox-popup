@@ -34,7 +34,7 @@ class facebook_fanbox_popup_make{
                      'name_option'    =>'facebook_fanbox_popup',
                      'name_plugin_url'=>'facebook-fanbox-popup',
                      'descripcion'    =>'Promote your Fanpage in a cool natural way',
-                     'version'        =>'3.7',
+                     'version'        =>'3.8',
                      'url'            =>'',
                      'logo'           =>'<i class="fa fa-facebook text-long" style="padding:12px 18px;"></i>',
                       // or image .jpg,png | use class 'text-long' in case of name long
@@ -145,6 +145,16 @@ class facebook_fanbox_popup_make{
                                                                             'value' =>'1', //value default
                                                                             'id'    =>$this->parameter['name_option'].'_'.'seconds_appear', 
                                                                             'name'  =>$this->parameter['name_option'].'_'.'seconds_appear',  
+                                                                            'class' =>'', //class
+                                                                            'row'   =>array('a','b')),
+
+                                                                    array(  'title' =>__('Closing in grey area',$this->parameter['name_option']), //title section
+                                                                            'help'  =>'If you enable this option the popup will close which give a click anywhere on the gray area',
+                                                                            'type'  =>'checkbox', //type input configuration
+                                                                            'value' =>'1', //value default
+                                                                            'value_check'=>1,
+                                                                            'id'    =>$this->parameter['name_option'].'_'.'closing_grey_area', 
+                                                                            'name'  =>$this->parameter['name_option'].'_'.'closing_grey_area',  
                                                                             'class' =>'', //class
                                                                             'row'   =>array('a','b')),
 

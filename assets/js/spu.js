@@ -105,12 +105,12 @@ function lockScroll(){
 
 function unlockScroll(){
 	var $ = jQuery;
-  $html = $('html');
-  $body = $('body');
-  $html.css('overflow', $html.data('previous-overflow'));
-  var scrollPosition = $html.data('scroll-position');
-  window.scrollTo(scrollPosition[0], scrollPosition[1]);    
+	$html = $('html');
+	$body = $('body');
+	$html.css('overflow', $html.data('previous-overflow'));
+	var scrollPosition = $html.data('scroll-position');
+	window.scrollTo(scrollPosition[0], scrollPosition[1]);    
 
-  $body.css({'margin-right': 0, 'margin-bottom': 0});
+	$body.css({'margin-right': 0, 'margin-bottom': 0});
 }
 
