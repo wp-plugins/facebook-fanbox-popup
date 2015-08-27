@@ -34,7 +34,7 @@ class facebook_fanbox_popup_make{
                      'name_option'    =>'facebook_fanbox_popup',
                      'name_plugin_url'=>'facebook-fanbox-popup',
                      'descripcion'    =>'Promote your Fanpage in a cool natural way',
-                     'version'        =>'3.6',
+                     'version'        =>'3.7',
                      'url'            =>'',
                      'logo'           =>'<i class="fa fa-facebook text-long" style="padding:12px 18px;"></i>',
                       // or image .jpg,png | use class 'text-long' in case of name long
@@ -149,7 +149,7 @@ class facebook_fanbox_popup_make{
                                                                             'row'   =>array('a','b')),
 
                                                                     array(  'title' =>__('Width',$this->parameter['name_option']), //title section
-                                                                            'help'  =>"Choose the width you want to display the popup. Example: 250, 400, 500, 600",
+                                                                            'help'  =>"Choose the width you want to display the popup. Example: 250, 400, 500 (max 500)",
                                                                             'type'  =>'text',
                                                                             'value' =>'500', //value default
                                                                             'id'    =>$this->parameter['name_option'].'_'.'width', 

@@ -17,8 +17,14 @@ class ilen_framework_2_6_6 {
 		var $IF_CONFIG        = null;
 		var $components       = null;
 
-	function __construct(){
+		/**
+		 * @var $api_google_fonts_url	The google web font API URL
+		*/
+		protected $api_google_fonts_url = "https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyCjae0lAeI-4JLvCgxJExjurC4whgoOigA";
+		protected $fonts_url = "//fonts.googleapis.com/css?family=";
 
+
+	function __construct(){
 
 		if( ! is_admin() ){ // only front-end
 
@@ -833,7 +839,7 @@ jQuery(".iaccordion-header").on("click",function(){
 	
 		global $if_utils;
 		$widget_unique_id_generate = rand(1,5559); ?>
-		<div class='ilenwidget-more'>
+		<div class='ilenwidget-more ilen_clearfix'>
 			<div class="ilenwidget-more--button">More...</div>
 				<div class="widget_body-more <?php echo $config['new']; ?>"  id="ilenwidget-more_id_<?php echo isset($config['id'])?$config['id'].'_'.$widget_unique_id_generate:'_none'; ?>">
 				<?php echo isset($config['description'])?"<header>".$config['description']."</header>":''; ?>
@@ -1182,6 +1188,8 @@ jQuery(".iaccordion-header").on("click",function(){
 	// =BUILD Fields themes---------------------------------------------
 	function build_fields( $fields = array() ){
 
+			global $if_utils;
+
 			$options_theme = get_option( $this->parameter['name_option']."_options" );
  
 			foreach ($fields as $key => $value) {
@@ -1258,7 +1266,7 @@ jQuery(".iaccordion-header").on("click",function(){
 									<?php }else { ?>
 										<?php $ck=''; if( isset($options_theme[ $value['name'] ]) ){ $ck =  checked(  $options_theme[ $value['name'] ]  , 1, FALSE );  } ?>
 										<div class="row_checkbox_normal">
-											<div style="width:11%;float:left">
+											<div style="width:16%;float:left">
 												<input  type="checkbox" <?php echo $ck; ?> name="<?php echo $value['name'] ?>" id="<?php echo $value['id'] ?>" value="<?php echo $value['value_check'] ?>"  />
 												<label for="<?php echo $value['id'] ?>"><span class="ui"></span></label>
 											</div>
@@ -1637,12 +1645,12 @@ jQuery(".iaccordion-header").on("click",function(){
 										<div class="clearfix"></div>
 										<div class="part_3">
 											<div style="width: 100%;float: left;padding: 0 2%;margin-left: -8px;margin-right: 17px;">
-												<div style="width:16%;float:left">
+												<div style="width:22%;float:left">
 													Opacity
 													<span  id="<?php echo $value['id'] ?>-value" style="padding: 5px 10px;background: #FAFAFA;color: #444;border: 1px solid #F1F1F1;"></span>
 													<input type="hidden" name="<?php echo $value['name'] ?>_opacity" id="<?php echo $value['id'] ?>_opacity" value="<?php if(isset( $options_theme[ $value['name'] ] )){ echo (int)$options_theme[ $value['name'] ]; }else{ echo 100; } ?>" />
 												</div>
-												<div style="width:84%;float:left">
+												<div style="width:78%;float:left">
 													<div id="<?php echo $value['id'] ?>-range" class="noUi-connect"></div>  	
 												</div>
 											</div>
@@ -1848,25 +1856,35 @@ jQuery(".iaccordion-header").on("click",function(){
 
 						<?php break;
 
-						case "fonts": ?>
+						case "fonts_full": ?>
 							<?php if(isset( $value['before'] )){ echo $value['before'];} ?>
-							<div class="row input_2 <?php if(isset( $value['class'] )){ echo $value['class'];} ?> ilentheme_row_range" <?php if(isset( $value['style'] )){ echo $value['style'];} ?> >
+							<div class="row <?php if(isset( $value['class'] )){ echo $value['class'];} ?> ifonts_full" <?php if(isset( $value['style'] )){ echo $value['style'];} ?> >
 								<div class="a"><?php if(isset( $value['title'] )){ echo $value['title']; } ?></div>
 								<div class="<?php echo $side_two; ?>">
 								  	<?php 
-								  		//include 'styles-font-menu/plugin.php';
-										$ThemeURL = get_template_directory();
-										//echo $ThemeURL . '/framework/ilenframework/styles-font-menu-master/plugin.php';
-										include( $ThemeURL . '/framework/ilenframework/assets/lib/styles-fonts-select/plugin.php' ); // beginning actions
-										$attributes = array(
-										    'name' => 'sfm-field-name',
-										    'id' => 'sfm-field-id',
-										    // 'data-custom' => 'Some custom data attribute value',
-										);
-										$default_value = '{"family":"Arial, Helvetica, sans-serif","name":"Arial","classname":"arial"}';
+								  	$fonts = $if_utils->IF_get_google_fonts();
+								  	if( is_array($fonts) ){
+								  		$font_families = "";
+								  		$font_count = 1;
+										foreach ($fonts as $font) {
+											$font_family = $font["family"];
+											$font_families .= "<option value=\"$font_family\" num='$font_count'>$font_family</option>";
+											$font_count++;
+										}
 
-										do_action( 'styles_font_menu', $attributes, $default_value );
+										$numbers = "";
+										foreach (range(1, 120) as $number) {
+											$numbers .= "<option value=\"{$number}px\">{$number}px</option>";
+										}
+								  	}
+								  	if( $font_families && $numbers ){
+								  		echo "<div class='select-wrapper ifonts_family'><select class='select--gfonts__family' name='{$value['name']}_family' id='{$value['id']}_family'  >$font_families</select></div>";
+								  		echo "<div class='select-wrapper ifonts_variants'><select  name='{$value['name']}_variants' id='{$value['id']}_variants'  ></select></div>";
+								  		echo "<div class='select-wrapper ifonts_size'><select  name='{$value['name']}_size' id='{$value['id']}_size'  >$numbers</select></div>";
+								  	}
+
 								  	?>
+
 									<div class="help"><?php if( isset($value['help']) ){ echo $value['help']; } ?></div>
 								</div>
 							</div>
@@ -3556,7 +3574,8 @@ function fields_update($data,$is_tab = 1){
 
 	}
 
-	
+
+
 
 
 
@@ -3580,6 +3599,10 @@ function fields_update($data,$is_tab = 1){
 			wp_register_style( 'ilentheme-styles-admin', (isset($this->parameter['url_framework'])?$this->parameter['url_framework']:'') ."/core.css" );
 			// Enqueue styles
 			wp_enqueue_style( 'ilentheme-styles-admin' );
+			// Register styles
+			wp_register_style( 'ilentheme-styles-admin-2', (isset($this->parameter['url_framework'])?$this->parameter['url_framework']:'') ."/assets/css/ilen-css-admin.css" );
+			// Enqueue styles
+			wp_enqueue_style( 'ilentheme-styles-admin-2' );
 			// Enqueue Script Core
 			wp_enqueue_script('ilentheme-script-admin', (isset($this->parameter['url_framework'])?$this->parameter['url_framework']:'') . '/core.js', array( 'jquery','jquery-ui-core','jquery-ui-tabs','wp-color-picker' ,'jquery-ui-accordion','jquery-ui-autocomplete','jquery-ui-sortable' ), '', true );
 			// Enqueue Scripts WP
@@ -3625,7 +3648,8 @@ function fields_update($data,$is_tab = 1){
 			// VALIDATION: Show script only page
 			$script_to_show = array();
 			if( isset($_GET['page']) && $_GET['page'] ){
-				if(isset($this->parameter['scripts_admin']['page'][$_GET['page']])){
+				//echo "{$_GET['page']} - ".$this->parameter['id_menu'];
+				if(isset($this->parameter['scripts_admin']['page'][$_GET['page']]) && $_GET['page'] == $this->parameter['id_menu'] ){
 					$script_to_show = $this->parameter['scripts_admin']['page'][$_GET['page']];
 				}
 			}elseif( isset($post_type) && $post_type ){
@@ -3748,6 +3772,11 @@ function fields_update($data,$is_tab = 1){
 				wp_enqueue_script('ilentheme-script-tag-editor-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/jquery.tag-editor.min.js', array(  'jquery','jquery-ui-core','jquery-ui-tabs','jquery-ui-autocomplete', 'jquery-ui-sortable'  ), '', true );
 			}
 
+
+			if( in_array( 'fonts', $script_to_show ) ){
+				add_action("wp_ajax_get_google_font_variants", array(&$this,"ajax_get_google_font_variants"));
+			}
+
 		}
 
 	}
@@ -3827,7 +3856,6 @@ function fields_update($data,$is_tab = 1){
 	}
 
 	function plugin_install_before(){
-
 		if( isset($_GET["activate"]) && $_GET["activate"] == 'true' ){
 
 			//if( !get_option($this->parameter['name_option']."_active_free") ) {
@@ -3837,6 +3865,34 @@ function fields_update($data,$is_tab = 1){
 			//}
 		}
 
+	}
+
+
+
+
+	/// AJAX ***********************************************
+	/**
+	 * AJAX function for retrieving font variants
+	 *
+	 *
+	 * @uses GoogleTypography::multidimensional_search()
+	 * @uses header()
+	 * @return JSON object with font data
+	 *
+	 */
+	function ajax_get_google_font_variants() { 
+
+		global $if_utils;
+		echo "entro por aqui";
+		$fonts = $if_utils->get_fonts();
+		$font_family = $_GET["font_family"];
+		
+		$result = $if_utils->multidimensional_search($fonts, array("family" => $font_family));
+		
+		header("Content-Type: application/json");
+		//echo json_encode($result["variants"]);
+
+		exit;
 	}
 
 

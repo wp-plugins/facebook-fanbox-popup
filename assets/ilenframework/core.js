@@ -377,6 +377,67 @@ jQuery(document).ready( function($) {
 	  jQuery( "#widget-"+jQuery(widget[0]).find(".widget-id").val()+"-savewidget" ).click();
     });
     */
+   
+
+   // GOOGLE FONTS
+   if( jQuery('.select--gfonts__family').length ){
+		jQuery('.select--gfonts__family').on("change", function(e) { 
+			previewFontFamily( jQuery(this) ); 
+		});
+   }
+
+   previewFontFamily = function(elem) {
+		var font = $(elem).val();
+		getFontVariants(font,elem);
+	};
+
+	getFontVariants = function(font,elem) {
+
+			var select_variants = $(elem);
+			var variant_array = [];
+			//alert( font + ":"+$(elem).val());
+			
+			jQuery.ajax({
+				url: "http://localhost/ntest/3/wp-admin/admin-ajax.php", //ajaxurl,
+				data: {
+					'action' : 'get_google_font_variants',
+					'font_family' : font
+				},
+				success: function(data) {
+					alert(data);
+					select_variants.find("option").remove();
+	    			for(i = 0; i < data.length; ++i) {
+							/*if(selected == data[i]) { 
+								var is_selected = "selected"; 
+							} else { 
+								var is_selected = ""; 
+							}*/
+							select_variants.append('<option value="'+data[i]+'" '+is_selected+'>'+data[i]+'</option>');
+							variant_array.push(data[i]);
+	    			}
+
+					/*WebFont.load({
+						google: {
+							families: [font+':'+variant_array.join()]
+						},
+						loading: function() {
+							preview.css("opacity", 0);
+						},
+						fontactive: function(family, desc) {
+							preview.css('font-family', '"'+font+'"').css("opacity", 1);
+						}
+					});*/
+
+					//variants.trigger("change").trigger("liszt:updated");
+    		},
+			error: function (xhr, ajaxOptions, thrownError) {
+				//alert(xhr.responseText);
+				jQuery(".update-nag").html(xhr.responseText);
+			}
+    	});
+      
+	};
+   
  
  
 });

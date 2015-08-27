@@ -14,11 +14,13 @@ function facebook_fanbox_popup(options) {
 		var windowWidth = document.documentElement.clientWidth;
 		var windowHeight = document.documentElement.clientHeight;
 		var popupHeight = jQuery("#ffbp").height();
-		var popupWidth = jQuery("#ffbp").width();
+		//var popupWidth = jQuery("#ffbp").width();
+		var popupWidth = options.width;
 		jQuery("#ffbp").css({
 			"position": "fixed",
 			"top": window.options.stream == 1 ? (windowHeight / 2 - popupHeight / 2) + 20  : (windowHeight / 2 - popupHeight / 2) - 50,
-			"left": windowWidth / 2 - popupWidth / 2
+			"left": windowWidth / 2 - popupWidth / 2,
+			"width":options.width
 		});
 		jQuery("#ffbp-bg").css({
 			"height": windowHeight + 30

@@ -3,7 +3,7 @@
 Plugin Name: Facebook FanBox Popup
 Plugin URI: https://wordpress.org/plugins/facebook-fanbox-popup/
 Description: Promote your Fanpage in a cool natural way
-Version: 3.6
+Version: 3.7
 Author: iLen
 Author URI:
 */
@@ -152,7 +152,8 @@ class facebook_fanbox_popup extends facebook_fanbox_popup_make{
 					s_to_close: "<?php echo isset($opt_fanbox_popup->seconds_close)?$opt_fanbox_popup->seconds_close:0; ?>",
 					days_no_click: "<?php echo isset($opt_fanbox_popup->until_popup)?$opt_fanbox_popup->until_popup:0; ?>",
 					disabled_scroll: <?php echo (isset($opt_fanbox_popup->disabled_scroll) && $opt_fanbox_popup->disabled_scroll )?$opt_fanbox_popup->disabled_scroll:0; ?>,
-					stream: <?php echo isset($opt_fanbox_popup->show_post) && $opt_fanbox_popup->show_post?1:0; ?>
+					stream: <?php echo isset($opt_fanbox_popup->show_post) && $opt_fanbox_popup->show_post?1:0; ?>,
+					width: <?php echo isset($opt_fanbox_popup->width) && $opt_fanbox_popup->width?$opt_fanbox_popup->width:300; ?>
 				})
 			}
 				,<?php echo (int)$opt_fanbox_popup->seconds_appear * 1000 ;?>
@@ -181,7 +182,7 @@ class facebook_fanbox_popup extends facebook_fanbox_popup_make{
 		
 
 
- 		$fb_id = isset($opt_fanbox_popup->fb_id) && $opt_fanbox_popup->fb_id?$opt_fanbox_popup->fb_id:"https://www.facebook.com/FarandulaEcuatoriana";
+ 		$fb_id = isset($opt_fanbox_popup->fb_id) && $opt_fanbox_popup->fb_id?$opt_fanbox_popup->fb_id:"https://www.facebook.com/WordPress";
  		$show_post = isset($opt_fanbox_popup->show_post) && $opt_fanbox_popup->show_post?"true":"false";
  		$height = $show_post == 'true'?"data-height='500'":"";
  		$width = isset($opt_fanbox_popup->width)?'data-width="'.$opt_fanbox_popup->width.'"':'data-width="500"';

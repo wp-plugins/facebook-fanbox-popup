@@ -1750,20 +1750,6 @@ Author URI: http://ilentheme.com
 
 
 
-/* Basic */
-.right{
-  float: right;
-}
-.left{
-  float: left;
-}
-.clearfix{
-  clear: both;
-  display: block;
-}
-.padding_left_0{
-  padding-left: 0!important;
-}
 
 
 
@@ -2040,15 +2026,4 @@ html .ilenplugin-options input[type="button"],
   display: inline-block;
   width: 16px;
   height: 11px;
-}
-
-
-
-
-/* Other class */
-.stuffbox .handlediv{
-  height: 8px;
-}
-.stuffbox .hndle{
-  padding-top: 0!important;
 }
