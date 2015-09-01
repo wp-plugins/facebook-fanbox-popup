@@ -3,7 +3,7 @@
 Plugin Name: Facebook FanBox Popup
 Plugin URI: https://wordpress.org/plugins/facebook-fanbox-popup/
 Description: Promote your Fanpage in a cool natural way
-Version: 3.8
+Version: 3.83
 Author: iLen
 Author URI:
 */
@@ -119,10 +119,10 @@ class facebook_fanbox_popup extends facebook_fanbox_popup_make{
 	* Load scripts and styles
 	*/
 	function fanbox_popup_front_script(){
-
-
+ 
 			$lang = get_locale();
-			wp_enqueue_script('wsp-fb', 'http://connect.facebook.net/'.$lang.'/all.js#xfbml=1', array('jquery'),$this->parameter['version'],FALSE);
+			//wp_enqueue_script('wsp-fb', 'http://connect.facebook.net/'.$lang.'/all.js#xfbml=1', array('jquery'),$this->parameter['version'],FALSE);
+			wp_enqueue_script('wsp-fb', 'http://connect.facebook.net/'.$lang.'/sdk.js#xfbml=1&version=v2.4', array('jquery'),$this->parameter['version'],FALSE);
 			wp_enqueue_script('wsp-fanbox', plugins_url( 'assets/js/spu.js' , __FILE__ ),array('jquery'),$this->parameter['version']);
 			wp_enqueue_style('wsp-css-fanbox', plugins_url( 'assets/css/spu.css' , __FILE__ ),'all',$this->parameter['version']);
 
@@ -169,12 +169,14 @@ class facebook_fanbox_popup extends facebook_fanbox_popup_make{
         wp_enqueue_style( 'facebook_fanbox_popup_css_admin', plugins_url('/assets/css/admin.css',__FILE__),'all',$this->parameter['version']);
     }
 
+
+
     /**
 	* Print popup html markup in footer
 	*/
 	function print_pop()
 	{
-		global $opt_fanbox_popup,$print_script, $disabled_facebook_fanbox_popup;
+		global $opt_fanbox_popup,$print_script, $disabled_facebook_fanbox_popup, $if_utils;
 		//$credit = $opt_fanbox_popup->credits;
  		if( $disabled_facebook_fanbox_popup == true) return;
 
@@ -185,20 +187,29 @@ class facebook_fanbox_popup extends facebook_fanbox_popup_make{
  		$fb_id = isset($opt_fanbox_popup->fb_id) && $opt_fanbox_popup->fb_id?$opt_fanbox_popup->fb_id:"https://www.facebook.com/WordPress";
  		$show_post = isset($opt_fanbox_popup->show_post) && $opt_fanbox_popup->show_post?"true":"false";
  		$height = $show_post == 'true'?"data-height='500'":"";
- 		$width = isset($opt_fanbox_popup->width)?'data-width="'.$opt_fanbox_popup->width.'"':'data-width="500"';
+ 		$width = isset($opt_fanbox_popup->width) && $opt_fanbox_popup->width?'data-width="'.$opt_fanbox_popup->width.'"':'data-width="500"';
  		$lan = get_locale();
  		$closing_grey_area = isset($opt_fanbox_popup->closing_grey_area) && $opt_fanbox_popup->closing_grey_area?'onclick="fbfanboxp('. $opt_fanbox_popup->until_popup .');"':'';
+ 		$show_face = isset($opt_fanbox_popup->show_face) && $opt_fanbox_popup->show_face?'true':'false';
+ 		$header = isset($opt_fanbox_popup->header) && $opt_fanbox_popup->header?'true':'false';
 
-		echo ' <!-- Plugin: Facebook FanBox Popup (https://wordpress.org/plugins/facebook-fanbox-popup/) -->
+
+		echo ' <!-- Plugin: Facebook FanBox Popup (https://wordpress.org/plugins/facebook-fanbox-popup/) --><br />
+<script> var isMobile=function(){return navigator.userAgent.match(/Android/i)||navigator.userAgent.match(/webOS/i)||navigator.userAgent.match(/iPhone/i)||navigator.userAgent.match(/iPad/i)||navigator.userAgent.match(/iPod/i)||navigator.userAgent.match(/BlackBerry/i)||navigator.userAgent.match(/Windows Phone/i)?!0:!1}; </script>
 <div id="ffbp-bg" lang="'.$lan.'" data-version="'.$this->parameter["version"].'" '.$closing_grey_area.' ></div>
 <div id="ffbp">
 <a href="#" onClick="fbfanboxp('. $opt_fanbox_popup->until_popup .');" id="ffbp-close">✕</a>';
 echo '<div id="ffbp-body">';
 echo '<div id="ffbp-msg-cont">
-<div class="fb-like-box" data-href="'.$fb_id.'" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="'.$show_post.'" data-show-border="false" '.$height.' '.$width.' ></div>
+<div class="fb-like-box" data-href="'.$fb_id.'" data-colorscheme="light" data-show-faces="'.$show_face.'" data-small-header="'.$header.'" data-stream="'.$show_post.'" data-show-border="false" '.$height.' '.$width.' ></div>
 </div>';
 echo "</div>";
 echo '</div>';
+echo '<script> if( isMobile() && document.documentElement.clientWidth <= 800 ){ jQuery(".fb-like-box").attr("data-height","390"); jQuery(".fb-like-box").attr("data-width","300"); } </script>';
+$style = array();
+$style[] = "#ffbp-bg{background:".(isset($opt_fanbox_popup->bg_color) && $opt_fanbox_popup->bg_color?$opt_fanbox_popup->bg_color:'#000').";}";
+$style[] = "#ffbp-close{background:".(isset($opt_fanbox_popup->close_color) && $opt_fanbox_popup->close_color?$opt_fanbox_popup->close_color:'#6D6D6D').";color:".(isset($opt_fanbox_popup->close_color_text) && $opt_fanbox_popup->close_color_text?$opt_fanbox_popup->close_color_text:'#fff')."!important;}";
+echo "<style>".implode(" ",$style)."</style>";
 		//echo "<input type='hidden' name='hd_msg_thanks' id='hd_msg_thanks' value='".$opt_fanbox_popup->thanks_message."' />";
 
 		}

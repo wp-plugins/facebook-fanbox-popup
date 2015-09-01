@@ -86,11 +86,11 @@
 #ffbp-close{
     right: -16px;
     margin: 0;
-    padding: 7px 10px;
+    padding: 9px 12px;
     /* content: " X "; */
     cursor: pointer;
     background: #6D6D6D;
-    border: 1px solid #6B6B6B;
+    /*border: 1px solid #6B6B6B;*/
     color: #fff!important;
     /* height: 20px; */
     font-size: 13px;

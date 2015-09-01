@@ -13,9 +13,22 @@ function facebook_fanbox_popup(options) {
 	if (cook != 'true' || options.days_no_click == 0 ) {
 		var windowWidth = document.documentElement.clientWidth;
 		var windowHeight = document.documentElement.clientHeight;
-		var popupHeight = jQuery("#ffbp").height();
+
+		//var popupHeight = jQuery("#ffbp").height();
+		//var popupHeight = 502;
+		////var popupHeight = 216;
+		//alert(popupHeight + " - " + windowHeight);
 		//var popupWidth = jQuery("#ffbp").width();
+		var popupHeight =  window.options.stream == 1 ? 502 : 216;
 		var popupWidth = options.width;
+
+		if( windowWidth <= 600 ){
+			popupHeight =  window.options.stream == 1 ? 390 : 216;
+			popupWidth = 300;
+			jQuery("#ffbp").attr("data-width","300");
+			jQuery("#ffbp").attr("data-height","390");
+		}
+
 		jQuery("#ffbp").css({
 			"position": "fixed",
 			"top": window.options.stream == 1 ? (windowHeight / 2 - popupHeight / 2) + 20  : (windowHeight / 2 - popupHeight / 2) - 50,
