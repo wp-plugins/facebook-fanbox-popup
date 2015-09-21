@@ -40,7 +40,7 @@ class IF_classGEO {
     
     function locate($ip = null) {
         
-        global $_SERVER;
+        global $_SERVER, $if_utils;
         
         if ( is_null( $ip ) ) {
             $ip = $_SERVER['REMOTE_ADDR'];
@@ -56,19 +56,19 @@ class IF_classGEO {
         $data = unserialize($response);
         
         //set the geoPlugin vars
-        $this->ip = $ip;
-        $this->city = $data['geoplugin_city'];
-        $this->region = $data['geoplugin_region'];
-        $this->areaCode = $data['geoplugin_areaCode'];
-        $this->dmaCode = $data['geoplugin_dmaCode'];
-        $this->countryCode = $data['geoplugin_countryCode'];
-        $this->countryName = $data['geoplugin_countryName'];
-        $this->continentCode = $data['geoplugin_continentCode'];
-        $this->latitude = $data['geoplugin_latitude'];
-        $this->longitude = $data['geoplugin_longitude'];
-        $this->currencyCode = $data['geoplugin_currencyCode'];
-        $this->currencySymbol = $data['geoplugin_currencySymbol'];
-        $this->currencyConverter = $data['geoplugin_currencyConverter'];
+        $this->ip                = $ip;
+        $this->city              = isset($data['geoplugin_city'])?$data['geoplugin_city']:null;
+        $this->region            = isset($data['geoplugin_region'])?$data['geoplugin_region']:null;
+        $this->areaCode          = isset($data['geoplugin_areaCode'])?$data['geoplugin_areaCode']:null;
+        $this->dmaCode           = isset($data['geoplugin_dmaCode'])?$data['geoplugin_dmaCode']:null;
+        $this->countryCode       = isset($data['geoplugin_countryCode'])?$data['geoplugin_countryCode']:null;
+        $this->countryName       = isset($data['geoplugin_countryName'])?$data['geoplugin_countryName']:null;
+        $this->continentCode     = isset($data['geoplugin_continentCode'])?$data['geoplugin_continentCode']:null;
+        $this->latitude          = isset($data['geoplugin_latitude'])?$data['geoplugin_latitude']:null;
+        $this->longitude         = isset($data['geoplugin_longitude'])?$data['geoplugin_longitude']:null;
+        $this->currencyCode      = isset($data['geoplugin_currencyCode'])?$data['geoplugin_currencyCode']:null;
+        $this->currencySymbol    = isset($data['geoplugin_currencySymbol'])?$data['geoplugin_currencySymbol']:null;
+        $this->currencyConverter = isset($data['geoplugin_currencyConverter'])?$data['geoplugin_currencyConverter']:null;
         
     }
     

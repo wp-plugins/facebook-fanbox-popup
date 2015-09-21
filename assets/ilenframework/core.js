@@ -92,7 +92,7 @@ jQuery(document).ready( function($) {
 			  jQuery("#"+formfield).val(attachment.url);
 		    if( jQuery(button_this).hasClass("upload_image_button_complete") ){
     
-			  jQuery(button_this).parent().next(".preview").empty().append("<span class='admin_delete_image_upload admin_delete_image_upload_complete'>✕</span>");
+			  jQuery(button_this).parent().next(".preview").empty().append("<span class='admin_delete_image_upload admin_delete_image_upload_complete'>✕</span><div class='preview_opacity_bg' style='top: 0;left: 0;height: 100%;width: 100%;position: absolute;'></div>");
 			  jQuery(button_this).parent().next(".preview").css("background-image","url("+attachment.url+")");
 			  jQuery(button_this).parent().next(".preview").css("width","100%");
 			  jQuery(button_this).parent().next(".preview").css("height","450px");
@@ -224,7 +224,29 @@ jQuery(document).ready( function($) {
  
 
 	// set input an colorpicker
-	jQuery('.ilentheme-options .theme_color_picker, .ilenplugin-options .theme_color_picker').wpColorPicker();
+	jQuery('.ilentheme-options .theme_color_picker, .ilenplugin-options .theme_color_picker').wpColorPicker({
+
+		change: function(event, ui) {
+			// event = standard jQuery event, produced by whichever control was changed.
+			// ui = standard jQuery UI object, with a color member containing a Color.js object
+
+			// change the headline color
+			if( jQuery(this).parent().parent().next('.theme_color_picker_value').length ){
+
+				jQuery(this).parent().parent().next('.theme_color_picker_value').val( ui.color.toString() );
+				jQuery(this).parent().parent().parent().next().next().next().next().next().next().next().next().next().next().next().find(".preview_opacity_bg").css("background-color", ui.color.toString() );
+
+			}
+
+			if( jQuery(this).parent().parent().next('.theme_color_picker_value_font').length ){
+
+				jQuery(this).parent().parent().parent().find('.ifonts_preview').css("color",ui.color.toString());
+
+			}
+
+    	}
+
+    });
 
    
 
@@ -382,40 +404,42 @@ jQuery(document).ready( function($) {
    // GOOGLE FONTS
    if( jQuery('.select--gfonts__family').length ){
 		jQuery('.select--gfonts__family').on("change", function(e) { 
-			previewFontFamily( jQuery(this) ); 
+			previewFontFamily( jQuery(this),jQuery(this).parent().next().children('select') ); 
 		});
    }
 
-   previewFontFamily = function(elem) {
+   previewFontFamily = function(elem, elem_variant) {
 		var font = $(elem).val();
-		getFontVariants(font,elem);
+		getFontVariants(font,elem,elem_variant);
 	};
 
-	getFontVariants = function(font,elem) {
+	getFontVariants = function(font,elem,elem_variant) {
 
-			var select_variants = $(elem);
+			var select_variants = $(elem_variant);
 			var variant_array = [];
 			//alert( font + ":"+$(elem).val());
 			
 			jQuery.ajax({
-				url: "http://localhost/ntest/3/wp-admin/admin-ajax.php", //ajaxurl,
+				url: ajaxurl,//"http://localhost/ntest/3/wp-admin/admin-ajax.php", //ajaxurl,
+				type:"GET",
 				data: {
 					'action' : 'get_google_font_variants',
 					'font_family' : font
 				},
-				success: function(data) {
-					alert(data);
-					select_variants.find("option").remove();
-	    			for(i = 0; i < data.length; ++i) {
-							/*if(selected == data[i]) { 
-								var is_selected = "selected"; 
-							} else { 
-								var is_selected = ""; 
-							}*/
-							select_variants.append('<option value="'+data[i]+'" '+is_selected+'>'+data[i]+'</option>');
-							variant_array.push(data[i]);
-	    			}
+				success: function(data_fonts) {
 
+					select_variants.find("option").remove();
+					var is_selected = null;
+	    			for(i = 0; i < data_fonts.length; ++i) {
+							if( 'normal' == data_fonts[i]) { 
+								is_selected = "selected"; 
+							} else { 
+								is_selected = ""; 
+							}
+							select_variants.append('<option '+is_selected+' value="'+data_fonts[i]+'" >'+data_fonts[i]+'</option>');
+							variant_array.push(data_fonts[i]);
+	    			}
+	    			select_variants.next('input').val(variant_array.join(','));
 					/*WebFont.load({
 						google: {
 							families: [font+':'+variant_array.join()]
@@ -437,11 +461,86 @@ jQuery(document).ready( function($) {
     	});
       
 	};
-   
+
+
+
+	function update_preview_gf( objetc_select_fonts, variants_fonts ){
+
+		var font_family  = objetc_select_fonts.find('.ifonts_family select').val();
+		var font_variant = objetc_select_fonts.find('.ifonts_variants select').val();
+		if(objetc_select_fonts.find('.ifonts_size select').length){
+			var font_size    = objetc_select_fonts.find('.ifonts_size select').val();
+		}
+		
+
+		// get variants
+		var text_variants = "";
+		if( variants_fonts != 'normal' ){
+			
+			var variants_array = [];
+			var i = 0;
+			objetc_select_fonts.find('.ifonts_variants select').each(function() {
+			    variants_array[i] = jQuery(this).val();
+			    i++;
+			});
+			console.log(variants_array);
+			text_variants = variants_array.join(',');
+
+		}
+
+		
+
+		addGoogleFont( font_family , text_variants);
+
+		objetc_select_fonts.children('.ifonts_preview').css("font-family",font_family);
+		if(font_size){
+			objetc_select_fonts.children('.ifonts_preview').css("font-size",font_size);
+			objetc_select_fonts.children('.ifonts_preview').css("line-height",(parseInt(font_size.replace("px", "")) + 10) + "px" );
+		}
+
+	}
+
+ 
+	jQuery(".select--gfonts__family,.select--gfonts__size").on("change",function(){
+
+		update_preview_gf( jQuery(this).parent().parent() , 'normal' );
+
+	});
+
+	jQuery(".select--gfonts__variant").on("change",function(){
+
+		update_preview_gf( jQuery(this).parent().parent() , jQuery(this).val() );
+		jQuery(this).parent().parent().children('.ifonts_preview').css("font-weight", jQuery(this).val() );
+
+	});
+
+
+	jQuery(".input_check_light_dark").on("change",function(){
+
+		if( jQuery(this).parent().parent().find('input:checkbox:checked').length > 0 ){
+			jQuery(this).parent().parent().find('.ifonts_preview').css('background-color','#393937');
+		}else{
+			jQuery(this).parent().parent().find('.ifonts_preview').css('background-color','transparent');
+		}
+
+
+	});
  
  
 });
- 
+
+
+// load google fonts and put in header 
+function addGoogleFont(FontName, variants_fonts) {
+
+	var get_variants_font = "";
+	if(variants_fonts){
+		get_variants_font = ":"+variants_fonts;
+	}
+
+	jQuery("head").append("<link href='https://fonts.googleapis.com/css?family=" + FontName + get_variants_font + "' rel='stylesheet' type='text/css'>");
+}
+
 
 // link: http://jsfiddle.net/67XDq/7/
 function IF_textCounter(field, cnt, maxlimit) {         

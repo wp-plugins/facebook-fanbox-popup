@@ -509,7 +509,7 @@ function IF_hex2rgb($hex) {
 * Convert hexdec color string to rgb(a) string
 * @link http://mekshq.com/how-to-convert-hexadecimal-color-code-to-rgb-or-rgba-using-php/
 */
-function IF_hex2rgba($color, $opacity = false) {
+function IF_hex2rgba($color, $opacity = false, $to_array = false) {
 
 	$default = 'rgb(0,0,0)';
 
@@ -539,12 +539,37 @@ function IF_hex2rgba($color, $opacity = false) {
 			if(abs($opacity) > 1)
 				$opacity = 1.0;
 			$output = 'rgba('.implode(",",$rgb).','.$opacity.')';
-		} else {
+		}elseif( $to_array == true ){
+			$output = $rgb;
+		}else {
 			$output = 'rgb('.implode(",",$rgb).')';
 		}
-
 		//Return rgb(a) color string
 		return $output;
+}
+
+/**
+* MIX COLORS
+* @link https://gist.github.com/andrewrcollins/4570993
+*/
+function IF_mix_colors($color_1 = array(0, 0, 0), $color_2 = array(0, 0, 0), $weight = 0.5){
+	$f = function($x) use ($weight) { return $weight * $x; };
+	$g = function($x) use ($weight) { return (1 - $weight) * $x; };
+	$h = function($x, $y) { return round($x + $y); };
+	return array_map($h, array_map($f, $color_1), array_map($g, $color_2));
+}
+
+function IF_rgb2hex($rgb = array(0, 0, 0)){
+	$f = function($x) { return str_pad(dechex($x), 2, "0", STR_PAD_LEFT); };
+	return "#" . implode("", array_map($f, $rgb));
+}
+
+function IF_tint($color, $weight = 0.5){
+	$t = $color;
+	if(is_string($color)) $t = $this->IF_hex2rgba($color,false,true);
+	$u = $this->IF_mix_colors($t, array(255, 255, 255), $weight);
+	if(is_string($color)) return $this->IF_rgb2hex($u);
+	return $u;
 }
 
 
@@ -745,6 +770,57 @@ function multidimensional_search($parents, $searched) {
   return false;
 }
 
+
+/**
+ * Build the frontend CSS to apply to wp_head()
+ *
+ *
+ */
+function build_frontend_fonts( $selector, $font, $size = null, $variant = null, $color = null, $add_style_tag = false ) {
+
+	$font_styles = "";
+	$frontend    = "";
+	if( isset($selector) && $selector != "") {
+
+		$font_styles .= $selector . '{ ';
+		$font_styles .= 'font-family: "' . $font . '"!important; ';
+		if( $variant ){
+			$font_styles .= 'font-weight: ' . $variant . '!important; ';
+		}
+		if($size!=null) {
+			$font_styles .= 'font-size: ' . $size . '!important; ';
+		}
+		if($color!=null) {
+			$font_styles .= 'color: ' . $color . '!important; ';
+		}
+		$font_styles .= " }"; // \n
+
+		if( $add_style_tag ) { $frontend = "\n<style type=\"text/css\">\n"; }
+		$frontend .= $font_styles;
+		if( $add_style_tag ) { $frontend .= "</style>\n"; }
+
+		return $frontend;
+
+	}
+
+}
+
+
+/**
+ * Build the frontend CSS manual
+ */
+function build_frontend_css($selector, $property, $put_tag = false){
+
+	$build_css = null;
+	$build_css = $selector."{ $property }";
+
+	if(  $put_tag == true ){
+		$build_css = "<style>$build_css</style>";
+	}
+
+	return $build_css;
+
+}
 
 
 

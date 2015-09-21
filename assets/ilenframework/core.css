@@ -277,12 +277,14 @@ Author URI: http://ilentheme.com
 }
 
 .ilentheme-options .background_complete .upload .preview{
-  width: 100%;
-  min-height: 10px;
-  border:1px dotted rgb(179, 179, 179);
-  margin: 10px 0;
-  height: 20px;
+    width: 100%;
+    min-height: 10px;
+    border:1px dotted rgb(179, 179, 179);
+    margin: 10px 0;
+    height: 20px;
+    position: relative; 
 }
+.ilentheme-options .background_complete .upload .preview::before {}
 .ilentheme-options .background_complete .upload .preview img{
   max-width: 100%!important;
   margin: 0;
@@ -734,24 +736,24 @@ Author URI: http://ilentheme.com
   display: none;
 }
 @-moz-document url-prefix() {
-  .ilentheme-options .row .b select {
-    -moz-appearance: none;
-    text-indent: 0.01px;
-    text-overflow: "";
-    -moz-appearance: radio-container;
-    width: 115%!important;
-  }
+    .ilentheme-options .row .b select {
+        -moz-appearance: none;
+        text-indent: 0.01px;
+        text-overflow: "";
+        -moz-appearance: radio-container;
+        width: 115%!important;
+    }
 }
 
 /**
  * =Typography
  */
 @font-face {
-  font-family: 'FontAwesome';
-  src: url('assets/css/fonts/fontawesome/fontawesome-webfont.eot?v=4.0.3');
-  src: url('assets/css/fonts/fontawesome/fontawesome-webfont.eot?#iefix&v=4.0.3') format('embedded-opentype'), url('assets/css/fonts/fontawesome/fontawesome-webfont.woff?v=4.0.3') format('woff'), url('assets/css/fonts/fontawesome/fontawesome-webfont.ttf?v=4.0.3') format('truetype');
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'FontAwesome';
+    src: url('assets/css/fonts/fontawesome/fontawesome-webfont.eot?v=4.0.3');
+    src: url('assets/css/fonts/fontawesome/fontawesome-webfont.eot?#iefix&v=4.0.3') format('embedded-opentype'), url('assets/css/fonts/fontawesome/fontawesome-webfont.woff?v=4.0.3') format('woff'), url('assets/css/fonts/fontawesome/fontawesome-webfont.ttf?v=4.0.3') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
 
 /*@font-face {
@@ -764,9 +766,6 @@ Author URI: http://ilentheme.com
   font-weight: normal;
   font-style: normal;
 }*/
-
-
-
 
 
 
