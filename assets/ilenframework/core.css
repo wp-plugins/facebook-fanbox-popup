@@ -2012,7 +2012,7 @@ html .ilenplugin-options input[type="button"],
 
 .ilenplugin-options .input-group .date input[type=text],
 .ilenplugin-options .row .input-group input[type=text]{
-  width: 100%!important;
+  width: 100%;
   margin-left: 2px;
 }
 .ilenplugin-options .picker-switch a.btn{

@@ -717,7 +717,18 @@ input[type="range"]::-webkit-slider-thumb {
 .ilenplugin-options .ilen_ajax_imagen_button.ajax{
     background: url(../images/wpspin_light.gif) no-repeat;
 }
-
+.ilenplugin-options .clockpicker{
+    display: inline-block;
+    width: 25%;
+    float: left;
+}
+.ilenplugin-options .clockpicker_text{
+    display: inline-block;
+    float: left;
+    position: relative;
+    top: 5px;
+    margin: 0 5px 0 10px;
+} 
  
 
 

@@ -553,14 +553,14 @@ function IF_hex2rgba($color, $opacity = false, $to_array = false) {
 * @link https://gist.github.com/andrewrcollins/4570993
 */
 function IF_mix_colors($color_1 = array(0, 0, 0), $color_2 = array(0, 0, 0), $weight = 0.5){
-	$f = function($x) use ($weight) { return $weight * $x; };
-	$g = function($x) use ($weight) { return (1 - $weight) * $x; };
-	$h = function($x, $y) { return round($x + $y); };
-	return array_map($h, array_map($f, $color_1), array_map($g, $color_2));
+	$f = @function($x) use ($weight) { return $weight * $x; };
+	$g = @function($x) use ($weight) { return (1 - $weight) * $x; };
+	$h = @function($x, $y) { return round($x + $y); };
+	return @array_map($h, array_map($f, $color_1), array_map($g, $color_2));
 }
 
 function IF_rgb2hex($rgb = array(0, 0, 0)){
-	$f = function($x) { return str_pad(dechex($x), 2, "0", STR_PAD_LEFT); };
+	$f = @function($x) { return str_pad(dechex($x), 2, "0", STR_PAD_LEFT); };
 	return "#" . implode("", array_map($f, $rgb));
 }
 

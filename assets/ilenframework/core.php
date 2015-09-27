@@ -1,15 +1,15 @@
 <?php 
 /**
- * iLenFramework 2.7
+ * iLenFramework 2.7.3
  * @package ilentheme
  * 
  * live as if it were the last day of your life
  */
 
 // REQUIRED FILES TO RUN
-if ( !class_exists('ilen_framework_2_7') ) {
+if ( !class_exists('ilen_framework_2_7_3') ) {
 
-class ilen_framework_2_7 {
+class ilen_framework_2_7_3 {
 
 		var $options          = array();
 		var $parameter        = array();
@@ -657,9 +657,9 @@ function ilentheme_options_wrap_for_plugin_tabs(){  ?>
 						<?php
 
 							if( is_array( $Myoptions ) ){
-								global $options_theme;
-								if( isset($_POST) && $_POST ) { $options_theme = get_option( $this->parameter['name_option']."_options" ); }
-								//$options_theme = get_option( $this->parameter['name_option']."_options" );
+								//global $options_theme;
+								//if( isset($_POST) && $_POST ) { $options_theme = get_option( $this->parameter['name_option']."_options" ); }
+								$options_theme = get_option( $this->parameter['name_option']."_options" );
 								foreach ($Myoptions as $key => $value) {
 
 									$tabs_save = ( isset($_GET['tabs']) && isset($value["tab"]) && $_GET['tabs'] == $value["tab"] ) ? true:false;
@@ -1238,8 +1238,8 @@ jQuery(".iaccordion-header").on("click",function(){
 
 			global $if_utils,$options_theme;
 
-			//$options_theme = get_option( $this->parameter['name_option']."_options" );
- 			if( isset($_POST) && $_POST ) { $options_theme = get_option( $this->parameter['name_option']."_options" ); }
+			$options_theme = get_option( $this->parameter['name_option']."_options" );
+ 			//if( isset($_POST) && $_POST ) { $options_theme = get_option( $this->parameter['name_option']."_options" ); }
 			foreach ($fields as $key => $value) {
 
 					if( in_array("b", $value['row']) ) { $side_two = "b"; }else{  $side_two ="c"; }
@@ -2057,8 +2057,9 @@ jQuery(".iaccordion-header").on("click",function(){
 	function build_fields_p( $fields = array() ){
 
 			//$options_theme = get_option( $this->parameter['name_option']."_options" );
-			global $options_theme;
-			if( isset($_POST) && $_POST ) { $options_theme = get_option( $this->parameter['name_option']."_options" ); }
+			//global $options_theme;
+			$options_theme = get_option( $this->parameter['name_option']."_options" );
+	
 			foreach ($fields as $key => $value) {
 
 					if( in_array("b", $value['row']) ) { $side_two = "b"; }else{  $side_two ="c"; }
@@ -2514,6 +2515,39 @@ jQuery(".iaccordion-header").on("click",function(){
 								<script>
 									jQuery(document).ready(function($){
 										jQuery('#<?php echo $value['id']; ?>').tagEditor({ placeholder: '<?php if(isset($value['placeholder']) && $value['placeholder']){ echo $value['placeholder']; } ?>',forceLowercase:false });
+									});
+								</script>
+							</div>
+							<?php if(isset( $value['after'] )){ echo $value['after'];} ?>
+
+						<?php break;
+
+						case "timer_range": ?>
+
+							<?php if(isset( $value['before'] )){ echo $value['before'];} ?>
+							<div class="row ilen_timerange <?php if(isset( $value['class'] )){ echo $value['class'];} ?>" <?php if(isset( $value['style'] )){ echo $value['style'];} ?> >
+								<div class="a"><strong><?php echo $value['title']; ?></strong><div class="help"><?php echo $value['help']; ?></div></div>
+								<div class="<?php echo $side_two; ?>">
+									<?php $clock_range_1 = isset($options_theme[ $value['name'] ])?$options_theme[ $value['name'] ]:''; ?>
+									<div class="input-group clockpicker pull-center" data-placement="left" data-align="top" data-autoclose="true">
+										<input type="text" class="form-control ilen_timerange_<?php echo $value['id']."_from"; ?>"  value="<?php echo isset($clock_range_1['from'])?$clock_range_1['from']:''; ?>" id="<?php echo $value['id']."_from"; ?>" name="<?php echo $value['name']."_from" ?>" <?php if(isset($value['placeholder'])){ echo "placeholder='{$value['placeholder']}'"; } ?>>
+										<span class="input-group-addon">
+											<span class="glyphicon glyphicon-time"></span>
+										</span>
+									</div> &nbsp;
+									<?php if(isset($value['text_to'])){ echo "<div class='clockpicker_text'>".$value['text_to']."</div>"; } ?>
+									 &nbsp;
+									<div class="input-group clockpicker pull-center" data-placement="left" data-align="top" data-autoclose="true">
+										<input type="text" class="form-control ilen_timerange_<?php echo $value['id']."_to"; ?>"  value="<?php echo isset($clock_range_1['to'])?$clock_range_1['to']:''; ?>" id="<?php echo $value['id']."_to"; ?>" name="<?php echo $value['name']."_to" ?>" <?php if(isset($value['placeholder'])){ echo "placeholder='{$value['placeholder']}'"; } ?>>
+										<span class="input-group-addon">
+											<span class="glyphicon glyphicon-time"></span>
+										</span>
+									</div>
+									
+								</div>
+								<script>
+									jQuery(document).ready(function($){
+										$('.clockpicker').clockpicker({<?php if(isset($value['js_options'])){ echo $value['js_options']; } ?>});
 									});
 								</script>
 							</div>
@@ -3274,7 +3308,7 @@ function save_options(){
 			}
 
 			if( is_array($options_update) ){    
-				
+
 				if(update_option( $this->parameter['name_option']."_options" , $options_update)){
 					$this->save_status = true;
 				}else{
@@ -3539,6 +3573,15 @@ function fields_update($data,$is_tab = 1){
 
 				$options_update[$value['name']]    = $if_fonts; 
  
+			}elseif(  $value['type'] == 'timer_range' ){
+
+				$timer_range_array = array();
+				$timer_range_array['from']    = isset($_POST["{$value['name']}_from"])?$_POST["{$value['name']}_from"]:'';
+				$timer_range_array['to'] 	  = isset($_POST["{$value['name']}_to"])?$_POST["{$value['name']}_to"]:'';
+
+				//var_dump($background_complete_array);
+				$options_update[$value['name']]    = $timer_range_array; 
+
 			}else{
 
 
@@ -3938,6 +3981,14 @@ function fields_update($data,$is_tab = 1){
 				wp_enqueue_script('ilentheme-script-tag-editor-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/jquery.tag-editor.min.js', array(  'jquery','jquery-ui-core','jquery-ui-tabs','jquery-ui-autocomplete', 'jquery-ui-sortable'  ), '', true );
 			}
 
+			if( in_array( 'timer_range', $script_to_show ) ){
+				// time: keith-wood.name/timeEntry.html
+				wp_register_style( 'ilentheme-style-clockpicker-'.$this->parameter['id'],  $this->parameter['url_framework'] . '/assets/css/jquery-clockpicker.min.css' );
+				wp_enqueue_style(  'ilentheme-style-clockpicker-'.$this->parameter['id'] );  
+
+				wp_enqueue_script('ilentheme-script-clockpicker-plugin-'.$this->parameter['id'], $this->parameter['url_framework'] . '/assets/js/jquery-clockpicker.min.js', array(  'jquery','jquery-ui-core','jquery-ui-tabs'  ), '', true );
+			}
+
 
 			if( in_array( 'fonts', $script_to_show ) ){
 				null;
@@ -3954,7 +4005,6 @@ function fields_update($data,$is_tab = 1){
 
 		global $IF_CONFIG;
 
-		
 		// COMPONENTS _______________________________________________________________________
 		if( isset( $this->components ) ){
 		if( in_array( 'list_categories', $IF_CONFIG->components )  ){
@@ -4077,5 +4127,5 @@ if( isset($IF_CONFIG->components) && ! is_array($IF_CONFIG->components) ){
 
 global $IF;
 $IF = null;
-$IF = new ilen_framework_2_7;
+$IF = new ilen_framework_2_7_3;
 ?>
