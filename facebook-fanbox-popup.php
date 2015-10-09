@@ -3,7 +3,7 @@
 Plugin Name: Facebook FanBox Popup
 Plugin URI: https://wordpress.org/plugins/facebook-fanbox-popup/
 Description: Promote your Fanpage in a cool natural way
-Version: 3.87
+Version: 3.88
 Author: iLen
 Author URI:
 */
@@ -122,7 +122,7 @@ class facebook_fanbox_popup extends facebook_fanbox_popup_make{
  
 			$lang = get_locale();
 			//wp_enqueue_script('wsp-fb', 'http://connect.facebook.net/'.$lang.'/all.js#xfbml=1', array('jquery'),$this->parameter['version'],FALSE);
-			wp_enqueue_script('wsp-fb', 'http://connect.facebook.net/'.$lang.'/sdk.js#xfbml=1&version=v2.4', array('jquery'),$this->parameter['version'],FALSE);
+			wp_enqueue_script('wsp-fb', 'http://connect.facebook.net/'.$lang.'/sdk.js#xfbml=1&version=v2.5', array('jquery'),$this->parameter['version'],FALSE);
 			wp_enqueue_script('wsp-fanbox', plugins_url( 'assets/js/spu.js' , __FILE__ ),array('jquery'),$this->parameter['version']);
 			wp_enqueue_style('wsp-css-fanbox', plugins_url( 'assets/css/spu.css' , __FILE__ ),'all',$this->parameter['version']);
 
@@ -201,7 +201,7 @@ class facebook_fanbox_popup extends facebook_fanbox_popup_make{
 <a href="#" onClick="fbfanboxp('. $opt_fanbox_popup->until_popup .');" id="ffbp-close">✕</a>';
 echo '<div id="ffbp-body">';
 echo '<div id="ffbp-msg-cont">
-<div class="fb-like-box" data-href="'.$fb_id.'" data-colorscheme="light" data-show-faces="'.$show_face.'" data-small-header="'.$header.'" data-stream="'.$show_post.'" data-show-border="false" '.$height.' '.$width.' ></div>
+<div class="fb-page fb-page fb-like-box" data-href="'.$fb_id.'" '.$width.' '.$height.' data-small-header="'.$header.'" data-adapt-container-width="false" data-hide-cover="false" data-show-facepile="'.$show_face.'" data-show-posts="'.$show_post.'"><div class="fb-xfbml-parse-ignore"></div></div>
 </div>';
 echo "</div>";
 echo '</div>';

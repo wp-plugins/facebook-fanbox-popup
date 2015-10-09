@@ -8,8 +8,8 @@ Author URI:
 Author: iLen
 Requires at least: 3.8
 Tested up to: 4.3.1
-Stable tag: 3.87
-Version: 3.87
+Stable tag: 3.88
+Version: 3.88
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DF2HDEBGSE5KY
@@ -36,6 +36,11 @@ Turn visitors into fans! New visitors are usually costly to acquire, so it is vi
 
 
 == Changelog ==
+= 3.88 =
+* Update code HTML for facebook
+* Update link sdk.js for facebook
+* Fixed: Header Small
+* Update core <code>iLenFramework 2.7.4</code>
 = 3.87 =
 * Update core <code>iLenFramework 2.7.3</code> (NEW2)
 = 3.86 =
