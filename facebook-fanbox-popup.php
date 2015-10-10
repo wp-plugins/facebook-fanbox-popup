@@ -3,7 +3,7 @@
 Plugin Name: Facebook FanBox Popup
 Plugin URI: https://wordpress.org/plugins/facebook-fanbox-popup/
 Description: Promote your Fanpage in a cool natural way
-Version: 3.88
+Version: 3.89
 Author: iLen
 Author URI:
 */
@@ -194,7 +194,7 @@ class facebook_fanbox_popup extends facebook_fanbox_popup_make{
  		$header = isset($opt_fanbox_popup->header) && $opt_fanbox_popup->header?'true':'false';
 
 
-		echo ' <!-- Plugin: Facebook FanBox Popup (https://wordpress.org/plugins/facebook-fanbox-popup/) --><br />
+		echo ' <!-- Plugin: Facebook FanBox Popup (https://wordpress.org/plugins/facebook-fanbox-popup/) -->
 <script> var isMobile=function(){return navigator.userAgent.match(/Android/i)||navigator.userAgent.match(/webOS/i)||navigator.userAgent.match(/iPhone/i)||navigator.userAgent.match(/iPad/i)||navigator.userAgent.match(/iPod/i)||navigator.userAgent.match(/BlackBerry/i)||navigator.userAgent.match(/Windows Phone/i)?!0:!1}; </script>
 <div id="ffbp-bg" lang="'.$lan.'" data-version="'.$this->parameter["version"].'" '.$closing_grey_area.' ></div>
 <div id="ffbp">
