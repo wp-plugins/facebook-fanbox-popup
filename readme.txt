@@ -9,7 +9,7 @@ Author: iLen
 Requires at least: 3.8
 Tested up to: 4.3.2
 Stable tag: 3.88
-Version: 3.89
+Version: 3.90
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DF2HDEBGSE5KY
@@ -36,6 +36,8 @@ Turn visitors into fans! New visitors are usually costly to acquire, so it is vi
 
 
 == Changelog ==
+= 3.90 =
+* Update core <code>iLenFramework 2.7.4</code> (NEW)
 = 3.89 =
 * Fixed: Remove <pre><code><BR /></code></pre> that is causing problems in some themes.
 = 3.88 =
