@@ -1,15 +1,15 @@
 <?php 
 /**
- * iLenFramework 2.7.4
+ * iLenFramework 2.7.5
  * @package ilentheme
  * 
  * live as if it were the last day of your life
  */
 
 // REQUIRED FILES TO RUN
-if ( !class_exists('ilen_framework_2_7_4') ) {
+if ( !class_exists('ilen_framework_2_7_5') ) {
 
-class ilen_framework_2_7_4 {
+class ilen_framework_2_7_5 {
 
 		var $options          = array();
 		var $parameter        = array();
@@ -2106,7 +2106,7 @@ jQuery(".iaccordion-header").on("click",function(){
 										<?php endforeach; ?>
 										
 									<?php } elseif( isset($value['display']) && $value['display'] == 'types_post' ) { ?>
-										<?php $ck=''; if( isset($options_theme[ $value['name'] ]) ){ $ck =  checked(  $options_theme[ $value['name'] ]  , 1, FALSE );  }
+										<?php //$ck=''; //if( isset($options_theme[ $value['name'] ]) ){ $ck =  checked(  $options_theme[ $value['name'] ]  , "1", FALSE );  }
 
 
 											// get type post 
@@ -4127,5 +4127,5 @@ if( isset($IF_CONFIG->components) && ! is_array($IF_CONFIG->components) ){
 
 global $IF;
 $IF = null;
-$IF = new ilen_framework_2_7_4;
+$IF = new ilen_framework_2_7_5;
 ?>
