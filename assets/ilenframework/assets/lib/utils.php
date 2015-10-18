@@ -602,12 +602,22 @@ function IF_dateDifference( $date_1 , $date_2 , $differenceFormat = '%r%a' ){
 
 /**
 * Return without shortcode text
+* @param String $text (text to replace)
 * @return $new_text
-*
+* 
+* @since 2.0
+* @since 2.7.4 modified preg_replace
 */
 function IF_removeShortCode( $text ){
 	
-	$new_text = preg_replace( '|\[(.+?)\](.+?\[/\\1\])?|s', '',  $text );
+	//$new_text = preg_replace( '|\[(.+?)\](.+?\[/\\1\])?|s', '',  $text );
+	//$new_text = preg_replace( "~(?:\[/?)[^/\]]+/?\]~s", '',  $text );
+	
+	/**
+	 * 
+	 * @link http://endlessgeek.com/2014/02/wordpress-strip-shortcodes-excerpts/
+	 */
+	$new_text = preg_replace( '/\[[^\]]+\]/', '',  $text );
 
 	return $new_text;
 }
@@ -622,12 +632,14 @@ function IF_removeShortCode( $text ){
 */
 function IF_cut_text(  $text = "",  $length = 30, $strip_tags = false ){
 
-	$excert  = trim( $text );
+	$new_txt = $this->IF_removeShortCode( $text );
+	//$new_txt = strip_shortcodes( $new_txt );
+	$new_txt  = trim( $new_txt );
 
 	if( $strip_tags == true ){
-		$new_txt = strip_tags($excert);
+		$new_txt = strip_tags($new_txt);
 	}else{
-		$new_txt = $excert;
+		$new_txt = $new_txt;
 	}
   
 	if( strlen( $new_txt  ) > (int)$length ){
@@ -636,7 +648,12 @@ function IF_cut_text(  $text = "",  $length = 30, $strip_tags = false ){
 		$new_txt = mb_substr( $new_txt , 0 , (int)$length );
 	}
 
-	return $this->IF_removeShortCode(strip_shortcodes($new_txt));
+	// @link https://wordpress.org/support/topic/stripping-shortcodes-keeping-the-content?replies=16
+	//$exclude_codes = 'shortcode_to_keep_1|keep_this_shortcode|another_shortcode_to_keep';
+	//$the_content = get_the_content();
+	//$the_content= preg_replace("~(?:\[/?)(?!(?:$exclude_codes))[^/\]]+/?\]~s", '', $the_content);  # strip shortcodes, keep shortcode content
+
+	return $new_txt;
 
 }
 

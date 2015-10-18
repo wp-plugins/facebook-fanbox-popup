@@ -455,7 +455,7 @@ class ilen_framework_2_7_4 {
 							if( is_array($tabs_plugin) && isset($tabs_plugin) ){
 							foreach ($tabs_plugin as $key => $value_tab): 
 								if( $value_tab["id"] && $put_tab ==0 ): ?>
-									<div id="tabs">
+									<div id="tabs" class="ilencontentwrapelements">
 										
 										<ul>
 								<?php 
@@ -4050,13 +4050,13 @@ function fields_update($data,$is_tab = 1){
 
 		require_once 'assets/lib/geo.php';
 
-		global $IF_MyGEO;
+		global $IF_MyGEO,$if_utils;
 
 		$IF_MyGEO->locate();
 
 		$code_active = $this->parameter['name_option']."_active_free";
 
-		if( $_SERVER['REMOTE_ADDR'] != "127.0.0.1" ){
+		if( ! $if_utils->IF_if_localhost() ){
 
 			if( !get_option($code_active) ){
 
